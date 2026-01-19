@@ -884,21 +884,21 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
                     </div>
                 </div>
 
-                {/* LISTADO DE PREGUNTAS */}
+{/* LISTADO DE PREGUNTAS RESPONSIVO */}
                 {seccion.preguntas.map((pregunta, index) => {
                     const isTextField = pregunta.tipo === 'text';
                     const isAnswered = isTextField 
-    ? (userData.expectativas && userData.expectativas.trim().length > 0) 
-    : (respuestas[pregunta.id] !== undefined && respuestas[pregunta.id] !== null && respuestas[pregunta.id] > 0);
+                        ? (userData.expectativas && userData.expectativas.trim().length > 0) 
+                        : (respuestas[pregunta.id] !== undefined && respuestas[pregunta.id] !== null && respuestas[pregunta.id] > 0);
 
                     return (
                         <div key={pregunta.id} className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50 mb-4 hover:border-slate-500 transition-colors shadow-sm"> 
                             
-                            {/* CONTENEDOR FLEX PRINCIPAL */}
-                            <div className={`flex ${isTextField ? 'flex-col' : 'flex-row items-center justify-between'} gap-4 w-full`}>
+                            {/* CONTENEDOR FLEX PRINCIPAL: Columna en móvil, Fila en PC */}
+                            <div className={`flex flex-col md:flex-row ${isTextField ? '' : 'md:items-center md:justify-between'} gap-4 w-full`}>
                                 
                                 {/* Bloque de Texto y Número (Izquierda) */}
-                                <div className={`flex items-start ${isTextField ? 'w-full' : 'max-w-[65%] md:max-w-[75%]'}`}>
+                                <div className={`flex items-start ${isTextField ? 'w-full' : 'w-full md:max-w-[75%]'}`}>
                                     <div className="shrink-0 flex items-center pt-1 mr-4">
                                         <span className="text-xs font-black text-slate-500 uppercase tracking-tighter mr-2">P{index + 1}</span>
                                         {isAnswered ? (
@@ -909,13 +909,13 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
                                             <div className="w-2 h-2 rounded-full bg-slate-600"></div>
                                         )}
                                     </div>
-                                    <p className="text-base text-white font-bold leading-snug wrap-break-word">
-                                        {pregunta.afirmacion}
-                                    </p>
+                                    <p className="text-sm sm:text-base text-white font-bold leading-snug wrap-break-word">
+    {pregunta.afirmacion}
+</p>
                                 </div>
 
-                                {/* Bloque de Entrada de Respuesta (Derecha) */}
-                                <div className={`${isTextField ? 'w-full mt-3' : 'shrink-0 ml-4'}`}>
+                                {/* Bloque de Respuesta (Derecha): Centrado en móvil, Derecha en PC */}
+                                <div className={`w-full ${isTextField ? 'mt-3' : 'md:w-auto flex justify-center md:justify-end mt-2 md:mt-0'}`}>
                                     {isTextField ? (
                                         <textarea 
                                             value={userData.expectativas || ''}
@@ -925,29 +925,27 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
                                             disabled={isLocked}
                                         />
                                     ) : (
-                                        <div className="flex justify-end items-center h-full">
+                                        <div className="flex items-center w-full md:w-auto">
                                             {pregunta.tipo === 'number' || pregunta.tipo === 'percent' ? (
-                                                <div className="relative w-44 md:w-52">
+                                                <div className="relative w-full md:w-52">
                                                     <input 
                                                         type="text"
                                                         value={pregunta.tipo === 'percent' ? (respuestas[pregunta.id] || '') : formatInputCurrency(respuestas[pregunta.id] || '')}
                                                         onChange={(e) => onRespuestaSeleccionada(pregunta.id, Number(e.target.value.replace(/\D/g, '')))}
-                                                        className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 h-11 text-right font-bold text-white outline-none focus:border-blue-500 text-base shadow-inner"
+                                                        className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 h-11 text-right font-bold text-white outline-none focus:border-blue-500 text-sm sm:text-base shadow-inner"
                                                         placeholder={pregunta.tipo === 'percent' ? "0" : "$ 0"}
                                                         disabled={isLocked}
                                                     />
-                                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-500 uppercase tracking-widest pointer-events-none">
+                                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[9px] font-bold text-slate-500 uppercase tracking-widest pointer-events-none">
                                                         {pregunta.tipo === 'percent' ? '%' : 'COP'}
                                                     </span>
                                                 </div>
                                             ) : (
-                                                <div className="flex items-center">
-                                                    <PuntuacionSelector 
-                                                        valorActual={respuestas[pregunta.id] || 0} 
-                                                        onSelect={(val) => onRespuestaSeleccionada(pregunta.id, val)} 
-                                                        disabled={isLocked} 
-                                                    />
-                                                </div>
+                                                <PuntuacionSelector 
+                                                    valorActual={respuestas[pregunta.id] || 0} 
+                                                    onSelect={(val) => onRespuestaSeleccionada(pregunta.id, val)} 
+                                                    disabled={isLocked} 
+                                                />
                                             )}
                                         </div>
                                     )}
@@ -957,11 +955,11 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
                     );
                 })}
                 
-                {/* BOTÓN FINAL DE SECCIÓN */}
-                <div className="flex justify-center pt-6 border-t border-slate-800/50 mt-6">
+                {/* BOTÓN FINAL DE SECCIÓN: Adaptado para móvil */}
+                <div className="flex flex-col sm:flex-row justify-center sm:justify-end pt-6 border-t border-slate-800/50 mt-6 gap-4">
                     {isLastSection ? (
                         <button
-                            className={`h-12 min-w-75 px-8 rounded-xl font-bold transition-all duration-300 flex items-center justify-center 
+                            className={`h-12 w-full sm:min-w-75 px-8 rounded-xl font-bold transition-all duration-300 flex items-center justify-center 
                                 ${!isCompleted || isProcessingReport
                                     ? 'bg-slate-800 text-slate-500 cursor-not-allowed opacity-50 border border-slate-700' 
                                     : 'bg-linear-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/30 hover:scale-105 hover:brightness-110 active:scale-95'
@@ -977,15 +975,13 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
                             )}
                         </button>
                     ) : (
-                        <div className="w-full flex justify-end">
-                            <button 
-                                type="button"
-                                onClick={onNextSection} 
-                                className={`h-11 px-8 rounded-xl btn-primary-gradient text-white font-bold flex items-center transition-all ${!isCompleted ? 'opacity-50 pointer-events-none' : 'hover:scale-105 shadow-lg shadow-blue-500/20 active:scale-95'}`}
-                            >
-                                Continuar a la siguiente fase <ChevronRight className="ml-2 w-5 h-5" />
-                            </button>
-                        </div>
+                        <button 
+                            type="button"
+                            onClick={onNextSection} 
+                            className={`h-11 w-full sm:w-auto px-8 rounded-xl btn-primary-gradient text-white font-bold flex items-center justify-center transition-all ${!isCompleted ? 'opacity-50 pointer-events-none' : 'hover:scale-105 shadow-lg shadow-blue-500/20 active:scale-95'}`}
+                        >
+                            Continuar <ChevronRight className="ml-2 w-5 h-5" />
+                        </button>
                     )}
                 </div>
             </div>
@@ -1530,47 +1526,54 @@ return (
                     Conoce a fondo tu cadena de producción con nuestro diagnóstico gamificado. Identifica oportunidades de mejora y recibe recomendaciones personalizadas para optimizar la eficiencia y productividad de tu empresa textil.
                 </p>
 
-                {/* DISPOSICIÓN ORIGINAL: Tres columnas una al lado de la otra */}
-                <div className="grid grid-cols-3 gap-6">
-                    <div 
-                        className="bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-blue flex flex-col items-center text-center cursor-pointer transition-all hover:scale-[1.03] hover:shadow-blue-500/50"
-                        onClick={handleComenzarAventura} 
-                    >
-                        <span className="p-4 bg-blue-400/20 rounded-full mb-4 text-blue-400">
-                            <Play className="w-8 h-8" />
-                        </span>
-                        <h3 className="text-2xl font-semibold text-white">Comenzar la Aventura</h3>
-                        <p className="modulo-card-description-lg text-base text-slate-400">Responde preguntas clave sobre tu operación.</p>
-                    </div>
+           {/* DISPOSICIÓN DINÁMICA: 1 columna en móvil, 3 en PC (Pantallas medianas en adelante) */}
+<div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4 md:px-0">
+    {/* TARJETA 1: COMENZAR LA AVENTURA */}
+    <div 
+        className="bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-blue flex flex-col items-center text-center cursor-pointer transition-all hover:scale-[1.03] hover:shadow-blue-500/50"
+        onClick={handleComenzarAventura} 
+    >
+        <span className="p-4 bg-blue-400/20 rounded-full mb-4 text-blue-400">
+            <Play className="w-8 h-8" />
+        </span>
+        <h3 className="text-xl md:text-2xl font-semibold text-white">Comenzar la Aventura</h3>
+        <p className="modulo-card-description-lg text-sm md:text-base text-slate-400">
+            Responde preguntas clave sobre tu operación.
+        </p>
+    </div>
 
-                    <div 
-                        className="bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-green flex flex-col items-center text-center cursor-pointer transition-all hover:scale-[1.03] hover:shadow-green-500/50"
-                        onClick={handleComenzarAventura} 
-                    >
-                        <span className="p-4 bg-green-400/20 rounded-full mb-4 text-green-400">
-                            <User className="w-8 h-8" />
-                        </span>
-                        <h3 className="text-2xl font-semibold text-white">Acumula Puntos</h3>
-                        <p className="modulo-card-description-lg text-base text-slate-400">Cada respuesta te acerca a tu nivel de transformación.</p>
-                    </div>
+    {/* TARJETA 2: ACUMULA PUNTOS */}
+    <div 
+        className="bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-green flex flex-col items-center text-center cursor-pointer transition-all hover:scale-[1.03] hover:shadow-green-500/50"
+        onClick={handleComenzarAventura} 
+    >
+        <span className="p-4 bg-green-400/20 rounded-full mb-4 text-green-400">
+            <User className="w-8 h-8" />
+        </span>
+        <h3 className="text-xl md:text-2xl font-semibold text-white">Acumula Puntos</h3>
+        <p className="modulo-card-description-lg text-sm md:text-base text-slate-400">
+            Cada respuesta te acerca a tu nivel de transformación.
+        </p>
+    </div>
 
-                    <div 
-                        className={`bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-purple flex flex-col items-center text-center transition-all cursor-pointer hover:scale-[1.03] hover:shadow-purple-500/50`}
-                        onClick={handleReporteCardClick} 
-                    >
-                        <span className="p-4 bg-purple-400/20 rounded-full mb-4 text-purple-400">
-                            {isPdfGenerating ? (
-                                <Loader2 className="w-8 h-8 animate-spin" />
-                            ) : (
-                                <Mail className="w-8 h-8" /> 
-                            )}
-                        </span>
-                        <h3 className="text-2xl font-semibold text-white">Recibe un Reporte</h3>
-                        <p className="modulo-card-description-lg text-base text-slate-400">
-                            {isPdfGenerating ? 'Generando PDF...' : 'Producir-TE te hará el envío de tu diagnóstico.'}
-                        </p>
-                    </div>
-                </div>
+    {/* TARJETA 3: RECIBE UN REPORTE */}
+    <div 
+        className={`bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-purple flex flex-col items-center text-center transition-all cursor-pointer hover:scale-[1.03] hover:shadow-purple-500/50`}
+        onClick={handleReporteCardClick} 
+    >
+        <span className="p-4 bg-purple-400/20 rounded-full mb-4 text-purple-400">
+            {isPdfGenerating ? (
+                <Loader2 className="w-8 h-8 animate-spin" />
+            ) : (
+                <Mail className="w-8 h-8" /> 
+            )}
+        </span>
+        <h3 className="text-xl md:text-2xl font-semibold text-white">Recibe un Reporte</h3>
+        <p className="modulo-card-description-lg text-sm md:text-base text-slate-400">
+            {isPdfGenerating ? 'Generando PDF...' : 'Producir-TE te hará el envío de tu diagnóstico.'}
+        </p>
+    </div>
+</div>
 
                 {/* BOTÓN ALINEADO A LA DERECHA (Uso de clase canónica para VS Code) */}
                 <div className="flex justify-end mt-12">
@@ -1614,17 +1617,17 @@ return (
         </button>
     </div>
 
-    {/* TÍTULO Y LOGO EN FILA */}
-    <div className="flex flex-row items-center justify-center gap-10 mb-4 px-20">
-        <h2 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-cyan-400 text-center leading-tight">
-            Diagnóstico Nexo: <br /> "Tu Ruta de Transformación"
-        </h2>
-        <img 
-            src="/logo-producir-te.png" 
-            alt="Logo Producir-TE" 
-            className="w-40 md:w-48 h-auto object-contain self-start mt-2" 
-        />
-    </div>
+   {/* TÍTULO Y LOGO EN FILA RESPONSIVA */}
+<div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 mb-4 px-4 md:px-20">
+    <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-cyan-400 text-center leading-tight">
+        Diagnóstico Nexo: <br className="hidden md:block" /> "Tu Ruta de Transformación"
+    </h2>
+    <img 
+        src="/logo-producir-te.png" 
+        alt="Logo Producir-TE" 
+        className="w-32 md:w-48 h-auto object-contain mt-2" 
+    />
+</div>
 
     {/* 3. Subtítulo (Justo debajo) */}
     <p className="text-3xl text-white font-bold">
@@ -1689,9 +1692,9 @@ return (
 
     {/* TÍTULO Y LOGO EN FILA */}
     <div className="flex flex-row items-center justify-center gap-10 mb-4 px-20">
-        <h2 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-cyan-400 text-center leading-tight">
-            Diagnóstico Nexo: <br /> "Tu Ruta de Transformación"
-        </h2>
+       <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-cyan-400 text-center leading-tight mb-4 px-4">
+    Diagnóstico Nexo: <br className="hidden sm:block" /> "Tu Ruta de Transformación"
+</h2>
         <img 
             src="/logo-producir-te.png" 
             alt="Logo Producir-TE" 
@@ -1821,18 +1824,18 @@ return (
         <p className="mt-12 text-slate-500 text-sm font-medium tracking-wide">Gracias por confiar en Producir-TE.</p>
     </div>
                 ) : (
-                    /* 2. ESTADO DE ESPERA */
-                    <div id="resultados-seccion" className="animate-pulse flex flex-col items-center py-20 min-h-screen">
-    <div className="mb-10 pb-6 border-b border-slate-700 relative flex flex-col items-center justify-center w-full">
-        <h2 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-cyan-400 text-center mb-4 px-20 leading-tight">
-            Diagnóstico Nexo: <br /> "Tu Ruta de Transformación"
+                    /* 2. ESTADO DE ESPERA RESPONSIVO */
+                    <div id="resultados-seccion" className="animate-pulse flex flex-col items-center py-10 md:py-20 min-h-screen">
+    <div className="mb-10 pb-6 border-b border-slate-700 relative flex flex-col items-center justify-center w-full px-4">
+        <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-cyan-400 text-center mb-4 leading-tight">
+            Diagnóstico Nexo: <br className="hidden md:block" /> "Tu Ruta de Transformación"
         </h2>
         
         <div className="flex flex-col items-center gap-6 mt-4">
-            <p className="text-3xl text-white font-bold italic">Generando Documentación Técnica...</p>
+            <p className="text-xl md:text-3xl text-white font-bold italic text-center">Generando Documentación Técnica...</p>
             
-            {/* Barra de carga neón animada */}
-            <div className="w-72 h-2 bg-slate-800 rounded-full overflow-hidden shadow-[0_0_20px_rgba(34,211,238,0.3)] border border-slate-700">
+            {/* Barra de carga adaptada al ancho del móvil */}
+            <div className="w-full max-w-xs md:max-w-72 h-2 bg-slate-800 rounded-full overflow-hidden shadow-[0_0_20px_rgba(34,211,238,0.3)] border border-slate-700">
                 <div className="h-full bg-linear-to-r from-blue-600 via-cyan-400 to-blue-600 w-full animate-loading-bar" />
             </div>
             
