@@ -959,15 +959,15 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
                 <div className="flex flex-col sm:flex-row justify-center sm:justify-end pt-6 border-t border-slate-800/50 mt-6 gap-4">
                     {isLastSection ? (
                         <button
-                            className={`h-12 w-full sm:min-w-75 px-8 rounded-xl font-bold transition-all duration-300 flex items-center justify-center 
-                                ${!isCompleted || isProcessingReport
-                                    ? 'bg-slate-800 text-slate-500 cursor-not-allowed opacity-50 border border-slate-700' 
-                                    : 'bg-linear-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/30 hover:scale-105 hover:brightness-110 active:scale-95'
-                                }
-                            `}
-                            onClick={handleVerReporte} 
-                            disabled={!isCompleted || isProcessingReport}
-                        >
+    className={`h-14 w-full sm:min-w-80 px-8 rounded-xl font-black transition-all duration-500 flex items-center justify-center border-2
+        ${!isCompleted || isProcessingReport
+            ? 'bg-slate-800 text-slate-500 border-slate-700 cursor-not-allowed' 
+            : 'bg-[#4ade80] text-black border-white shadow-[0_0_25px_rgba(74,222,128,0.6)] hover:bg-[#22c55e] hover:text-white active:scale-95'
+        }
+    `}
+    onClick={handleVerReporte} 
+    disabled={!isCompleted || isProcessingReport}
+>
                             {isProcessingReport ? (
                                 <><Loader2 className="w-5 h-5 mr-2 animate-spin" /> Generando Informe...</>
                             ) : (
@@ -1283,15 +1283,19 @@ const handleConfirmarFinalizacion = async () => {
             setShowDiagnostico(false);
             setShowReporte(true);
 
-            // 2. FORZAR SCROLL INMEDIATO AL TÍTULO DE GENERACIÓN
+// 2. FORZAR SCROLL INMEDIATO AL TÍTULO DE GENERACIÓN
             setTimeout(() => {
                 const seccionResultados = document.getElementById('resultados-seccion');
                 if (seccionResultados) {
                     seccionResultados.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
                 
-                // 3. Iniciar la creación del PDF
-                handleGeneratePDFReport(analisisIA); 
+                // 3. INICIO DE GENERACIÓN PDF (Optimizado para móviles)
+                // Esperamos 800ms adicionales para que el navegador móvil no bloquee el envío
+                setTimeout(() => {
+                    handleGeneratePDFReport(analisisIA); 
+                }, 800); 
+
             }, 100);
 
         } else {
@@ -1299,6 +1303,7 @@ const handleConfirmarFinalizacion = async () => {
         }
     } catch (error) {
         console.error("Error crítico:", error);
+        alert("Ocurrió un error al procesar el diagnóstico. Por favor, verifica tu conexión.");
     } finally {
         setIsProcessingReport(false);
     }
@@ -1575,15 +1580,15 @@ return (
     </div>
 </div>
 
-                {/* BOTÓN ALINEADO A LA DERECHA (Uso de clase canónica para VS Code) */}
-                <div className="flex justify-end mt-12">
-                    <button 
-                        className="inline-flex min-w-70 h-12 px-6 items-center justify-center rounded-md font-semibold text-white transition-all duration-300 bg-linear-to-r from-blue-600 to-cyan-500 shadow-lg shadow-blue-500/30 hover:scale-105 active:scale-95" 
-                        onClick={handleComenzarAventura}
-                    >
-                        Comenzar el Diagnóstico
-                    </button>
-                </div>
+             {/* BOTÓN DINÁMICO: Centrado en móvil, Derecha en PC */}
+<div className="flex justify-center md:justify-end mt-12 px-4">
+    <button 
+        className="w-full md:w-auto min-w-70 h-12 px-8 flex items-center justify-center rounded-xl font-bold text-white transition-all duration-300 bg-blue-600 shadow-lg shadow-blue-600/40 hover:scale-105 active:scale-95 border border-white/20" 
+        onClick={handleComenzarAventura}
+    >
+        Comenzar el Diagnóstico
+    </button>
+</div>
             </div>
         </header>
         )}
@@ -1690,17 +1695,17 @@ return (
         </button>
     </div>
 
-    {/* TÍTULO Y LOGO EN FILA */}
-    <div className="flex flex-row items-center justify-center gap-10 mb-4 px-20">
-       <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-cyan-400 text-center leading-tight mb-4 px-4">
-    Diagnóstico Nexo: <br className="hidden sm:block" /> "Tu Ruta de Transformación"
-</h2>
-        <img 
-            src="/logo-producir-te.png" 
-            alt="Logo Producir-TE" 
-            className="w-40 md:w-48 h-auto object-contain self-start mt-2" 
-        />
-    </div>
+    {/* TÍTULO Y LOGO EN DISPOSICIÓN DINÁMICA */}
+<div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 mb-6 px-4 md:px-20">
+    <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400 text-center leading-tight">
+        Diagnóstico Nexo: <br className="hidden md:block" /> "Tu Ruta de Transformación"
+    </h2>
+    <img 
+        src="/logo-producir-te.png" 
+        alt="Logo Producir-TE" 
+        className="w-32 md:w-48 h-auto object-contain mt-2 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]" 
+    />
+</div>
     
     {/* 3. Subtítulo (NUEVO) */}
     <p className="text-3xl text-white font-bold">
