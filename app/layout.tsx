@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   keywords: ['Nexo', 'Textil', 'Diagnóstico', 'Optimización', 'Producción', 'Gamificado'],
   icons: {
     // INSERCIÓN DEL FAVICON AQUÍ
-    icon: '/favicon producirTE.png', 
+    icon: '/favicon-producirte.png', 
   },
 };
 
