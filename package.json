@@ -1,0 +1,37 @@
+{
+  "name": "nexo-diagnostico-textil",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "@emailjs/nodejs": "^5.0.2",
+    "@google/genai": "^1.35.0",
+    "@google/generative-ai": "^0.24.1",
+    "@supabase/supabase-js": "^2.87.1",
+    "dotenv": "^17.2.3",
+    "emailjs-com": "^3.2.0",
+    "googleapis": "^168.0.0",
+    "lucide-react": "^0.559.0",
+    "next": "^14.2.33",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/node": "^20.12.12",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.22",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^16.0.8",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.4.5"
+  }
+}

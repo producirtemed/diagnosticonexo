@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+/* =========================================
+   1. VARIABLES GLOBALES (ROOT)
+   ========================================= */
+:root {
+  --color-fondo-oscuro: #0f172a; /* Slate 900 - Fondo principal */
+  --color-texto-claro: #f8fafc;  /* Slate 50 */
+
+  /* Variables requeridas por los gráficos circulares SVG en React */
+  --color-eficiencia-op: #3b82f6;   /* blue-500 */
+  --color-eficiencia-prod: #22c55e; /* green-500 */
+  --color-eficiencia-proc: #a855f7; /* purple-500 */
+}
+
+/* =========================================
+   2. CONFIGURACIÓN BASE
+   ========================================= */
+html, body {
+  padding: 0;
+  margin: 0;
+  background-color: var(--color-fondo-oscuro);
+  color: var(--color-texto-claro);
+  font-family: 'Inter', system-ui, sans-serif;
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* =========================================
+   3. CLASES DE COMPONENTES PERSONALIZADOS
+   ========================================= */
+@layer components {
+  /* --- TARJETAS NEÓN (CRÍTICO PARA LA ESTÉTICA) --- */
+  
+  .modulo-card-blue {
+    @apply border border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.15)] bg-slate-900/50 rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] hover:border-blue-400;
+  }
+
+  .modulo-card-green {
+    @apply border border-green-500/50 shadow-[0_0_20px_rgba(34,197,94,0.15)] bg-slate-900/50 rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(34,197,94,0.3)] hover:border-green-400;
+  }
+
+  .modulo-card-purple {
+    @apply border border-purple-500/50 shadow-[0_0_20px_rgba(168,85,247,0.15)] bg-slate-900/50 rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(168,85,247,0.3)] hover:border-purple-400;
+  }
+
+  /* --- OTRAS UTILIDADES --- */
+  
+  .card-dark {
+    @apply bg-slate-900 border border-slate-800 rounded-2xl shadow-xl backdrop-blur-sm;
+  }
+
+  /* Botón Gradiente (Sintaxis v4 corregida) */
+  .btn-primary-gradient {
+    @apply bg-linear-to-r from-blue-600 to-indigo-600 text-white hover:scale-[1.02] active:scale-[0.98] border border-blue-500/30;
+  }
+
+  .btn-disabled-style {
+    @apply bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700 opacity-70;
+  }
+
+  .modulo-card-description-lg {
+    @apply text-base text-slate-400 mt-3 leading-relaxed;
+  }
+  
+  .active-brecha {
+    @apply ring-2 ring-blue-500 shadow-[0_0_30px_rgba(59,130,246,0.15)] bg-slate-800 transform scale-[1.02];
+  }
+}
+
+/* =========================================
+   4. ANIMACIONES
+   ========================================= */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* =========================================
+   5. OVERRIDES (Inputs y Scrollbar)
+   ========================================= */
+input, select, textarea {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+    border: 1px solid #334155 !important;
+    border-radius: 0.75rem !important;
+    padding-left: 1rem;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #3b82f6 !important;
+    outline: none !important;
+    box-shadow: 0 0 0 1px #3b82f6 !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #64748b; }
