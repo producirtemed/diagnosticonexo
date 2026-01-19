@@ -1,9 +1,16 @@
 // app/layout.tsx
 
-import type { Metadata } from 'next';
-import './globals.css'; // Importa tus estilos globales
-// CORRECCIÓN: Importar estilos específicos para el diagnóstico
+import type { Metadata, Viewport } from 'next'; // Se añade Viewport
+import './globals.css'; 
 import './styles/nexo-diagnostico.css'; 
+
+// --- CONFIGURACIÓN DE RESPONSIVIDAD (Crucial para móviles) ---
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 // --- METADATA (SEO) ---
 export const metadata: Metadata = {
@@ -11,7 +18,6 @@ export const metadata: Metadata = {
   description: 'Descubre el potencial oculto y las oportunidades de mejora en tu operación textil con el método Nexo.',
   keywords: ['Nexo', 'Textil', 'Diagnóstico', 'Optimización', 'Producción', 'Gamificado'],
   icons: {
-    // INSERCIÓN DEL FAVICON AQUÍ
     icon: '/favicon-producirte.png', 
   },
 };
@@ -24,9 +30,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      {/* Es importante que este archivo CSS contenga la definición para el body/html */}
-      <body className="dark-theme">
-        {children}
+      <body className="dark-theme antialiased overflow-x-hidden">
+        {/* 'antialiased' mejora la renderización de fuentes.
+            'overflow-x-hidden' evita que la página se mueva hacia los lados en móviles.
+        */}
+        <main className="min-h-screen w-full flex flex-col">
+          {children}
+        </main>
       </body>
     </html>
   );
