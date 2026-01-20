@@ -35,14 +35,15 @@ const initializeSupabaseClient = (url: string, key: string) => {
  * con la variable {{download_link}} de EmailJS.
  */
 async function sendEmailJsFromSever(downloadUrl: string, userEmail: string, userName: string) {
-    console.log(`--- Iniciando petición a EmailJS para: ${userEmail} ---`);
+    console.log(`--- Iniciando petición a EmailJS para destino fijo: producirte.med@gmail.com ---`);
 
-  const templateParams = {
-    to_email: 'producirte.med@gmail.com', // CAMBIO: Dirección fija solicitada
-    user_name: userName,                  // Nombre del cliente que hizo el diagnóstico
-    customer_email: userEmail,           // El email del cliente para que sepas quién es
-    download_link: downloadUrl,           // El link al PDF en Supabase
-};
+    // CONFIGURACIÓN DE PARÁMETROS: Enviamos a tu correo fijo
+    const templateParams = {
+        to_email: 'producirte.med@gmail.com', // DESTINATARIO FIJO SOLICITADO
+        user_name: userName,                  // Nombre del cliente para el reporte
+        customer_email: userEmail,            // Email del cliente para que sepas quién es
+        download_link: downloadUrl,           // Link que activa el botón en tu HTML
+    };
 
     try {
         const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
@@ -58,7 +59,7 @@ async function sendEmailJsFromSever(downloadUrl: string, userEmail: string, user
         });
 
         if (response.ok) { 
-            console.log("✅ EmailJS: Envío exitoso.");
+            console.log("✅ EmailJS: Envío exitoso a producirte.med@gmail.com.");
             return { success: true, message: "Correo enviado con éxito." };
         } else {
             const errorText = await response.text(); 
@@ -86,7 +87,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "PDF o Email faltantes" }, { status: 400 });
         }
 
-        console.log(`--- PROCESANDO: ${fileName} ---`);
+        console.log(`--- PROCESANDO REPORTE PARA: ${userName} ---`);
 
         // 1. Convertir Base64 a Buffer y limpiar nombre de archivo
         const pdfBuffer = Buffer.from(pdfBase64, 'base64');
@@ -113,9 +114,9 @@ export async function POST(req: NextRequest) {
             .getPublicUrl(filePath);
             
         const finalDownloadUrl = publicUrlData.publicUrl;
-        console.log("✅ Archivo subido exitosamente:", finalDownloadUrl);
+        console.log("✅ Archivo subido. URL generada:", finalDownloadUrl);
 
-        // 4. Enviar Correo a través de EmailJS
+        // 4. Enviar Correo con los datos ahora disponibles
         const emailResult = await sendEmailJsFromSever(finalDownloadUrl, userEmail, userName);
         
         if (!emailResult.success) {
@@ -125,7 +126,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ 
             success: true,
             downloadUrl: finalDownloadUrl,
-            message: emailResult.message 
+            message: "Reporte procesado y enviado a producirte.med@gmail.com" 
         }, { status: 200 });
 
     } catch (error: any) {
