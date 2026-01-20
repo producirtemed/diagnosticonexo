@@ -1325,68 +1325,58 @@ const handleGeneratePDFReport = (directData?: any) => {
         recuperacionMeses: directData?.metricas?.recuperacionMeses || metricasEconomicas?.recuperacionMeses || 0
     };
 
-    pdfWorker.onmessage = async (event: MessageEvent) => {
-        const { status, pdfBase64 } = event.data;
-        const pdfFileName = `Nexo_${userData.empresa.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0, 10)}.pdf`;
+pdfWorker.onmessage = async (event: MessageEvent) => {
+    const { status, pdfBase64 } = event.data;
+    const pdfFileName = `Nexo_${userData.empresa.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0, 10)}.pdf`;
 
-        if (status === 'completed' && pdfBase64) {
-            try {
-                // 1. Convertir Base64 a Blob de forma eficiente
-                const pdfBlob = await (await fetch(pdfBase64.startsWith('data:') ? pdfBase64 : `data:application/pdf;base64,${pdfBase64}`)).blob();
+    if (status === 'completed' && pdfBase64) {
+        try {
+            // 1. Convertir Base64 a Blob (archivo real)
+            const pdfBlob = await (await fetch(pdfBase64.startsWith('data:') ? pdfBase64 : `data:application/pdf;base64,${pdfBase64}`)).blob();
 
-                // 2. Subir directamente a Supabase desde el cliente
-                const { createClient } = await import('@supabase/supabase-js');
-                const supabase = createClient(
-                    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-                    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-                );
+            // 2. Inicializar Supabase en el Cliente
+            const { createClient } = await import('@supabase/supabase-js');
+            const supabase = createClient(
+                process.env.NEXT_PUBLIC_SUPABASE_URL!,
+                process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+            );
 
-                const filePath = `reports/${Date.now()}_${pdfFileName}`;
-                
-                const { error: uploadError } = await supabase.storage
-                    .from('nexo-reports')
-                    .upload(filePath, pdfBlob, {
-                        contentType: 'application/pdf',
-                        upsert: false
-                    });
+            // 3. Subir directamente al Bucket (Esto evita el límite de Vercel)
+            const filePath = `reports/${Date.now()}_${pdfFileName}`;
+            const { error: uploadError } = await supabase.storage
+                .from('nexo-reports')
+                .upload(filePath, pdfBlob);
 
-                if (uploadError) throw new Error("Error en Supabase Storage: " + uploadError.message);
+            if (uploadError) throw uploadError;
 
-                // 3. Obtener la URL Pública
-                const { data: { publicUrl } } = supabase.storage
-                    .from('nexo-reports')
-                    .getPublicUrl(filePath);
+            // 4. Obtener URL Pública
+            const { data: { publicUrl } } = supabase.storage.from('nexo-reports').getPublicUrl(filePath);
 
-                console.log("✅ PDF disponible en:", publicUrl);
+            // 5. Enviar solo la URL al servidor (Petición liviana de texto)
+            const response = await fetch('/api/diagnostico-envio', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    publicUrl, 
+                    userEmail: userData.email,
+                    userName: `${userData.nombre} ${userData.apellido}` 
+                }),
+            });
 
-                // 4. Disparo del envío a la API (solo enviamos la URL de texto)
-                const response = await fetch('/api/diagnostico-envio', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        publicUrl: publicUrl, // Link liviano
-                        userEmail: userData.email,
-                        userName: `${userData.nombre} ${userData.apellido}` 
-                    }),
-                });
-
-                if (response.ok) {
-                    setReporteGeneradoExitosamente(true);
-                    console.log("✅ Proceso completado exitosamente");
-                } else {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || "Error en el servidor");
-                }
-            } catch (error: any) {
-                console.error('Error post-generación:', error);
-                setReporteGeneradoExitosamente(true); 
-                alert(`El diagnóstico se completó pero hubo un problema al enviar el correo: ${error.message}.`);
-            } finally {
-                setIsPdfGenerating(false);
-                pdfWorker.terminate();
+            if (response.ok) {
+                setReporteGeneradoExitosamente(true);
+            } else {
+                throw new Error("Error al procesar el envío del correo");
             }
+        } catch (error: any) {
+            console.error('Error:', error);
+            alert("Error: " + error.message);
+        } finally {
+            setIsPdfGenerating(false);
+            pdfWorker.terminate();
         }
-    };
+    }
+};
 
     pdfWorker.postMessage({ 
         reporteData: JSON.parse(JSON.stringify(dataDisponible)), 
