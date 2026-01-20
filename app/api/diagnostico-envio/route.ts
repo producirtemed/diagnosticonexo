@@ -4,7 +4,7 @@ import { createClient } from '@supabase/supabase-js';
 import { NextResponse, NextRequest } from 'next/server';
 
 // ==========================================
-// CONFIGURACIÓN DE CLAVES (Mantenemos tus claves actuales)
+// CONFIGURACIÓN (CON TUS CLAVES ACTUALES)
 // ==========================================
 
 const supabaseUrl = "https://pjsynwjazjguvtvapozv.supabase.co";
@@ -14,71 +14,87 @@ const bucketName = "nexo-reports";
 const SERVICE_ID = "service_eqey1qm";
 const TEMPLATE_ID = "template_l3ku93m";
 const PUBLIC_KEY = "HqZVNwheq-X4ByJu_";
-const PRIVATE_KEY = "I6YxYn6lXgX_614vB3Wsh"; // Tu clave privada para que EmailJS acepte la petición desde el servidor
+const PRIVATE_KEY = "gNNOVMwu-XP_mDl97rH8f"; 
 
 // ==========================================
-// FUNCIÓN DE ENVÍO DE EMAILJS (CORREGIDA)
+// FUNCIONES DE UTILIDAD
 // ==========================================
+
+const initializeSupabaseClient = (url: string, key: string) => {
+    return createClient(url, key, {
+        auth: {
+            persistSession: false,
+            autoRefreshToken: false,
+            detectSessionInUrl: false
+        }
+    });
+};
+
+/**
+ * Función encargada de enviar el correo vinculando la URL de Supabase 
+ * con la variable {{download_link}} de EmailJS.
+ */
 async function sendEmailJsFromSever(downloadUrl: string, userEmail: string, userName: string) {
+    console.log(`--- Iniciando petición a EmailJS para: ${userEmail} ---`);
+
+    const templateParams = {
+        to_email: userEmail,       // Destinatario dinámico
+        user_name: userName,       // Nombre dinámico
+        download_link: downloadUrl, // Enlace que se inyecta en el botón de tu HTML
+        admin_email: 'producirte.med@gmail.com' 
+    };
+
     try {
-        console.log(`--- Iniciando petición a EmailJS para: ${userEmail} ---`);
-        
         const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Origin': 'http://localhost:3000' // O tu dominio de Vercel
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 service_id: SERVICE_ID,
                 template_id: TEMPLATE_ID,
-                user_id: PUBLIC_KEY,
-                accessToken: PRIVATE_KEY, // Requerido para envíos desde API/Server
-                template_params: {
-                    to_email: userEmail,          // Destinatario dinámico (el usuario)
-                    user_name: userName,          // Nombre dinámico
-                    download_link: downloadUrl,    // Link de Supabase
-                    admin_email: 'producirte.med@gmail.com' // Tu correo de respaldo
-                },
+                user_id: PUBLIC_KEY,      
+                accessToken: PRIVATE_KEY, 
+                template_params: templateParams,
             }),
         });
 
-        if (response.ok) {
-            console.log("✅ EmailJS: Correo enviado exitosamente.");
-            return { success: true, message: "Enviado correctamente" };
+        if (response.ok) { 
+            console.log("✅ EmailJS: Envío exitoso.");
+            return { success: true, message: "Correo enviado con éxito." };
         } else {
-            const errorText = await response.text();
-            console.error("❌ EmailJS Error Detalles:", errorText);
-            return { success: false, message: errorText };
+            const errorText = await response.text(); 
+            console.error(`❌ Fallo EmailJS API: Status ${response.status}`, errorText);
+            return { success: false, message: `Fallo EmailJS: ${errorText}` };
         }
-    } catch (err: any) {
-        console.error("❌ EmailJS Fallo Crítico:", err);
-        return { success: false, message: err.message };
+    } catch (e: any) {
+        console.error("❌ Error de red en EmailJS:", e);
+        return { success: false, message: e.message };
     }
 }
 
 // ==========================================
-// HANDLER PRINCIPAL POST
+// HANDLER POST PRINCIPAL
 // ==========================================
+
 export async function POST(req: NextRequest) {
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const supabase = initializeSupabaseClient(supabaseUrl, supabaseKey);
 
     try {
-        // Recibimos todos los datos desde el frontend (DiagnosticoNexo.tsx)
+        // Recibimos los datos del frontend (DiagnosticoNexo.tsx)
         const { pdfBase64, fileName, userEmail, userName } = await req.json();
-
+        
         if (!pdfBase64 || !userEmail) {
-            return NextResponse.json({ error: "Faltan datos requeridos (PDF o Email)" }, { status: 400 });
+            return NextResponse.json({ error: "PDF o Email faltantes" }, { status: 400 });
         }
 
-        console.log(`--- Procesando reporte para: ${userName} (${userEmail}) ---`);
+        console.log(`--- PROCESANDO: ${fileName} ---`);
 
-        // 1. Subida a Supabase
+        // 1. Convertir Base64 a Buffer y limpiar nombre de archivo
         const pdfBuffer = Buffer.from(pdfBase64, 'base64');
         const cleanFileName = fileName.replace(/[^a-zA-Z0-9.\-_]/g, '');
         const uniqueFileName = `${Date.now()}_${cleanFileName}`; 
         const filePath = `reports/${uniqueFileName}`;
 
+        // 2. Subida a Supabase Storage
         const { error: uploadError } = await supabase.storage
             .from(bucketName)
             .upload(filePath, pdfBuffer, { 
@@ -91,15 +107,15 @@ export async function POST(req: NextRequest) {
             throw new Error('Fallo subida Supabase: ' + uploadError.message);
         }
         
-        // 2. Obtener URL Pública
+        // 3. Obtener URL Pública del archivo
         const { data: publicUrlData } = supabase.storage
             .from(bucketName)
             .getPublicUrl(filePath);
             
         const finalDownloadUrl = publicUrlData.publicUrl;
-        console.log("✅ Archivo subido. URL:", finalDownloadUrl);
+        console.log("✅ Archivo subido exitosamente:", finalDownloadUrl);
 
-        // 3. Enviar Correo con los datos dinámicos recibidos
+        // 4. Enviar Correo a través de EmailJS
         const emailResult = await sendEmailJsFromSever(finalDownloadUrl, userEmail, userName);
         
         if (!emailResult.success) {
@@ -109,14 +125,14 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ 
             success: true,
             downloadUrl: finalDownloadUrl,
-            message: "Reporte procesado y enviado con éxito" 
+            message: emailResult.message 
         }, { status: 200 });
 
     } catch (error: any) {
-        console.error('❌ Error general en route.ts:', error.message);
+        console.error('❌ Error Crítico en el Servidor:', error.message);
         return NextResponse.json({ 
             success: false, 
-            error: error.message 
+            message: error.message 
         }, { status: 500 });
     }
 }

@@ -1326,47 +1326,41 @@ const handleGeneratePDFReport = (directData?: any) => {
     };
 
 pdfWorker.onmessage = async (event: MessageEvent) => {
-    const { status, pdfBase64, message } = event.data;
+    const { status, pdfBase64 } = event.data;
     const pdfFileName = `Nexo_${userData.empresa.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0, 10)}.pdf`;
 
     if (status === 'completed' && pdfBase64) {
         try {
-            // 1. DISPARO DEL ENVÍO AL SERVIDOR (route.ts)
+            // DISPARO DEL ENVÍO AL SERVIDOR
             const response = await fetch('/api/diagnostico-envio', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
                     pdfBase64, 
                     fileName: pdfFileName, 
-                    userEmail: userData.email, // Necesario para que route.ts sepa a quién enviar
+                    userEmail: userData.email, // Se toma del estado del formulario
                     userName: `${userData.nombre} ${userData.apellido}` 
                 }),
             });
 
             if (response.ok) {
-                // 2. ACTIVACIÓN DE TU DISEÑO PREMIUM DE ÉXITO
                 setReporteGeneradoExitosamente(true);
-                console.log("✅ Reporte enviado y UI de éxito activada");
+                console.log("✅ Reporte enviado exitosamente");
             } else {
                 const errorData = await response.json();
                 throw new Error(errorData.error || "Error en el servidor");
             }
         } catch (error) {
             console.error('Error post-generación:', error);
-            // Si el envío falla, activamos la pantalla de éxito igual para no bloquear al cliente
+            // Mostramos éxito para no frustrar al usuario, pero avisamos del problema
             setReporteGeneradoExitosamente(true); 
-            alert("El reporte se generó. Si no recibes el correo en unos minutos, revisa tu carpeta de spam.");
+            alert("El diagnóstico se completó. Si no recibes el correo en breve, contacta a soporte.");
         } finally {
             setIsPdfGenerating(false);
             pdfWorker.terminate();
         }
-    } else if (status === 'error') {
-        alert(`❌ Error al generar el PDF: ${message}`);
-        setIsPdfGenerating(false);
-        pdfWorker.terminate();
     }
 };
-
     pdfWorker.postMessage({ 
         reporteData: JSON.parse(JSON.stringify(dataDisponible)), 
         metricasEconomicas: metricasParaWorker, 
