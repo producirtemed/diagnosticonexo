@@ -1079,19 +1079,23 @@ export const DiagnosticoNexo: React.FC = () => {
         return score;
     }, [respuestas, getPuntosPorRespuesta]);
 
-   const totalRespuestasDadas = useMemo(() => {
-    // 1. Contamos las respuestas técnicas y económicas (p1..p20, VII_ingresos, etc.)
-    const tecnicasRespondidas = Object.keys(respuestas).filter(id => 
-        (id.startsWith('p') || id.startsWith('VII_')) && respuestas[id] > 0
+const totalRespuestasDadas = useMemo(() => {
+    // 1. Contamos respuestas p1 a p20 + las 3 de la Cat VII (ingresos, costos, desperdicio)
+    // Usamos Number(val) > 0 para asegurar que campos vacíos o ceros no sumen al total
+    const tecnicasRespondidas = Object.entries(respuestas).filter(([id, val]) => 
+        (id.startsWith('p') || id.startsWith('VII_')) && Number(val) > 0
     ).length;
 
-    // 2. Verificamos si el campo de texto libre 'expectativas' tiene contenido real
-    const expectativasRespondida = userData.expectativas && userData.expectativas.trim().length > 0 ? 1 : 0;
+    // 2. Verificamos que 'expectativas' tenga contenido real (mínimo 3 caracteres para evitar espacios accidentales)
+    const expectativasRespondida = (userData.expectativas && userData.expectativas.trim().length >= 3) ? 1 : 0;
 
     return tecnicasRespondidas + expectativasRespondida;
 }, [respuestas, userData.expectativas]);
 
+// EL CAMBIO CLAVE: Comparamos contra el número exacto de preguntas configuradas (24)
 const isDiagnosticoCompleto = totalRespuestasDadas === preguntas.length;
+
+// Solo permitir acceso al reporte si el diagnóstico está 100% completo
 const isReporteDisponible = isDiagnosticoCompleto && (reporteData !== null || iaData !== null);
 
 // LÓGICA DE STEPPER
@@ -1622,9 +1626,9 @@ return (
         </button>
     </div>
 
-   {/* TÍTULO Y LOGO EN FILA RESPONSIVA */}
+  {/* TÍTULO Y LOGO: Alineación corregida para PC (Lateral) y Móvil (Apilado) */}
 <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 mb-4 px-4 md:px-20">
-    <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-cyan-400 text-center leading-tight">
+    <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400 text-center leading-tight">
         Diagnóstico Nexo: <br className="hidden md:block" /> "Tu Ruta de Transformación"
     </h2>
     <img 
@@ -1634,10 +1638,10 @@ return (
     />
 </div>
 
-    {/* 3. Subtítulo (Justo debajo) */}
-    <p className="text-3xl text-white font-bold">
-        Datos de Contacto
-    </p>
+{/* 3. Subtítulo Centrado */}
+<p className="text-xl md:text-3xl text-white font-bold text-center">
+    Datos de Contacto
+</p>
 </div>
 
 <Stepper 
@@ -1695,7 +1699,7 @@ return (
         </button>
     </div>
 
-    {/* TÍTULO Y LOGO EN DISPOSICIÓN DINÁMICA */}
+  {/* TÍTULO Y LOGO: Restauración PC (Degradado) + Optimización Móvil (Blanco) */}
 <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 mb-6 px-4 md:px-20">
     <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400 text-center leading-tight">
         Diagnóstico Nexo: <br className="hidden md:block" /> "Tu Ruta de Transformación"
@@ -1706,11 +1710,11 @@ return (
         className="w-32 md:w-48 h-auto object-contain mt-2 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]" 
     />
 </div>
-    
-    {/* 3. Subtítulo (NUEVO) */}
-    <p className="text-3xl text-white font-bold">
-        Cuestionario
-    </p>
+
+{/* 3. Subtítulo Forzado */}
+<p className="text-xl md:text-3xl text-white font-bold text-center">
+    Cuestionario
+</p>
 </div>
 
            <Stepper 
