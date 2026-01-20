@@ -1283,19 +1283,16 @@ const handleConfirmarFinalizacion = async () => {
             setMetricasEconomicas(analisisIA.metricas);
             setIaData(analisisIA); 
 
-            // 1. Cambiar estados de visualización
             setShowDiagnostico(false);
             setShowReporte(true);
 
-// 2. FORZAR SCROLL INMEDIATO AL TÍTULO DE GENERACIÓN
             setTimeout(() => {
                 const seccionResultados = document.getElementById('resultados-seccion');
                 if (seccionResultados) {
                     seccionResultados.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
                 
-                // 3. INICIO DE GENERACIÓN PDF (Optimizado para móviles)
-                // Esperamos 800ms adicionales para que el navegador móvil no bloquee el envío
+                // Iniciamos la generación y envío
                 setTimeout(() => {
                     handleGeneratePDFReport(analisisIA); 
                 }, 800); 
@@ -1307,107 +1304,69 @@ const handleConfirmarFinalizacion = async () => {
         }
     } catch (error) {
         console.error("Error crítico:", error);
-        alert("Ocurrió un error al procesar el diagnóstico. Por favor, verifica tu conexión.");
+        alert("Ocurrió un error al procesar el diagnóstico.");
     } finally {
         setIsProcessingReport(false);
     }
 };
 
-// --- FUNCIÓN DE RESPALDO PARA ENVIAR CORREO CON EMAILJS DESDE EL CLIENTE ---
-const enviarCorreoEmailJS = async (userData: UserData, pdfUrl: string) => {
-    try {
-        console.log("Iniciando envío de correo de respaldo vía EmailJS...");
-        
-        // REEMPLAZA CON TUS CREDENCIALES REALES DE EMAILJS O VARIABLES DE ENTORNO
-        const serviceID = 'YOUR_SERVICE_ID';
-        const templateID = 'YOUR_TEMPLATE_ID';
-        const publicKey = 'YOUR_PUBLIC_KEY';
-
-        const templateParams = {
-            to_name: `${userData.nombre} ${userData.apellido}`,
-            to_email: userData.email,
-            company: userData.empresa,
-            download_link: pdfUrl, // Enlace al PDF subido
-            reply_to: userData.email,
-            message: "Adjunto encontrarás tu reporte de Diagnóstico Nexo.",
-        };
-
-        const response = await emailjs.send(serviceID, templateID, templateParams, publicKey);
-        console.log('Correo enviado con éxito (Cliente):', response.status, response.text);
-        return true;
-    } catch (err) {
-        console.error('Error al enviar el correo desde cliente:', err);
-        return false;
-    }
-};
-
-// 1. REEMPLAZA ESTE BLOQUE (Sustituye la versión anterior)
 const handleGeneratePDFReport = (directData?: any) => {
     if (reporteGeneradoExitosamente || isPdfGenerating) return;
 
-    // Prioridad Senior: 1. Datos que vienen de la IA, 2. Estado IA, 3. Estado local
     const dataDisponible = directData || iaData || reporteData;
-
-    if (!dataDisponible) {
-        // Ya no verás este alert porque pasamos directData desde handleConfirmarFinalizacion
-        return;
-    }
+    if (!dataDisponible) return;
     
     setIsPdfGenerating(true);
     const pdfWorker = new Worker('/pdf.worker.js');
 
-    // Mapeo de métricas garantizando que las llaves coincidan con el dibujo nativo del worker
     const metricasParaWorker = {
         ahorroAnualPotencial: directData?.metricas?.ahorroAnualPotencial || metricasEconomicas?.ahorroAnualPotencial || 0,
         roiEsperado: directData?.metricas?.roiEsperado || metricasEconomicas?.roiEsperado || 0,
         recuperacionMeses: directData?.metricas?.recuperacionMeses || metricasEconomicas?.recuperacionMeses || 0
     };
 
-// Configuración del receptor de mensajes del Worker
-pdfWorker.onmessage = async (event: MessageEvent) => {
-    const { status, pdfBase64, message } = event.data;
-    const pdfFileName = `Nexo_${userData.empresa.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0, 10)}.pdf`;
+    pdfWorker.onmessage = async (event: MessageEvent) => {
+        const { status, pdfBase64, message } = event.data;
+        const pdfFileName = `Nexo_${userData.empresa.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0, 10)}.pdf`;
 
-    if (status === 'completed' && pdfBase64) {
-        try {
-            // Envío automático al servidor (Supabase/EmailJS)
-            await fetch('/api/diagnostico-envio', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    pdfBase64, 
-                    fileName: pdfFileName, 
-                    userData: { ...userData, whatsapp: `${userData.dialCode} ${userData.whatsapp}` } 
-                }),
-            });
+        if (status === 'completed' && pdfBase64) {
+            try {
+                // LLAMADA CLAVE A LA API (ESTO DISPARA EL EMAILJS EN EL SERVIDOR)
+                const response = await fetch('/api/diagnostico-envio', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        pdfBase64, 
+                        fileName: pdfFileName, 
+                        userData: { 
+                            ...userData, 
+                            email: userData.email, // Aseguramos que el email viaje
+                            nombreCompleto: `${userData.nombre} ${userData.apellido}`
+                        } 
+                    }),
+                });
 
-            // 1. Activar el estado para renderizar el Diseño Premium
-            setReporteGeneradoExitosamente(true);
-            
-            // 2. Mostrar el mensaje de éxito
-            alert('✅ El reporte ha sido generado y se ha enviado al correo con éxito');
-
-            // 3. Ejecutar el scroll automático al Panel Premium tras cerrar el alert
-            setTimeout(() => {
-                const exitoPanel = document.getElementById('resultados-seccion');
-                if (exitoPanel) {
-                    exitoPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (response.ok) {
+                    setReporteGeneradoExitosamente(true);
+                    console.log("✅ Reporte enviado y guardado correctamente.");
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || "Error en el servidor");
                 }
-            }, 100);
 
-        } catch (error) {
-            console.error('Error post-generación:', error);
+            } catch (error) {
+                console.error('Error post-generación:', error);
+                alert("El PDF se generó pero no pudimos enviarlo por correo automáticamente.");
+            }
+            setIsPdfGenerating(false);
+            pdfWorker.terminate();
+        } else if (status === 'error') {
+            alert(`❌ Error al generar el PDF: ${message}`);
+            setIsPdfGenerating(false);
+            pdfWorker.terminate();
         }
-        setIsPdfGenerating(false);
-        pdfWorker.terminate();
-    } else if (status === 'error') {
-        alert(`❌ Error al generar el PDF: ${message}`);
-        setIsPdfGenerating(false);
-        pdfWorker.terminate();
-    }
-};
+    };
 
-    // Enviar carga de datos (incluye respuestas para la trazabilidad completa)
     pdfWorker.postMessage({ 
         reporteData: JSON.parse(JSON.stringify(dataDisponible)), 
         metricasEconomicas: metricasParaWorker, 
