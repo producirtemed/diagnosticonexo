@@ -1513,19 +1513,18 @@ return (
         <header className="py-20 bg-slate-900/80 border-b border-slate-800 shadow-2xl">
             <div className="max-w-6xl mx-auto px-4">
                 
-                {/* FILA DE TÍTULO Y LOGO */}
-                <div className="flex flex-row items-center justify-center gap-10 mb-4">
-                    <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-cyan-400 text-center leading-tight">
-                        Diagnóstico Nexo: "Tu Ruta de <br /> Transformación"
-                    </h1>
-                    
-                    {/* LOGO MÁS GRANDE: Ajustado para llegar visualmente hasta el subtítulo */}
-                    <img 
-                        src="/logo-producir-te.png" 
-                        alt="Logo Producir-TE" 
-                        className="w-40 md:w-48 h-auto object-contain self-start mt-2" 
-                    />
-                </div>
+           {/* 1. PORTADA: Restauración total image_bd0a24 (PC) e image_bd82b8 (Móvil) */}
+<div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 mb-8 px-4 md:px-20">
+    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400 text-center leading-tight tracking-tight">
+        Diagnóstico Nexo: <br className="hidden md:block" /> "Tu Ruta de Transformación"
+    </h1>
+    
+    <img 
+        src="/logo-producir-te.png" 
+        alt="Logo Producir-TE" 
+        className="w-36 md:w-56 h-auto object-contain mt-4 md:mt-0 drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]" 
+    />
+</div>
 
                 <p className="text-xl text-slate-300 text-center mx-auto">
                     Descubre el potencial oculto de tu operación textil
@@ -1536,52 +1535,26 @@ return (
                 </p>
 
 {/* CONTENEDOR DE TARJETAS: Lado a lado en PC (image_bd0abf), Apiladas en Móvil */}
-<div className="flex flex-col md:flex-row items-stretch justify-center gap-6 px-4 md:px-0 max-w-6xl mx-auto">
-    
-    {/* TARJETA 1: COMENZAR LA AVENTURA */}
-    <div 
-        className="flex-1 bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-blue flex flex-col items-center text-center cursor-pointer transition-all hover:scale-[1.03] hover:shadow-blue-500/50"
-        onClick={handleComenzarAventura} 
-    >
-        <span className="p-4 bg-blue-400/20 rounded-full mb-4 text-blue-400">
-            <Play className="w-8 h-8" />
-        </span>
+<div className="flex flex-col md:flex-row items-stretch justify-center gap-6 px-4 md:px-0 max-w-6xl mx-auto mb-12">
+    {/* TARJETA 1 */}
+    <div className="flex-1 bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-blue flex flex-col items-center text-center cursor-pointer transition-all hover:scale-[1.03] hover:shadow-blue-500/50" onClick={handleComenzarAventura}>
+        <span className="p-4 bg-blue-400/20 rounded-full mb-4 text-blue-400"><Play className="w-8 h-8" /></span>
         <h3 className="text-xl md:text-2xl font-semibold text-white">Comenzar la Aventura</h3>
-        <p className="modulo-card-description-lg text-sm md:text-base text-slate-400">
-            Responde preguntas clave sobre tu operación.
-        </p>
+        <p className="text-sm md:text-base text-slate-400">Responde preguntas clave sobre tu operación.</p>
     </div>
-
-    {/* TARJETA 2: ACUMULA PUNTOS */}
-    <div 
-        className="flex-1 bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-green flex flex-col items-center text-center cursor-pointer transition-all hover:scale-[1.03] hover:shadow-green-500/50"
-        onClick={handleComenzarAventura} 
-    >
-        <span className="p-4 bg-green-400/20 rounded-full mb-4 text-green-400">
-            <User className="w-8 h-8" />
-        </span>
+    {/* TARJETA 2 */}
+    <div className="flex-1 bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-green flex flex-col items-center text-center cursor-pointer transition-all hover:scale-[1.03] hover:shadow-green-500/50" onClick={handleComenzarAventura}>
+        <span className="p-4 bg-green-400/20 rounded-full mb-4 text-green-400"><User className="w-8 h-8" /></span>
         <h3 className="text-xl md:text-2xl font-semibold text-white">Acumula Puntos</h3>
-        <p className="modulo-card-description-lg text-sm md:text-base text-slate-400">
-            Cada respuesta te acerca a tu nivel de transformación.
-        </p>
+        <p className="text-sm md:text-base text-slate-400">Cada respuesta te acerca a tu nivel de transformación.</p>
     </div>
-
-    {/* TARJETA 3: RECIBE UN REPORTE */}
-    <div 
-        className="flex-1 bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-purple flex flex-col items-center text-center transition-all cursor-pointer hover:scale-[1.03] hover:shadow-purple-500/50"
-        onClick={handleReporteCardClick} 
-    >
+    {/* TARJETA 3 */}
+    <div className="flex-1 bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-purple flex flex-col items-center text-center transition-all cursor-pointer hover:scale-[1.03] hover:shadow-purple-500/50" onClick={handleReporteCardClick}>
         <span className="p-4 bg-purple-400/20 rounded-full mb-4 text-purple-400">
-            {isPdfGenerating ? (
-                <Loader2 className="w-8 h-8 animate-spin" />
-            ) : (
-                <Mail className="w-8 h-8" /> 
-            )}
+            {isPdfGenerating ? <Loader2 className="w-8 h-8 animate-spin" /> : <Mail className="w-8 h-8" />}
         </span>
         <h3 className="text-xl md:text-2xl font-semibold text-white">Recibe un Reporte</h3>
-        <p className="modulo-card-description-lg text-sm md:text-base text-slate-400">
-            {isPdfGenerating ? 'Generando PDF...' : 'Producir-TE te hará el envío de tu diagnóstico.'}
-        </p>
+        <p className="text-sm md:text-base text-slate-400">Producir-TE te hará el envío de tu diagnóstico.</p>
     </div>
 </div>
 
@@ -1627,15 +1600,16 @@ return (
         </button>
     </div>
 
-  {/* TÍTULO Y LOGO: Alineación corregida para PC (Lateral) y Móvil (Apilado) */}
-<div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 mb-4 px-4 md:px-20">
-    <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400 text-center leading-tight">
+{/* 2. DATOS DE CONTACTO: Restauración total image_bd0a24 (PC) e image_bd82b8 (Móvil) */}
+<div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 mb-8 px-4 md:px-20">
+    <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400 text-center leading-tight tracking-tight">
         Diagnóstico Nexo: <br className="hidden md:block" /> "Tu Ruta de Transformación"
     </h2>
+    
     <img 
         src="/logo-producir-te.png" 
         alt="Logo Producir-TE" 
-        className="w-32 md:w-48 h-auto object-contain mt-2" 
+        className="w-36 md:w-56 h-auto object-contain mt-4 md:mt-0 drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]" 
     />
 </div>
 
@@ -1700,15 +1674,16 @@ return (
         </button>
     </div>
 
-  {/* TÍTULO Y LOGO: Restauración PC (Degradado) + Optimización Móvil (Blanco) */}
-<div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 mb-6 px-4 md:px-20">
-    <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400 text-center leading-tight">
+{/* RESTAURACIÓN TOTAL: Título Blanco en móvil (image_bd82b8) y Degradado Max-Size en PC (image_bd0a24) */}
+<div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 mb-8 px-4 md:px-20">
+    <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400 text-center leading-tight tracking-tight">
         Diagnóstico Nexo: <br className="hidden md:block" /> "Tu Ruta de Transformación"
     </h2>
+    
     <img 
         src="/logo-producir-te.png" 
         alt="Logo Producir-TE" 
-        className="w-32 md:w-48 h-auto object-contain mt-2 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]" 
+        className="w-36 md:w-56 h-auto object-contain mt-4 md:mt-0 drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]" 
     />
 </div>
 
@@ -1833,34 +1808,42 @@ return (
         </div>
         <p className="mt-12 text-slate-500 text-sm font-medium tracking-wide">Gracias por confiar en Producir-TE.</p>
     </div>
-                ) : (
-                    /* 2. ESTADO DE ESPERA RESPONSIVO */
+) : (
+                    /* 4. ESPERA TÉCNICA: Restauración total para image_bd0a24 e image_bd82b8 */
                     <div id="resultados-seccion" className="animate-pulse flex flex-col items-center py-10 md:py-20 min-h-screen">
-    <div className="mb-10 pb-6 border-b border-slate-700 relative flex flex-col items-center justify-center w-full px-4">
-        <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-cyan-400 text-center mb-4 leading-tight">
-            Diagnóstico Nexo: <br className="hidden md:block" /> "Tu Ruta de Transformación"
-        </h2>
-        
-        <div className="flex flex-col items-center gap-6 mt-4">
-            <p className="text-xl md:text-3xl text-white font-bold italic text-center">Generando Documentación Técnica...</p>
-            
-            {/* Barra de carga adaptada al ancho del móvil */}
-            <div className="w-full max-w-xs md:max-w-72 h-2 bg-slate-800 rounded-full overflow-hidden shadow-[0_0_20px_rgba(34,211,238,0.3)] border border-slate-700">
-                <div className="h-full bg-linear-to-r from-blue-600 via-cyan-400 to-blue-600 w-full animate-loading-bar" />
-            </div>
-            
-            <span className="text-slate-500 text-[10px] uppercase tracking-widest animate-pulse">
-                Por favor, no cierre esta ventana
-            </span>
-        </div>
-    </div>
+                        <div className="mb-10 pb-6 border-b border-slate-700 relative flex flex-col items-center justify-center w-full px-4 text-center">
+                            
+                            <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 mb-10">
+                                <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400 text-center leading-tight tracking-tight">
+                                    Diagnóstico Nexo: <br className="hidden md:block" /> "Tu Ruta de Transformación"
+                                </h2>
+                                <img 
+                                    src="/logo-producir-te.png" 
+                                    alt="Logo Producir-TE" 
+                                    className="w-36 md:w-56 h-auto object-contain mt-4 md:mt-0 drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]" 
+                                />
+                            </div>
+                            
+                            <div className="flex flex-col items-center gap-6 mt-4">
+                                <p className="text-xl md:text-3xl text-white font-bold italic text-center">Generando Documentación Técnica...</p>
+                                
+                                {/* Barra de carga optimizada con mayor brillo Neón */}
+                                <div className="w-full max-w-xs md:max-w-md h-3 bg-slate-900 rounded-full overflow-hidden shadow-[0_0_30px_rgba(34,211,238,0.6)] border border-cyan-500/30">
+                                    <div className="h-full bg-linear-to-r from-cyan-500 via-white to-cyan-500 w-full animate-loading-bar shadow-[0_0_15px_#fff]" />
+                                </div>
+                                
+                                <span className="text-slate-500 text-[10px] uppercase tracking-widest animate-pulse">
+                                    Por favor, no cierre esta ventana
+                                </span>
+                            </div>
+                        </div>
 
-   <Stepper currentStep={4} totalSteps={4} handleNavigate={handleNavigate} isReportComplete={true} />
-    </div> // Esta es la etiqueta de cierre del div "resultados-seccion"
-)}  {/* <--- ESTA ES LA LÍNEA QUE TE FALTA (Línea 1846 aproximadamente) */}
+                        <Stepper currentStep={4} totalSteps={4} handleNavigate={handleNavigate} isReportComplete={true} />
+                    </div> 
+                )}
 
-                {/* 3. RENDERIZADO TÉCNICO INVISIBLE (Corregido con clase canónica -left-2500) */}
-                <div className="invisible h-0 w-0 pointer-events-none absolute -left-2500">
+                {/* 3. RENDERIZADO TÉCNICO INVISIBLE (Corregido para evitar errores de compilación) */}
+                <div className="invisible h-0 w-0 pointer-events-none absolute" style={{ left: '-2500px' }}>
                     <ResultadosNexo 
                         respuestas={respuestas}
                         userData={userData}      
@@ -1872,7 +1855,7 @@ return (
         </section>
     )}
     
- <footer className="bg-slate-900/90 text-slate-500 text-xs py-4 text-center border-t border-slate-800">
+    <footer className="bg-slate-900/90 text-slate-500 text-xs py-4 text-center border-t border-slate-800">
         Diseñado por VIALKER para Producir-TE: "Transformación productiva del sector textil". Todos los derechos reservados 2026.©
     </footer>
 
@@ -1897,7 +1880,6 @@ return (
                         <AlertTriangle className="w-8 h-8 text-yellow-400" />
                     </div>
                     <h3 className="text-2xl font-bold text-white mb-4">¿Quieres Finalizar El Diagnóstico?</h3>
-                    {/* MODIFICACIÓN: Texto de confirmación actualizado */}
                     <p className="text-slate-400 mb-8 text-sm leading-relaxed">
                         Verifique la información antes de finalizar. No podrá editarla después y se enviará por correo electrónico.
                     </p>
