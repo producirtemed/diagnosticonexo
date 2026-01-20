@@ -4,7 +4,7 @@ import { createClient } from '@supabase/supabase-js';
 import { NextResponse, NextRequest } from 'next/server';
 
 // ==========================================
-// CONFIGURACIÓN (CON TUS CLAVES ACTUALES)
+// CONFIGURACIÓN (USANDO TUS CLAVES)
 // ==========================================
 
 const supabaseUrl = "https://pjsynwjazjguvtvapozv.supabase.co";
@@ -20,87 +20,77 @@ const PRIVATE_KEY = "gNNOVMwu-XP_mDl97rH8f";
 // FUNCIONES DE UTILIDAD
 // ==========================================
 
-const initializeSupabaseClient = (url: string, key: string) => {
-    return createClient(url, key, {
-        auth: {
-            persistSession: false,
-            autoRefreshToken: false,
-            detectSessionInUrl: false
-        }
-    });
-};
-
 /**
- * Función encargada de enviar el correo vinculando la URL de Supabase 
- * con la variable {{download_link}} de EmailJS.
+ * Envía el correo mediante la API REST de EmailJS.
+ * downloadUrl: Se mapea a {{download_link}} en tu HTML
  */
 async function sendEmailJsFromSever(downloadUrl: string, userEmail: string, userName: string) {
-    console.log(`--- Iniciando petición a EmailJS para destino fijo: producirte.med@gmail.com ---`);
+    console.log(`--- Iniciando petición a EmailJS ---`);
 
-    // CONFIGURACIÓN DE PARÁMETROS: Enviamos a tu correo fijo
     const templateParams = {
-        to_email: 'producirte.med@gmail.com', // DESTINATARIO FIJO SOLICITADO
-        user_name: userName,                  // Nombre del cliente para el reporte
-        customer_email: userEmail,            // Email del cliente para que sepas quién es
-        download_link: downloadUrl,           // Link que activa el botón en tu HTML
+        to_email: 'producirte.med@gmail.com', // Destinatario principal solicitado
+        user_name: userName,                  // Nombre del cliente
+        customer_email: userEmail,            // Correo del cliente para tu registro
+        download_link: downloadUrl,           // VARIABLE CRÍTICA PARA EL BOTÓN HTML
     };
 
     try {
         const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
                 service_id: SERVICE_ID,
                 template_id: TEMPLATE_ID,
-                user_id: PUBLIC_KEY,      
-                accessToken: PRIVATE_KEY, 
+                user_id: PUBLIC_KEY,
+                accessToken: PRIVATE_KEY, // Requerido para peticiones desde el servidor
                 template_params: templateParams,
             }),
         });
 
-        if (response.ok) { 
-            console.log("✅ EmailJS: Envío exitoso a producirte.med@gmail.com.");
-            return { success: true, message: "Correo enviado con éxito." };
+        if (response.ok) {
+            console.log("✅ EmailJS: Correo enviado con éxito.");
+            return { success: true };
         } else {
-            const errorText = await response.text(); 
-            console.error(`❌ Fallo EmailJS API: Status ${response.status}`, errorText);
-            return { success: false, message: `Fallo EmailJS: ${errorText}` };
+            const errorText = await response.text();
+            console.error("❌ EmailJS Error:", errorText);
+            return { success: false, message: errorText };
         }
     } catch (e: any) {
-        console.error("❌ Error de red en EmailJS:", e);
+        console.error("❌ EmailJS Exception:", e.message);
         return { success: false, message: e.message };
     }
 }
 
 // ==========================================
-// HANDLER POST PRINCIPAL
+// MANEJADOR DE LA RUTA (POST)
 // ==========================================
 
 export async function POST(req: NextRequest) {
-    const supabase = initializeSupabaseClient(supabaseUrl, supabaseKey);
-
     try {
-        // Recibimos los datos del frontend (DiagnosticoNexo.tsx)
         const { pdfBase64, fileName, userEmail, userName } = await req.json();
-        
-        if (!pdfBase64 || !userEmail) {
-            return NextResponse.json({ error: "PDF o Email faltantes" }, { status: 400 });
+
+        if (!pdfBase64) {
+            return NextResponse.json({ error: 'No se recibió el PDF' }, { status: 400 });
         }
 
-        console.log(`--- PROCESANDO REPORTE PARA: ${userName} ---`);
+        // 1. Inicializar Supabase con Service Role Key para tener permisos de escritura
+        const supabase = createClient(supabaseUrl, supabaseKey);
 
-        // 1. Convertir Base64 a Buffer y limpiar nombre de archivo
-        const pdfBuffer = Buffer.from(pdfBase64, 'base64');
-        const cleanFileName = fileName.replace(/[^a-zA-Z0-9.\-_]/g, '');
-        const uniqueFileName = `${Date.now()}_${cleanFileName}`; 
-        const filePath = `reports/${uniqueFileName}`;
+        // Limpiar el base64 si incluye el prefijo data:application/pdf;base64,
+        const base64Data = pdfBase64.replace(/^data:application\/pdf;base64,/, "");
+        const pdfBuffer = Buffer.from(base64Data, 'base64');
 
-        // 2. Subida a Supabase Storage
+        // Definir la ruta del archivo en el bucket
+        const filePath = `diagnosticos/${fileName || `reporte_${Date.now()}.pdf`}`;
+
+        // 2. Subir a Supabase Storage
         const { error: uploadError } = await supabase.storage
             .from(bucketName)
             .upload(filePath, pdfBuffer, { 
                 contentType: 'application/pdf', 
-                upsert: false 
+                upsert: true // Cambiado a true para evitar errores si el archivo existe
             });
 
         if (uploadError) {
@@ -109,31 +99,32 @@ export async function POST(req: NextRequest) {
         }
         
         // 3. Obtener URL Pública del archivo
+        // Nota: Esto funciona porque tu política "Allow anyone to download report" es pública.
         const { data: publicUrlData } = supabase.storage
             .from(bucketName)
             .getPublicUrl(filePath);
             
         const finalDownloadUrl = publicUrlData.publicUrl;
-        console.log("✅ Archivo subido. URL generada:", finalDownloadUrl);
+        console.log("✅ Archivo en Supabase. URL:", finalDownloadUrl);
 
-        // 4. Enviar Correo con los datos ahora disponibles
+        // 4. Enviar Correo vinculando la URL al botón de descarga
         const emailResult = await sendEmailJsFromSever(finalDownloadUrl, userEmail, userName);
         
         if (!emailResult.success) {
-            throw new Error(emailResult.message);
+            throw new Error(`EmailJS falló: ${emailResult.message}`);
         }
 
         return NextResponse.json({ 
             success: true,
             downloadUrl: finalDownloadUrl,
-            message: "Reporte procesado y enviado a producirte.med@gmail.com" 
+            message: "Reporte procesado y enviado a producirte.med@gmail.com exitosamente." 
         }, { status: 200 });
 
     } catch (error: any) {
         console.error('❌ Error Crítico en el Servidor:', error.message);
         return NextResponse.json({ 
             success: false, 
-            message: error.message 
+            error: error.message 
         }, { status: 500 });
     }
 }
