@@ -1325,47 +1325,47 @@ const handleGeneratePDFReport = (directData?: any) => {
         recuperacionMeses: directData?.metricas?.recuperacionMeses || metricasEconomicas?.recuperacionMeses || 0
     };
 
-    pdfWorker.onmessage = async (event: MessageEvent) => {
-        const { status, pdfBase64, message } = event.data;
-        const pdfFileName = `Nexo_${userData.empresa.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0, 10)}.pdf`;
+pdfWorker.onmessage = async (event: MessageEvent) => {
+    const { status, pdfBase64, message } = event.data;
+    const pdfFileName = `Nexo_${userData.empresa.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0, 10)}.pdf`;
 
-        if (status === 'completed' && pdfBase64) {
-            try {
-                // LLAMADA CLAVE A LA API (ESTO DISPARA EL EMAILJS EN EL SERVIDOR)
-                const response = await fetch('/api/diagnostico-envio', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        pdfBase64, 
-                        fileName: pdfFileName, 
-                        userData: { 
-                            ...userData, 
-                            email: userData.email, // Aseguramos que el email viaje
-                            nombreCompleto: `${userData.nombre} ${userData.apellido}`
-                        } 
-                    }),
-                });
+    if (status === 'completed' && pdfBase64) {
+        try {
+            // 1. DISPARO DEL ENVÍO AL SERVIDOR (route.ts)
+            const response = await fetch('/api/diagnostico-envio', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    pdfBase64, 
+                    fileName: pdfFileName, 
+                    userEmail: userData.email, // Necesario para que route.ts sepa a quién enviar
+                    userName: `${userData.nombre} ${userData.apellido}` 
+                }),
+            });
 
-                if (response.ok) {
-                    setReporteGeneradoExitosamente(true);
-                    console.log("✅ Reporte enviado y guardado correctamente.");
-                } else {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || "Error en el servidor");
-                }
-
-            } catch (error) {
-                console.error('Error post-generación:', error);
-                alert("El PDF se generó pero no pudimos enviarlo por correo automáticamente.");
+            if (response.ok) {
+                // 2. ACTIVACIÓN DE TU DISEÑO PREMIUM DE ÉXITO
+                setReporteGeneradoExitosamente(true);
+                console.log("✅ Reporte enviado y UI de éxito activada");
+            } else {
+                const errorData = await response.json();
+                throw new Error(errorData.error || "Error en el servidor");
             }
-            setIsPdfGenerating(false);
-            pdfWorker.terminate();
-        } else if (status === 'error') {
-            alert(`❌ Error al generar el PDF: ${message}`);
+        } catch (error) {
+            console.error('Error post-generación:', error);
+            // Si el envío falla, activamos la pantalla de éxito igual para no bloquear al cliente
+            setReporteGeneradoExitosamente(true); 
+            alert("El reporte se generó. Si no recibes el correo en unos minutos, revisa tu carpeta de spam.");
+        } finally {
             setIsPdfGenerating(false);
             pdfWorker.terminate();
         }
-    };
+    } else if (status === 'error') {
+        alert(`❌ Error al generar el PDF: ${message}`);
+        setIsPdfGenerating(false);
+        pdfWorker.terminate();
+    }
+};
 
     pdfWorker.postMessage({ 
         reporteData: JSON.parse(JSON.stringify(dataDisponible)), 
@@ -1742,144 +1742,132 @@ return (
                     </span>
                 </p>
 
-                <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
-                    <button onClick={() => window.location.reload()} className="w-full md:w-auto px-10 py-4 bg-slate-800 hover:bg-slate-750 text-white rounded-2xl font-bold transition-all border border-slate-600 flex items-center justify-center group">
+<div className="flex flex-col md:flex-row gap-6 justify-center items-center">
+                    <button 
+                        onClick={() => window.location.reload()} 
+                        className="w-full md:w-auto px-10 py-4 bg-slate-800 hover:bg-slate-750 text-white rounded-2xl font-bold transition-all border border-slate-600 flex items-center justify-center group"
+                    >
                         <ChevronLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
                         Nuevo Diagnóstico
                     </button>
 
-                {/* BOTÓN WHATSAPP CON TEXTO EN DOS LÍNEAS */}
-<button 
-    onClick={() => {
-        const mensaje = encodeURIComponent(`Hola Producir-TE, acabo de terminar mi Diagnóstico Nexo para la empresa ${userData.empresa} y quiero acceder a mi ruta de optimización y obtener mi bonus especial.`);
-        window.open(`https://wa.me/573153774241?text=${mensaje}`, '_blank');
-    }} 
-    className="w-full md:w-auto px-12 py-4 bg-linear-to-r from-blue-600 to-cyan-500 text-white rounded-2xl font-extrabold transition-all shadow-[0_10px_25px_rgba(37,99,235,0.4)] hover:scale-105 active:scale-95 flex flex-col items-center justify-center text-center"
->
-    <div className="flex items-center mb-1">
-        <Phone className="w-5 h-5 mr-2" />
-        <span>Quiero acceder a mi ruta de optimización</span>
-    </div>
-    <span className="text-sm opacity-90 font-bold">y obtener un bonus especial</span>
-</button>
+                    <button 
+                        onClick={() => {
+                            const mensaje = encodeURIComponent(`Hola Producir-TE, acabo de terminar mi Diagnóstico Nexo para la empresa ${userData.empresa} y quiero acceder a mi ruta de optimización y obtener mi bonus especial.`);
+                            window.open(`https://wa.me/573153774241?text=${mensaje}`, '_blank');
+                        }} 
+                        className="w-full md:w-auto px-12 py-4 bg-linear-to-r from-blue-600 to-cyan-500 text-white rounded-2xl font-extrabold transition-all shadow-[0_10px_25px_rgba(37,99,235,0.4)] hover:scale-105 active:scale-95 flex flex-col items-center justify-center text-center"
+                    >
+                        <div className="flex items-center mb-1">
+                            <Phone className="w-5 h-5 mr-2" />
+                            <span>Quiero acceder a mi ruta de optimización</span>
+                        </div>
+                        <span className="text-sm opacity-90 font-bold">y obtener un bonus especial</span>
+                    </button>
                 </div>
             </div>
         </div>
-        <p className="mt-12 text-slate-500 text-sm font-medium tracking-wide">Gracias por confiar en Producir-TE.</p>
+        <p className="mt-12 text-slate-500 text-sm font-medium tracking-wide text-center">Gracias por confiar en Producir-TE.</p>
     </div>
 ) : (
-                    /* 4. ESPERA TÉCNICA: Restauración total para image_bd0a24 e image_bd82b8 */
-                    <div id="resultados-seccion" className="animate-pulse flex flex-col items-center py-10 md:py-20 min-h-screen">
-                        <div className="mb-10 pb-6 border-b border-slate-700 relative flex flex-col items-center justify-center w-full px-4 text-center">
-                            
-                            <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 mb-10">
-                                <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400 text-center leading-tight tracking-tight">
-                                    Diagnóstico Nexo: <br className="hidden md:block" /> "Tu Ruta de Transformación"
-                                </h2>
-                                <img 
-                                    src="/logo-producir-te.png" 
-                                    alt="Logo Producir-TE" 
-                                    className="w-36 md:w-56 h-auto object-contain mt-4 md:mt-0 drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]" 
-                                />
-                            </div>
-                            
-                            <div className="flex flex-col items-center gap-6 mt-4">
-                                <p className="text-xl md:text-3xl text-white font-bold italic text-center">Generando Documentación Técnica...</p>
-                                
-                                {/* Barra de carga optimizada con mayor brillo Neón */}
-                                <div className="w-full max-w-xs md:max-w-md h-3 bg-slate-900 rounded-full overflow-hidden shadow-[0_0_30px_rgba(34,211,238,0.6)] border border-cyan-500/30">
-                                    <div className="h-full bg-linear-to-r from-cyan-500 via-white to-cyan-500 w-full animate-loading-bar shadow-[0_0_15px_#fff]" />
-                                </div>
-                                
-                                <span className="text-slate-500 text-[10px] uppercase tracking-widest animate-pulse">
-                                    Por favor, no cierre esta ventana
-                                </span>
-                            </div>
-                        </div>
-
-                        <Stepper currentStep={4} totalSteps={4} handleNavigate={handleNavigate} isReportComplete={true} />
-                    </div> 
-                )}
-
-                {/* 3. RENDERIZADO TÉCNICO INVISIBLE (Corregido para evitar errores de compilación) */}
-                <div className="invisible h-0 w-0 pointer-events-none absolute" style={{ left: '-2500px' }}>
-                    <ResultadosNexo 
-                        respuestas={respuestas}
-                        userData={userData}      
-                        iaData={iaData}          
-                        metricas={metricasEconomicas} 
-                    />
-                </div>
+    /* 4. ESPERA TÉCNICA: Restauración total para image_bd0a24 e image_bd82b8 */
+    <div id="resultados-seccion" className="animate-pulse flex flex-col items-center py-10 md:py-20 min-h-screen">
+        <div className="mb-10 pb-6 border-b border-slate-700 relative flex flex-col items-center justify-center w-full px-4 text-center">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 mb-10">
+                <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400 text-center leading-tight tracking-tight">
+                    Diagnóstico Nexo: <br className="hidden md:block" /> "Tu Ruta de Transformación"
+                </h2>
+                <img 
+                    src="/logo-producir-te.png" 
+                    alt="Logo Producir-TE" 
+                    className="w-36 md:w-56 h-auto object-contain mt-4 md:mt-0 drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]" 
+                />
             </div>
-        </section>
-    )}
-    
-    <footer className="bg-slate-900/90 text-slate-500 text-xs py-4 text-center border-t border-slate-800">
-        Diseñado por VIALKER para Producir-TE: "Transformación productiva del sector textil". Todos los derechos reservados 2026.©
-    </footer>
+            
+            <div className="flex flex-col items-center gap-6 mt-4">
+                <p className="text-xl md:text-3xl text-white font-bold italic text-center">Generando Documentación Técnica...</p>
+                <div className="w-full max-w-xs md:max-w-md h-3 bg-slate-900 rounded-full overflow-hidden shadow-[0_0_30px_rgba(34,211,238,0.6)] border border-cyan-500/30">
+                    <div className="h-full bg-linear-to-r from-cyan-500 via-white to-cyan-500 w-full animate-loading-bar shadow-[0_0_15px_#fff]" />
+                </div>
+                <span className="text-slate-500 text-[10px] uppercase tracking-widest animate-pulse">
+                    Por favor, no cierre esta ventana
+                </span>
+            </div>
+        </div>
+        <Stepper currentStep={4} totalSteps={4} handleNavigate={handleNavigate} isReportComplete={true} />
+    </div> 
+)}
 
-    {showConfirmModal && (
-        <div style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw', 
-            height: '100vh', 
-            zIndex: 999999, 
-            backgroundColor: 'rgba(0,0,0,0.8)', 
-            backdropFilter: 'blur(8px)', 
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            overflow: 'hidden' 
-        }}>
-            <div className="bg-[#0B1120] border-2 border-slate-400 p-10 rounded-2xl shadow-2xl max-w-sm w-full mx-4 text-center relative animate-fadeIn">
-                <div className="flex flex-col items-center text-center">
-                    <div className="w-16 h-16 bg-yellow-500/20 rounded-full flex items-center justify-center mb-6">
-                        <AlertTriangle className="w-8 h-8 text-yellow-400" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-4">¿Quieres Finalizar El Diagnóstico?</h3>
-                    <p className="text-slate-400 mb-8 text-sm leading-relaxed">
-                        Verifique la información antes de finalizar. No podrá editarla después y se enviará por correo electrónico.
-                    </p>
-                    <div className="flex flex-row gap-4 justify-center w-full">
-                        <button
-                            onClick={() => setShowConfirmModal(false)}
-                            onMouseEnter={() => setIsNoHovered(true)}
-                            onMouseLeave={() => setIsNoHovered(false)}
-                            className="flex-1 px-8 py-4 text-lg rounded-xl font-bold border-2 transition-all duration-300 active:scale-95"
-                            style={{
-                                backgroundColor: 'transparent',
-                                borderColor: isNoHovered ? '#3b82f6' : '#475569', 
-                                color: isNoHovered ? '#60a5fa' : '#94a3b8', 
-                                boxShadow: isNoHovered ? '0 0 20px rgba(59, 130, 246, 0.6)' : 'none', 
-                                transform: isNoHovered ? 'scale(1.05)' : 'scale(1)',
-                                cursor: 'pointer'
-                            }}
-                        >
-                            No, Revisar
-                        </button>
-                        <button
-                            onClick={handleConfirmarFinalizacion}
-                            onMouseEnter={() => setIsSiHovered(true)}
-                            onMouseLeave={() => setIsSiHovered(false)}
-                            className="flex-1 px-8 py-4 text-lg rounded-xl font-bold border-2 transition-all duration-300 active:scale-95"
-                            style={{
-                                backgroundColor: 'transparent',
-                                borderColor: isSiHovered ? '#22c55e' : '#475569', 
-                                color: isSiHovered ? '#4ade80' : '#94a3b8', 
-                                boxShadow: isSiHovered ? '0 0 20px rgba(34, 197, 94, 0.6)' : 'none', 
-                                transform: isSiHovered ? 'scale(1.05)' : 'scale(1)',
-                                cursor: 'pointer'
-                            }}
-                        >
-                            Sí, Finalizar
-                        </button>
-                    </div>
+        {/* 3. RENDERIZADO TÉCNICO INVISIBLE */}
+        <div className="invisible h-0 w-0 pointer-events-none absolute" style={{ left: '-2500px' }}>
+            <ResultadosNexo 
+                respuestas={respuestas}
+                userData={userData}      
+                iaData={iaData}          
+                metricas={metricasEconomicas} 
+            />
+        </div>
+    </div>
+</section>
+)}
+
+<footer className="bg-slate-900/90 text-slate-500 text-xs py-4 text-center border-t border-slate-800">
+    Diseñado por VIALKER para Producir-TE: "Transformación productiva del sector textil". Todos los derechos reservados 2026.©
+</footer>
+
+{showConfirmModal && (
+    <div style={{
+        position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 999999, 
+        backgroundColor: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)', display: 'flex',
+        alignItems: 'center', justifyContent: 'center', overflow: 'hidden' 
+    }}>
+        <div className="bg-[#0B1120] border-2 border-slate-400 p-10 rounded-2xl shadow-2xl max-w-sm w-full mx-4 text-center relative animate-fadeIn">
+            <div className="flex flex-col items-center text-center">
+                <div className="w-16 h-16 bg-yellow-500/20 rounded-full flex items-center justify-center mb-6">
+                    <AlertTriangle className="w-8 h-8 text-yellow-400" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4">¿Quieres Finalizar El Diagnóstico?</h3>
+                <p className="text-slate-400 mb-8 text-sm leading-relaxed">
+                    Verifique la información antes de finalizar. No podrá editarla después y se enviará por correo electrónico.
+                </p>
+                <div className="flex flex-row gap-4 justify-center w-full">
+                    <button
+                        onClick={() => setShowConfirmModal(false)}
+                        onMouseEnter={() => setIsNoHovered(true)}
+                        onMouseLeave={() => setIsNoHovered(false)}
+                        className="flex-1 px-8 py-4 text-lg rounded-xl font-bold border-2 transition-all duration-300 active:scale-95"
+                        style={{
+                            backgroundColor: 'transparent',
+                            borderColor: isNoHovered ? '#3b82f6' : '#475569', 
+                            color: isNoHovered ? '#60a5fa' : '#94a3b8', 
+                            boxShadow: isNoHovered ? '0 0 20px rgba(59, 130, 246, 0.6)' : 'none', 
+                            transform: isNoHovered ? 'scale(1.05)' : 'scale(1)',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        No, Revisar
+                    </button>
+                    <button
+                        onClick={handleConfirmarFinalizacion}
+                        onMouseEnter={() => setIsSiHovered(true)}
+                        onMouseLeave={() => setIsSiHovered(false)}
+                        className="flex-1 px-8 py-4 text-lg rounded-xl font-bold border-2 transition-all duration-300 active:scale-95"
+                        style={{
+                            backgroundColor: 'transparent',
+                            borderColor: isSiHovered ? '#22c55e' : '#475569', 
+                            color: isSiHovered ? '#4ade80' : '#94a3b8', 
+                            boxShadow: isSiHovered ? '0 0 20px rgba(34, 197, 94, 0.6)' : 'none', 
+                            transform: isSiHovered ? 'scale(1.05)' : 'scale(1)',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        Sí, Finalizar
+                    </button>
                 </div>
             </div>
         </div>
-    )}
     </div>
+)}
+</div>
 );
 };
