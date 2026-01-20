@@ -1535,11 +1535,12 @@ return (
                     Conoce a fondo tu cadena de producción con nuestro diagnóstico gamificado. Identifica oportunidades de mejora y recibe recomendaciones personalizadas para optimizar la eficiencia y productividad de tu empresa textil.
                 </p>
 
-           {/* DISPOSICIÓN DINÁMICA: 1 columna en móvil, 3 en PC (Pantallas medianas en adelante) */}
-<div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4 md:px-0">
+{/* CONTENEDOR DE TARJETAS: Lado a lado en PC (image_bd0abf), Apiladas en Móvil */}
+<div className="flex flex-col md:flex-row items-stretch justify-center gap-6 px-4 md:px-0 max-w-6xl mx-auto">
+    
     {/* TARJETA 1: COMENZAR LA AVENTURA */}
     <div 
-        className="bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-blue flex flex-col items-center text-center cursor-pointer transition-all hover:scale-[1.03] hover:shadow-blue-500/50"
+        className="flex-1 bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-blue flex flex-col items-center text-center cursor-pointer transition-all hover:scale-[1.03] hover:shadow-blue-500/50"
         onClick={handleComenzarAventura} 
     >
         <span className="p-4 bg-blue-400/20 rounded-full mb-4 text-blue-400">
@@ -1553,7 +1554,7 @@ return (
 
     {/* TARJETA 2: ACUMULA PUNTOS */}
     <div 
-        className="bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-green flex flex-col items-center text-center cursor-pointer transition-all hover:scale-[1.03] hover:shadow-green-500/50"
+        className="flex-1 bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-green flex flex-col items-center text-center cursor-pointer transition-all hover:scale-[1.03] hover:shadow-green-500/50"
         onClick={handleComenzarAventura} 
     >
         <span className="p-4 bg-green-400/20 rounded-full mb-4 text-green-400">
@@ -1567,7 +1568,7 @@ return (
 
     {/* TARJETA 3: RECIBE UN REPORTE */}
     <div 
-        className={`bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-purple flex flex-col items-center text-center transition-all cursor-pointer hover:scale-[1.03] hover:shadow-purple-500/50`}
+        className="flex-1 bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-purple flex flex-col items-center text-center transition-all cursor-pointer hover:scale-[1.03] hover:shadow-purple-500/50"
         onClick={handleReporteCardClick} 
     >
         <span className="p-4 bg-purple-400/20 rounded-full mb-4 text-purple-400">
