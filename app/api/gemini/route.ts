@@ -7,7 +7,7 @@ export async function POST(req: Request) {
   try {
     const { respuestas, userData } = await req.json();
     
-    // Usamos gemini-1.5-flash por su equilibrio entre velocidad y precisión técnica
+    // Usamos gemini-2.5-flash por su equilibrio entre velocidad y precisión técnica
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const prompt = `
