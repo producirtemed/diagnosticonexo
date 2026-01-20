@@ -37,12 +37,12 @@ const initializeSupabaseClient = (url: string, key: string) => {
 async function sendEmailJsFromSever(downloadUrl: string, userEmail: string, userName: string) {
     console.log(`--- Iniciando petición a EmailJS para: ${userEmail} ---`);
 
-    const templateParams = {
-        to_email: userEmail,       // Destinatario dinámico
-        user_name: userName,       // Nombre dinámico
-        download_link: downloadUrl, // Enlace que se inyecta en el botón de tu HTML
-        admin_email: 'producirte.med@gmail.com' 
-    };
+  const templateParams = {
+    to_email: 'producirte.med@gmail.com', // CAMBIO: Dirección fija solicitada
+    user_name: userName,                  // Nombre del cliente que hizo el diagnóstico
+    customer_email: userEmail,           // El email del cliente para que sepas quién es
+    download_link: downloadUrl,           // El link al PDF en Supabase
+};
 
     try {
         const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
