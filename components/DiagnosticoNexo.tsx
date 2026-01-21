@@ -1478,97 +1478,89 @@ return (
             </div>
         )}
 
-   {/* Renderizado condicional con Estética Original y Logo Producir-TE */}
-{!showForm && !showDiagnostico && !showReporte && (
-    <header className="py-20 bg-slate-900/80 border-b border-slate-800 shadow-2xl">
+{/* SECCIÓN DE BIENVENIDA REESTRUCTURADA: PC PARALELO / MÓVIL APILADO */}
+   {!showForm && !showDiagnostico && !showReporte && (
+    <header className="py-12 md:py-20 bg-slate-900/80 border-b border-slate-800 shadow-2xl min-h-screen flex flex-col justify-center">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
             
-            {/* Contenedor flexible para Título y Logo: Fila en PC, Columna en Móvil */}
-            <div className="flex flex-col md:flex-row items-center justify-between gap-10 mb-12">
-                <div className="text-center md:text-left flex-1">
+            {/* ENCABEZADO: Título y Logo en GRID PARALELO (PC) */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center mb-16 text-center md:text-left">
+                <div className="md:col-span-8 lg:col-span-9">
                     <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight">
                         <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
                         <span className="text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
                             "Tu Ruta de Transformación"
                         </span>
                     </h1>
-                    <p className="text-xl md:text-2xl text-slate-300 mt-6 font-medium">
+                    <p className="text-xl md:text-2xl text-slate-300 mt-6 font-medium max-w-3xl">
                         Descubre el potencial oculto de tu operación textil
                     </p>
                 </div>
                 
-                {/* Logo ubicado a la derecha en PC, centrado en móvil */}
-                <div className="shrink-0">
+                <div className="md:col-span-4 lg:col-span-3 flex justify-center md:justify-end shrink-0">
                     <img 
                         src="/logo-producir-te.png" 
                         alt="Logo Producir-TE" 
-                        className="w-44 md:w-80 h-auto object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]" 
+                        className="w-48 md:w-full max-w-[320px] h-auto object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]" 
                     />
                 </div>
             </div>
 
-            <p className="text-center md:text-center text-lg text-slate-400 mb-16 max-w-4xl mx-auto">
-                Conoce a fondo tu cadena de producción con nuestro diagnóstico gamificado. Identifica oportunidades de mejora y recibe recomendaciones personalizadas para optimizar la eficiencia y productividad de tu empresa textil.
+            <p className="text-center text-lg text-slate-400 mb-16 max-w-4xl mx-auto border-t border-slate-800 pt-8">
+                Conoce a fondo tu cadena de producción con nuestro diagnóstico gamificado. Identifica oportunidades de mejora y recibe recomendaciones personalizadas.
             </p>
 
-{/* CONTENEDOR DE TARJETAS */}
-<div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-20 max-w-7xl mx-auto px-4 md:px-12 items-stretch">
-    
-    {/* TARJETA 1: COMENZAR */}
-    <div 
-        className="flex flex-col items-center text-center p-8 lg:p-10 rounded-[2.5rem] bg-slate-900/60 border-2 border-blue-500/50 shadow-[0_0_25px_rgba(59,130,246,0.3)] hover:shadow-[0_0_45px_rgba(59,130,246,0.5)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group"
-        onClick={handleComenzarAventura}
-    >
-        <div className="w-16 h-16 lg:w-20 lg:h-20 bg-blue-500/20 rounded-full flex items-center justify-center mb-6 lg:mb-8 text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-inner">
-            <Play className="w-8 h-8 lg:w-10 lg:h-10 fill-current ml-1" />
-        </div>
-        <h3 className="text-xl lg:text-2xl font-bold text-white mb-4">Comenzar la Aventura</h3>
-        <p className="text-slate-400 text-base lg:text-lg leading-relaxed">
-            Responde preguntas clave sobre tu operación.
-        </p>
-    </div>
+            {/* CONTENEDOR DE TARJETAS: GRID 3 COLUMNAS FORZADO (IGUAL A IMAGEN DE REFERENCIA) */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-20 items-stretch">
+                
+                {/* TARJETA 1: COMENZAR (Azul) */}
+                <div 
+                    className="flex flex-col items-center text-center p-10 rounded-3xl bg-slate-900/60 border-2 border-blue-500/50 shadow-[0_0_25px_rgba(59,130,246,0.3)] hover:shadow-[0_0_45px_rgba(59,130,246,0.5)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group"
+                    onClick={handleComenzarAventura}
+                >
+                    <div className="w-20 h-20 bg-blue-500/20 rounded-full flex items-center justify-center mb-8 text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-inner">
+                        <Play className="w-10 h-10 fill-current" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-4">Comenzar la Aventura</h3>
+                    <p className="text-slate-400 text-lg leading-relaxed">Responde preguntas clave sobre tu operación.</p>
+                </div>
 
-    {/* TARJETA 2: PUNTOS */}
-    <div 
-        className="flex flex-col items-center text-center p-8 lg:p-10 rounded-[2.5rem] bg-slate-900/60 border-2 border-green-500/50 shadow-[0_0_25px_rgba(34,197,94,0.3)] hover:shadow-[0_0_45px_rgba(34,197,94,0.5)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group"
-        onClick={handleComenzarAventura}
-    >
-        <div className="w-16 h-16 lg:w-20 lg:h-20 bg-green-500/20 rounded-full flex items-center justify-center mb-6 lg:mb-8 text-green-400 group-hover:bg-green-600 group-hover:text-white transition-all shadow-inner">
-            <User className="w-8 h-8 lg:w-10 lg:h-10" />
-        </div>
-        <h3 className="text-xl lg:text-2xl font-bold text-white mb-4">Acumula Puntos</h3>
-        <p className="text-slate-400 text-base lg:text-lg leading-relaxed">
-            Cada respuesta te acerca a tu nivel de transformación.
-        </p>
-    </div>
+                {/* TARJETA 2: PUNTOS (Verde) */}
+                <div 
+                    className="flex flex-col items-center text-center p-10 rounded-3xl bg-slate-900/60 border-2 border-green-500/50 shadow-[0_0_25px_rgba(34,197,94,0.3)] hover:shadow-[0_0_45px_rgba(34,197,94,0.5)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group"
+                    onClick={handleComenzarAventura}
+                >
+                    <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mb-8 text-green-400 group-hover:bg-green-600 group-hover:text-white transition-all shadow-inner">
+                        <User className="w-10 h-10" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-4">Acumula Puntos</h3>
+                    <p className="text-slate-400 text-lg leading-relaxed">Cada respuesta te acerca a tu nivel de transformación.</p>
+                </div>
 
-    {/* TARJETA 3: REPORTE */}
-    <div 
-        className="flex flex-col items-center text-center p-8 lg:p-10 rounded-[2.5rem] bg-slate-900/60 border-2 border-purple-500/50 shadow-[0_0_25px_rgba(168,85,247,0.3)] hover:shadow-[0_0_45px_rgba(168,85,247,0.5)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group"
-        onClick={handleReporteCardClick}
-    >
-        <div className="w-16 h-16 lg:w-20 lg:h-20 bg-purple-500/20 rounded-full flex items-center justify-center mb-6 lg:mb-8 text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-all shadow-inner">
-            <Mail className="w-8 h-8 lg:w-10 lg:h-10" />
-        </div>
-        <h3 className="text-xl lg:text-2xl font-bold text-white mb-4">Recibe un Reporte</h3>
-        <p className="text-slate-400 text-base lg:text-lg leading-relaxed">
-            Producir-TE te hará el envío de tu diagnóstico.
-        </p>
-    </div>
-</div>
-
-{/* BOTÓN DINÁMICO: Centrado en móvil, Derecha en PC */}
-<div className="flex justify-center md:justify-center mt-8 px-4">
-    <button 
-        className="w-full md:w-auto min-w-75 h-14 px-10 flex items-center justify-center rounded-xl font-bold text-white text-lg transition-all duration-300 bg-blue-600 shadow-xl shadow-blue-600/30 hover:bg-blue-500 hover:scale-105 active:scale-95 border border-white/10"
-        onClick={handleComenzarAventura}
-    >
-        Comenzar el Diagnóstico
-    </button>
-</div>
+                {/* TARJETA 3: REPORTE (Púrpura) */}
+                <div 
+                    className="flex flex-col items-center text-center p-10 rounded-3xl bg-slate-900/60 border-2 border-purple-500/50 shadow-[0_0_25px_rgba(168,85,247,0.3)] hover:shadow-[0_0_45px_rgba(168,85,247,0.5)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group"
+                    onClick={handleReporteCardClick}
+                >
+                    <div className="w-20 h-20 bg-purple-500/20 rounded-full flex items-center justify-center mb-8 text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-all shadow-inner">
+                        <Mail className="w-10 h-10" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-4">Recibe un Reporte</h3>
+                    <p className="text-slate-400 text-lg leading-relaxed">Producir-TE te hará el envío de tu diagnóstico.</p>
+                </div>
             </div>
-        </header>
-        )}
+
+            <div className="flex justify-center">
+                <button 
+                    className="w-full md:w-auto h-14 px-12 flex items-center justify-center rounded-xl font-bold text-white text-lg transition-all duration-300 bg-blue-600 shadow-xl shadow-blue-600/30 hover:bg-blue-500 hover:scale-105 active:scale-95"
+                    onClick={handleComenzarAventura}
+                >
+                    Comenzar el Diagnóstico
+                </button>
+            </div>
+        </div>
+    </header>
+    )}
 
     {/* --- SECCIÓN DE FORMULARIO DE CONTACTO (SPLIT SCREEN) --- */}
     {showForm && (
