@@ -1511,37 +1511,41 @@ return (
                 Conoce a fondo tu cadena de producción con nuestro diagnóstico gamificado. Identifica oportunidades de mejora y recibe recomendaciones personalizadas para optimizar la eficiencia y productividad de tu empresa textil.
             </p>
 
-            {/* CONTENEDOR DE TARJETAS: Lado a lado en PC, Apiladas en Móvil */}
-            <div className="flex flex-col md:flex-row items-stretch justify-center gap-8 mb-16">
-                <div className="flex-1 bg-slate-800/40 p-8 rounded-2xl border border-slate-700/50 hover:border-blue-500/50 transition-all hover:scale-[1.02] flex flex-col items-center text-center cursor-pointer group shadow-lg" onClick={handleComenzarAventura}>
-                    <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mb-6 text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-all">
-                        <Play className="w-8 h-8" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-2">Comenzar la Aventura</h3>
-                    <p className="text-slate-400">Responde preguntas clave sobre tu operación.</p>
-                </div>
+{/* CONTENEDOR DE TARJETAS: Lado a lado en PC, Apiladas en Móvil */}
+<div className="flex flex-col md:flex-row items-stretch justify-center gap-0 md:gap-4 mb-16 max-w-6xl mx-auto">
+    
+    {/* TARJETA 1: COMENZAR (Azul) */}
+    <div className="flex-1 bg-slate-800/20 p-8 rounded-3xl border border-blue-500/30 hover:bg-slate-800/40 transition-all hover:scale-[1.02] flex flex-col items-center text-center cursor-pointer group shadow-lg" onClick={handleComenzarAventura}>
+        <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mb-6 text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
+            <Play className="w-8 h-8" />
+        </div>
+        <h3 className="text-2xl font-bold text-white mb-2">Comenzar la Aventura</h3>
+        <p className="text-slate-400 text-sm">Responde preguntas clave sobre tu operación.</p>
+    </div>
 
-                <div className="flex-1 bg-slate-800/40 p-8 rounded-2xl border border-slate-700/50 hover:border-green-500/50 transition-all hover:scale-[1.02] flex flex-col items-center text-center cursor-pointer group shadow-lg" onClick={handleComenzarAventura}>
-                    <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-6 text-green-400 group-hover:bg-green-500 group-hover:text-white transition-all">
-                        <User className="w-8 h-8" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-2">Acumula Puntos</h3>
-                    <p className="text-slate-400">Cada respuesta te acerca a tu nivel de transformación.</p>
-                </div>
+    {/* TARJETA 2: PUNTOS (Verde) */}
+    <div className="flex-1 bg-slate-800/20 p-8 rounded-3xl border border-green-500/30 hover:bg-slate-800/40 transition-all hover:scale-[1.02] flex flex-col items-center text-center cursor-pointer group shadow-lg" onClick={handleComenzarAventura}>
+        <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-6 text-green-400 group-hover:bg-green-600 group-hover:text-white transition-all">
+            <User className="w-8 h-8" />
+        </div>
+        <h3 className="text-2xl font-bold text-white mb-2">Acumula Puntos</h3>
+        <p className="text-slate-400 text-sm">Cada respuesta te acerca a tu nivel de transformación.</p>
+    </div>
 
-                <div className="flex-1 bg-slate-800/40 p-8 rounded-2xl border border-slate-700/50 hover:border-purple-500/50 transition-all hover:scale-[1.02] flex flex-col items-center text-center cursor-pointer group shadow-lg" onClick={handleReporteCardClick}>
-                    <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mb-6 text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-all">
-                        <Mail className="w-8 h-8" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-2">Recibe un Reporte</h3>
-                    <p className="text-slate-400">Producir-TE te hará el envío de tu diagnóstico.</p>
-                </div>
-            </div>
+    {/* TARJETA 3: REPORTE (Púrpura) */}
+    <div className="flex-1 bg-slate-800/20 p-8 rounded-3xl border border-purple-500/30 hover:bg-slate-800/40 transition-all hover:scale-[1.02] flex flex-col items-center text-center cursor-pointer group shadow-lg" onClick={handleReporteCardClick}>
+        <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mb-6 text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-all">
+            <Mail className="w-8 h-8" />
+        </div>
+        <h3 className="text-2xl font-bold text-white mb-2">Recibe un Reporte</h3>
+        <p className="text-slate-400 text-sm">Producir-TE te hará el envío de tu diagnóstico.</p>
+    </div>
+</div>
 
-             {/* BOTÓN DINÁMICO: Centrado en móvil, Derecha en PC */}
-<div className="flex justify-center md:justify-end mt-12 px-4">
+{/* BOTÓN DINÁMICO: Centrado en móvil, Derecha en PC */}
+<div className="flex justify-center md:justify-center mt-8 px-4">
     <button 
-        className="w-full md:w-auto min-w-70 h-12 px-8 flex items-center justify-center rounded-xl font-bold text-white transition-all duration-300 bg-blue-600 shadow-lg shadow-blue-600/40 hover:scale-105 active:scale-95 border border-white/20" 
+        className="w-full md:w-auto min-w-75 h-14 px-10 flex items-center justify-center rounded-xl font-bold text-white text-lg transition-all duration-300 bg-blue-600 shadow-xl shadow-blue-600/30 hover:bg-blue-500 hover:scale-105 active:scale-95 border border-white/10"
         onClick={handleComenzarAventura}
     >
         Comenzar el Diagnóstico
