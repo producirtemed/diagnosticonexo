@@ -1479,45 +1479,47 @@ return (
         )}
 
 {/* SECCIÓN DE BIENVENIDA REESTRUCTURADA: PC PARALELO / MÓVIL APILADO */}
-   {!showForm && !showDiagnostico && !showReporte && (
+{!showForm && !showDiagnostico && !showReporte && (
     <header className="py-12 md:py-20 bg-slate-900/80 border-b border-slate-800 shadow-2xl min-h-screen flex flex-col justify-center">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
             
-            {/* ENCABEZADO: Título y Logo en GRID PARALELO (PC) */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center mb-16 text-center md:text-left">
-                <div className="md:col-span-8 lg:col-span-9">
-                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight">
+            {/* GRID MAESTRO DE ENCABEZADO: Título (9) y Logo (3) */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center mb-16">
+                
+                {/* LADO IZQUIERDO: Título y descripción */}
+                <div className="order-2 md:order-1 md:col-span-9 text-center md:text-left">
+                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight">
                         <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
-                        <span className="text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
+                        <span className="text-white md:bg-clip-text md:text-transparent md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
                             "Tu Ruta de Transformación"
                         </span>
                     </h1>
-                    <p className="text-xl md:text-2xl text-slate-300 mt-6 font-medium max-w-3xl">
-                        Descubre el potencial oculto de tu operación textil
+                    <p className="text-xl md:text-2xl text-slate-300 mt-6 font-medium max-w-3xl mx-auto md:mx-0">
+                        Descubre el potencial oculto de tu operación textil e impulsa tu eficiencia a niveles de clase mundial.
                     </p>
                 </div>
                 
-                <div className="md:col-span-4 lg:col-span-3 flex justify-center md:justify-end shrink-0">
+                {/* LADO DERECHO: Logo */}
+                <div className="order-1 md:order-2 md:col-span-3 flex justify-center md:justify-end shrink-0">
                     <img 
                         src="/logo-producir-te.png" 
                         alt="Logo Producir-TE" 
-                        className="w-48 md:w-full max-w-[320px] h-auto object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]" 
+                        className="w-48 md:w-full max-w-[320px] h-auto object-contain drop-shadow-[0_0_30px_rgba(59,130,246,0.2)]" 
                     />
                 </div>
             </div>
 
-            <p className="text-center text-lg text-slate-400 mb-16 max-w-4xl mx-auto border-t border-slate-800 pt-8">
-                Conoce a fondo tu cadena de producción con nuestro diagnóstico gamificado. Identifica oportunidades de mejora y recibe recomendaciones personalizadas.
-            </p>
+            {/* SEPARADOR VISUAL Y DESCRIPCIÓN SECUNDARIA */}
+            <div className="text-center mb-16">
+                <p className="text-lg text-slate-400 max-w-4xl mx-auto border-t border-slate-800 pt-8">
+                    Conoce a fondo tu cadena de producción con nuestro diagnóstico gamificado. Identifica oportunidades de mejora y recibe recomendaciones personalizadas para optimizar la eficiencia y productividad de tu empresa textil.
+                </p>
+            </div>
 
-            {/* CONTENEDOR DE TARJETAS: GRID 3 COLUMNAS FORZADO (IGUAL A IMAGEN DE REFERENCIA) */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-20 items-stretch">
-                
-                {/* TARJETA 1: COMENZAR (Azul) */}
-                <div 
-                    className="flex flex-col items-center text-center p-10 rounded-3xl bg-slate-900/60 border-2 border-blue-500/50 shadow-[0_0_25px_rgba(59,130,246,0.3)] hover:shadow-[0_0_45px_rgba(59,130,246,0.5)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group"
-                    onClick={handleComenzarAventura}
-                >
+            {/* CONTENEDOR DE TARJETAS: GRID 3 COLUMNAS FORZADO */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch mb-16">
+                {/* TARJETA 1 */}
+                <div onClick={handleComenzarAventura} className="flex flex-col items-center text-center p-10 rounded-3xl bg-slate-900/60 border-2 border-blue-500/50 shadow-[0_0_25px_rgba(59,130,246,0.3)] hover:shadow-[0_0_45px_rgba(59,130,246,0.5)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group">
                     <div className="w-20 h-20 bg-blue-500/20 rounded-full flex items-center justify-center mb-8 text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-inner">
                         <Play className="w-10 h-10 fill-current" />
                     </div>
@@ -1525,11 +1527,8 @@ return (
                     <p className="text-slate-400 text-lg leading-relaxed">Responde preguntas clave sobre tu operación.</p>
                 </div>
 
-                {/* TARJETA 2: PUNTOS (Verde) */}
-                <div 
-                    className="flex flex-col items-center text-center p-10 rounded-3xl bg-slate-900/60 border-2 border-green-500/50 shadow-[0_0_25px_rgba(34,197,94,0.3)] hover:shadow-[0_0_45px_rgba(34,197,94,0.5)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group"
-                    onClick={handleComenzarAventura}
-                >
+                {/* TARJETA 2 */}
+                <div onClick={handleComenzarAventura} className="flex flex-col items-center text-center p-10 rounded-3xl bg-slate-900/60 border-2 border-green-500/50 shadow-[0_0_25px_rgba(34,197,94,0.3)] hover:shadow-[0_0_45px_rgba(34,197,94,0.5)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group">
                     <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mb-8 text-green-400 group-hover:bg-green-600 group-hover:text-white transition-all shadow-inner">
                         <User className="w-10 h-10" />
                     </div>
@@ -1537,11 +1536,8 @@ return (
                     <p className="text-slate-400 text-lg leading-relaxed">Cada respuesta te acerca a tu nivel de transformación.</p>
                 </div>
 
-                {/* TARJETA 3: REPORTE (Púrpura) */}
-                <div 
-                    className="flex flex-col items-center text-center p-10 rounded-3xl bg-slate-900/60 border-2 border-purple-500/50 shadow-[0_0_25px_rgba(168,85,247,0.3)] hover:shadow-[0_0_45px_rgba(168,85,247,0.5)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group"
-                    onClick={handleReporteCardClick}
-                >
+                {/* TARJETA 3 */}
+                <div onClick={handleReporteCardClick} className="flex flex-col items-center text-center p-10 rounded-3xl bg-slate-900/60 border-2 border-purple-500/50 shadow-[0_0_25px_rgba(168,85,247,0.3)] hover:shadow-[0_0_45px_rgba(168,85,247,0.5)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group">
                     <div className="w-20 h-20 bg-purple-500/20 rounded-full flex items-center justify-center mb-8 text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-all shadow-inner">
                         <Mail className="w-10 h-10" />
                     </div>
@@ -1550,9 +1546,10 @@ return (
                 </div>
             </div>
 
+            {/* BOTÓN DE ACCIÓN: Ajustado con min-w-75 */}
             <div className="flex justify-center">
                 <button 
-                    className="w-full md:w-auto h-14 px-12 flex items-center justify-center rounded-xl font-bold text-white text-lg transition-all duration-300 bg-blue-600 shadow-xl shadow-blue-600/30 hover:bg-blue-500 hover:scale-105 active:scale-95"
+                    className="w-full md:w-auto min-w-75 h-14 px-10 flex items-center justify-center rounded-xl font-bold text-white text-lg transition-all duration-300 bg-blue-600 shadow-xl shadow-blue-600/30 hover:bg-blue-500 hover:scale-105 active:scale-95"
                     onClick={handleComenzarAventura}
                 >
                     Comenzar el Diagnóstico
@@ -1560,12 +1557,12 @@ return (
             </div>
         </div>
     </header>
-    )}
+)}
 
     {/* --- SECCIÓN DE FORMULARIO DE CONTACTO (SPLIT SCREEN) --- */}
     {showForm && (
         <section id="form-seccion" className="py-16 animate-fadeIn min-h-screen">
-            <div className="max-w-7xl mx-auto px-4">
+            <div className="max-w-7xl mx-auto px-4"> {/*
               <div className="mb-10 pb-6 border-b border-slate-700 relative flex flex-col items-center justify-center">
     
     {/* 1. Botón Atrás (Absoluto a la izquierda) */}
@@ -1591,28 +1588,56 @@ return (
         </button>
     </div>
 
-    {/* ENCABEZADO: DATOS DE CONTACTO (Sistema Grid 12) */}
-<div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-center mb-12 w-full max-w-7xl mx-auto px-4 md:px-0">
-    <div className="text-center md:text-left md:col-span-8 lg:col-span-9 flex-1">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-extrabold leading-[1.1] tracking-tighter">
-            <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
-            <span className="text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
-                "Tu Ruta de Transformación"
-            </span>
-        </h1>
-        <p className="text-xl md:text-3xl text-white font-bold mt-6">
-            Datos de Contacto
-        </p>
+{/* ENCABEZADO CONTACTO: GRID 12 COLUMNAS (PC PARALELO / MÓVIL APILADO) */}
+<div className="mb-10 pb-6 border-b border-slate-700 relative">
+    {/* Botón Atrás: Posicionamiento absoluto para no romper el Grid */}
+    <div className="absolute left-0 top-0 md:top-1/2 md:-translate-y-1/2 z-20">
+        <button
+            onMouseEnter={() => setIsBackButtonHovered(true)}
+            onMouseLeave={() => setIsBackButtonHovered(false)}
+            onClick={() => handleNavigate(1)}
+            className="flex items-center justify-center transition-all duration-300"
+            style={{
+                width: '3.5rem', 
+                height: '3.5rem',
+                borderRadius: '1rem', 
+                cursor: 'pointer',
+                backgroundColor: isBackButtonHovered ? '#1e293b' : 'rgba(30, 41, 59, 0.4)', 
+                border: isBackButtonHovered ? '1px solid #3b82f6' : '1px solid #334155', 
+                color: isBackButtonHovered ? '#ffffff' : '#94a3b8', 
+                boxShadow: isBackButtonHovered ? '0 0 20px rgba(59, 130, 246, 0.6)' : 'none', 
+                transform: isBackButtonHovered ? 'scale(1.05)' : 'scale(1)'
+            }}
+        >
+            <ChevronLeft className="w-8 h-8" />
+        </button>
     </div>
-    
-    <div className="md:col-span-4 lg:col-span-3 flex justify-center md:justify-end shrink-0">
-        <img 
-            src="/logo-producir-te.png" 
-            alt="Logo Producir-TE" 
-            className="w-44 md:w-full max-w-[384px] h-auto object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]" 
-        />
+
+    {/* Estructura Grid Paralela Forzada */}
+    <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center w-full max-w-7xl mx-auto pt-16 md:pt-0">
+        
+        {/* LADO IZQUIERDO: Título (Ocupa 9 de 12 columnas en PC) */}
+        <div className="order-2 md:order-1 md:col-span-9 text-center md:text-left">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-extrabold leading-[1.1] tracking-tighter">
+                <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
+                <span className="text-white md:bg-clip-text md:text-transparent md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
+                    "Tu Ruta de Transformación"
+                </span>
+            </h1>
+            <p className="text-xl md:text-3xl text-white font-bold mt-6">
+                Datos de Contacto
+            </p>
+        </div>
+        
+        {/* LADO DERECHO: Logo (Ocupa 3 de 12 columnas en PC) */}
+        <div className="order-1 md:order-2 md:col-span-3 flex justify-center md:justify-end shrink-0">
+            <img 
+                src="/logo-producir-te.png" 
+                alt="Logo Producir-TE" 
+                className="w-40 md:w-full max-w-[320px] h-auto object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]" 
+            />
+        </div>
     </div>
-</div>
 
 {/* 3. Subtítulo Centrado */}
 <p className="text-xl md:text-3xl text-white font-bold text-center">
@@ -1642,10 +1667,10 @@ return (
         <section id="preguntas-seccion" className="py-16 animate-fadeIn">
         <div className="max-w-6xl mx-auto px-4">
             
-<div className="mb-8 pb-6 border-b border-slate-700 relative flex flex-col items-center justify-center">
+<div className="mb-8 pb-6 border-b border-slate-700 relative">
     
-    {/* 1. Botón Atrás (Absoluto a la izquierda) */}
-    <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10">
+    {/* 1. BOTÓN ATRÁS: Posicionamiento absoluto para independencia del Grid */}
+    <div className="absolute left-0 top-0 md:top-1/2 md:-translate-y-1/2 z-20">
         <button
             onMouseEnter={() => setIsBackButtonHovered(true)}
             onMouseLeave={() => setIsBackButtonHovered(false)}
@@ -1654,15 +1679,12 @@ return (
                 setShowForm(true); 
                 window.scrollTo({ top: 0, behavior: 'smooth' }); 
             }}
+            className="flex items-center justify-center transition-all duration-300"
             style={{
                 width: '3.5rem', 
                 height: '3.5rem',
                 borderRadius: '1rem', 
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
                 cursor: 'pointer',
-                transition: 'all 0.3s ease',
                 backgroundColor: isBackButtonHovered ? '#1e293b' : 'rgba(30, 41, 59, 0.4)', 
                 border: isBackButtonHovered ? '1px solid #3b82f6' : '1px solid #334155', 
                 color: isBackButtonHovered ? '#ffffff' : '#94a3b8', 
@@ -1675,28 +1697,31 @@ return (
         </button>
     </div>
 
-{/* ENCABEZADO: CUESTIONARIO (Sistema Grid 12) */}
-<div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-center mb-12 w-full max-w-7xl mx-auto px-4 md:px-0">
-    <div className="text-center md:text-left md:col-span-8 lg:col-span-9 flex-1">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-extrabold leading-[1.1] tracking-tighter">
-            <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
-            <span className="text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
-                "Tu Ruta de Transformación"
-            </span>
-        </h1>
-        <p className="text-xl md:text-3xl text-white font-bold mt-6">
-            Cuestionario
-        </p>
+    {/* 2. ESTRUCTURA GRID 12 COLUMNAS */}
+    <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center w-full max-w-7xl mx-auto pt-16 md:pt-0">
+        
+        {/* LADO IZQUIERDO: Título y Subtítulo (Ocupa 9 de 12 columnas en PC) */}
+        <div className="order-2 md:order-1 md:col-span-8 lg:col-span-9 text-center md:text-left">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-extrabold leading-[1.1] tracking-tighter">
+                <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
+                <span className="text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
+                    "Tu Ruta de Transformación"
+                </span>
+            </h1>
+            <p className="text-xl md:text-3xl text-white font-bold mt-6">
+                Cuestionario
+            </p>
+        </div>
+        
+        {/* LADO DERECHO: Logo (Ocupa 3 de 12 columnas en PC) */}
+        <div className="order-1 md:order-2 md:col-span-4 lg:col-span-3 flex justify-center md:justify-end shrink-0">
+            <img 
+                src="/logo-producir-te.png" 
+                alt="Logo Producir-TE" 
+                className="w-40 md:w-full max-w-[320px] h-auto object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]" 
+            />
+        </div>
     </div>
-    
-    <div className="md:col-span-4 lg:col-span-3 flex justify-center md:justify-end shrink-0">
-        <img 
-            src="/logo-producir-te.png" 
-            alt="Logo Producir-TE" 
-            className="w-44 md:w-full max-w-[384px] h-auto object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]" 
-        />
-    </div>
-</div>
 
 {/* 3. Subtítulo Forzado */}
 <p className="text-xl md:text-3xl text-white font-bold text-center">
@@ -1758,118 +1783,82 @@ return (
         </section>
     )}
 
-    {/* --- SECCIÓN DE RESULTADOS OCULTA Y UI DE ÉXITO PREMIUM --- */}
-    {showReporte && (
-        <section id="resultados-seccion" className="py-16 animate-fadeIn min-h-screen flex flex-col justify-center">
-            <div className="max-w-7xl mx-auto px-4 w-full">
-                
-               {/* 1. DISEÑO PREMIUM DE ÉXITO (Visible solo cuando el reporte se genera/envía) */}
-{reporteGeneradoExitosamente ? (
-    <div className="flex flex-col items-center justify-center py-10 animate-fadeIn">
-        <div className="relative mb-12">
-            <div className="w-40 h-40 bg-green-500/10 rounded-full animate-ping absolute -inset-4" />
-            <div className="w-32 h-32 bg-linear-to-br from-green-400 via-emerald-500 to-green-600 rounded-3xl shadow-[0_0_50px_rgba(34,197,94,0.4)] flex items-center justify-center transform rotate-6 border border-white/20">
-                <CheckCircle className="w-16 h-16 text-white transform -rotate-6" />
-            </div>
-        </div>
-
-        <div className="max-w-3xl text-center bg-slate-900/80 border border-slate-700 p-12 rounded-[2.5rem] backdrop-blur-xl shadow-2xl relative overflow-hidden">
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl" />
-            <div className="relative z-10">
-                <div className="inline-flex items-center justify-center py-1.5 px-4 bg-green-500/10 rounded-full border border-green-500/20 mb-8">
-                    <span className="text-[10px] font-black text-green-400 tracking-[0.3em] uppercase">
-                        Procesamiento Finalizado
-                    </span>
-                </div>
-                <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-8 leading-tight">
-                    ¡Tu Diagnóstico Nexo <br /> 
-                    <span className="text-transparent bg-clip-text bg-linear-to-r from-green-400 to-emerald-400">Ha Sido Enviado con Éxito!</span>
-                </h2>
-                
-                {/* CAMBIO DE TEXTO SOLICITADO */}
-                <p className="text-slate-300 text-xl leading-relaxed mb-10 px-6">
-                    El reporte ha sido generado. 
-                    <span className="block mt-4 text-slate-400 text-lg">
-                        Producir-TE socializará los resultados de tu diagnóstico posteriormente. Gracias por querer descubrir el potencial oculto de tu operación textil.
-                    </span>
-                </p>
-
-<div className="flex flex-col md:flex-row gap-6 justify-center items-center">
-                    <button 
-                        onClick={() => window.location.reload()} 
-                        className="w-full md:w-auto px-10 py-4 bg-slate-800 hover:bg-slate-750 text-white rounded-2xl font-bold transition-all border border-slate-600 flex items-center justify-center group"
-                    >
-                        <ChevronLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
-                        Nuevo Diagnóstico
-                    </button>
-
-                    <button 
-                        onClick={() => {
-                            const mensaje = encodeURIComponent(`Hola Producir-TE, acabo de terminar mi Diagnóstico Nexo para la empresa ${userData.empresa} y quiero acceder a mi ruta de optimización y obtener mi bonus especial.`);
-                            window.open(`https://wa.me/573153774241?text=${mensaje}`, '_blank');
-                        }} 
-                        className="w-full md:w-auto px-12 py-4 bg-linear-to-r from-blue-600 to-cyan-500 text-white rounded-2xl font-extrabold transition-all shadow-[0_10px_25px_rgba(37,99,235,0.4)] hover:scale-105 active:scale-95 flex flex-col items-center justify-center text-center"
-                    >
-                        <div className="flex items-center mb-1">
-                            <Phone className="w-5 h-5 mr-2" />
-                            <span>Quiero acceder a mi ruta de optimización</span>
+    {/* --- SECCIÓN DE RESULTADOS: REDISEÑO FINAL --- */}
+{showReporte && (
+    <section id="resultados-seccion" className="py-16 animate-fadeIn min-h-screen flex flex-col justify-center">
+        <div className="max-w-7xl mx-auto px-4 w-full">
+            
+            {reporteGeneradoExitosamente ? (
+                /* 1. DISEÑO PREMIUM DE ÉXITO */
+                <div className="flex flex-col items-center justify-center py-10 animate-fadeIn">
+                    <div className="relative mb-12">
+                        <div className="w-40 h-40 bg-green-500/10 rounded-full animate-ping absolute -inset-4" />
+                        <div className="w-32 h-32 bg-linear-to-br from-green-400 via-emerald-500 to-green-600 rounded-3xl shadow-[0_0_50px_rgba(34,197,94,0.4)] flex items-center justify-center transform rotate-6 border border-white/20">
+                            <CheckCircle className="w-16 h-16 text-white transform -rotate-6" />
                         </div>
-                        <span className="text-sm opacity-90 font-bold">y obtener un bonus especial</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <p className="mt-12 text-slate-500 text-sm font-medium tracking-wide text-center">Gracias por confiar en Producir-TE.</p>
-    </div>
-) : (
-/* 4. ESPERA TÉCNICA: Diseño actualizado con Título Masivo + Logo a la derecha en PC */
-<div id="resultados-seccion" className="animate-pulse flex flex-col items-center py-10 md:py-20 min-h-screen">
-    <div className="mb-10 pb-6 border-b border-slate-700 relative w-full px-4 md:px-0">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-center w-full max-w-7xl mx-auto">
-            <div className="text-center md:text-left md:col-span-8 lg:col-span-9 flex-1">
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-extrabold leading-[1.1] tracking-tighter">
-                    <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
-                    <span className="text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
-                        "Tu Ruta de Transformación"
-                    </span>
-                </h1>
-            </div>
-            
-            <div className="md:col-span-4 lg:col-span-3 flex justify-center md:justify-end shrink-0">
-                <img 
-                    src="/logo-producir-te.png" 
-                    alt="Logo Producir-TE" 
-                    className="w-44 md:w-full max-w-[384px] h-auto object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]" 
-                />
-            </div>
-        </div>
-            
-            {/* BLOQUE DE CARGA: Se mantiene centrado para enfoque visual */}
-            <div className="flex flex-col items-center gap-6 mt-4">
-                <p className="text-xl md:text-3xl text-white font-bold italic text-center">Generando Documentación Técnica...</p>
-                <div className="w-full max-w-xs md:max-w-md h-3 bg-slate-900 rounded-full overflow-hidden shadow-[0_0_30px_rgba(34,211,238,0.6)] border border-cyan-500/30">
-                    <div className="h-full bg-linear-to-r from-cyan-500 via-white to-cyan-500 w-full animate-loading-bar shadow-[0_0_15px_#fff]" />
-                </div>
-                <span className="text-slate-500 text-[10px] uppercase tracking-widest animate-pulse">
-                    Por favor, no cierre esta ventana
-                </span>
-            </div>
-        </div>
-        <Stepper currentStep={4} totalSteps={4} handleNavigate={handleNavigate} isReportComplete={true} />
-    </div> 
-)}
+                    </div>
 
-        {/* 3. RENDERIZADO TÉCNICO INVISIBLE */}
-        <div className="invisible h-0 w-0 pointer-events-none absolute" style={{ left: '-2500px' }}>
-            <ResultadosNexo 
-                respuestas={respuestas}
-                userData={userData}      
-                iaData={iaData}          
-                metricas={metricasEconomicas} 
-            />
+                    <div className="max-w-3xl text-center bg-slate-900/80 border border-slate-700 p-12 rounded-[2.5rem] backdrop-blur-xl shadow-2xl relative overflow-hidden">
+                        <div className="relative z-10">
+                            <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-8">
+                                ¡Diagnóstico Enviado!
+                            </h2>
+                            <p className="text-slate-300 text-xl leading-relaxed mb-10">
+                                El reporte ha sido generado con éxito. Producir-TE socializará los resultados de tu diagnóstico posteriormente.
+                            </p>
+                            <button onClick={() => window.location.reload()} className="px-10 py-4 bg-slate-800 text-white rounded-2xl font-bold border border-slate-600 hover:bg-slate-750 transition-all">
+                                Nuevo Diagnóstico
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            ) : (
+                /* 2. ESPERA TÉCNICA: GRID PARALELO FORZADO */
+                <div className="flex flex-col items-center py-10 md:py-20">
+                    <div className="mb-10 pb-6 border-b border-slate-700 relative w-full">
+                        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-center w-full max-w-7xl mx-auto px-4 md:px-0">
+                            
+                            {/* Título (9/12) */}
+                            <div className="order-2 md:order-1 md:col-span-9 text-center md:text-left">
+                                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-extrabold leading-[1.1] tracking-tighter">
+                                    <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
+                                    <span className="text-white md:bg-clip-text md:text-transparent md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
+                                        "Tu Ruta de Transformación"
+                                    </span>
+                                </h1>
+                            </div>
+                            
+                            {/* Logo (3/12) */}
+                            <div className="order-1 md:order-2 md:col-span-3 flex justify-center md:justify-end shrink-0">
+                                <img 
+                                    src="/logo-producir-te.png" 
+                                    alt="Logo Producir-TE" 
+                                    className="w-44 md:w-full max-w-[320px] h-auto object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]" 
+                                />
+                            </div>
+                        </div>
+
+                        {/* BLOQUE DE CARGA */}
+                        <div className="flex flex-col items-center gap-6 mt-12">
+                            <p className="text-xl md:text-3xl text-white font-bold italic text-center">Generando Documentación Técnica...</p>
+                            <div className="w-full max-w-xs md:max-w-md h-3 bg-slate-900 rounded-full overflow-hidden shadow-[0_0_30px_rgba(34,211,238,0.6)] border border-cyan-500/30">
+                                <div className="h-full bg-linear-to-r from-cyan-500 via-white to-cyan-500 w-full animate-loading-bar" />
+                            </div>
+                            <span className="text-slate-500 text-[10px] uppercase tracking-widest animate-pulse">
+                                Por favor, no cierre esta ventana
+                            </span>
+                        </div>
+                    </div>
+                    <Stepper currentStep={4} totalSteps={4} handleNavigate={handleNavigate} isReportComplete={true} />
+                </div>
+            )}
+            
+            {/* Renderizado técnico invisible para el PDF */}
+            <div className="invisible h-0 w-0 pointer-events-none absolute" style={{ left: '-2500px' }}>
+                <ResultadosNexo respuestas={respuestas} userData={userData} iaData={iaData} metricas={metricasEconomicas} />
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 )}
 
 <footer className="bg-slate-900/90 text-slate-500 text-xs py-4 text-center border-t border-slate-800">
