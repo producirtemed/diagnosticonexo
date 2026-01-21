@@ -1516,10 +1516,10 @@ return (
     
     {/* TARJETA 1: COMENZAR (Azul Neón) */}
     <div 
-        className="flex flex-col items-center text-center p-10 rounded-4xl bg-slate-900/60 border-2 border-blue-500/50 shadow-[0_0_25px_rgba(59,130,246,0.2)] hover:shadow-[0_0_45px_rgba(59,130,246,0.4)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group h-full"
+        className="flex flex-col items-center text-center p-10 rounded-4xl bg-slate-900/60 border-2 border-blue-500/50 shadow-[0_0_25px_rgba(59,130,246,0.3)] hover:shadow-[0_0_45px_rgba(59,130,246,0.5)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group h-full"
         onClick={handleComenzarAventura}
     >
-        <div className="w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center mb-8 text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all border border-blue-500/30">
+        <div className="w-20 h-20 bg-blue-500/20 rounded-full flex items-center justify-center mb-8 text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-inner">
             <Play className="w-10 h-10 fill-current" />
         </div>
         <h3 className="text-2xl lg:text-3xl font-bold text-white mb-4">Comenzar la Aventura</h3>
@@ -1530,10 +1530,10 @@ return (
 
     {/* TARJETA 2: PUNTOS (Verde Neón) */}
     <div 
-        className="flex flex-col items-center text-center p-10 rounded-4xl bg-slate-900/60 border-2 border-green-500/50 shadow-[0_0_25px_rgba(34,197,94,0.2)] hover:shadow-[0_0_45px_rgba(34,197,94,0.4)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group h-full"
+        className="flex flex-col items-center text-center p-10 rounded-4xl bg-slate-900/60 border-2 border-green-500/50 shadow-[0_0_25px_rgba(34,197,94,0.3)] hover:shadow-[0_0_45px_rgba(34,197,94,0.5)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group h-full"
         onClick={handleComenzarAventura}
     >
-        <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mb-8 text-green-400 group-hover:bg-green-600 group-hover:text-white transition-all border border-green-500/30">
+        <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mb-8 text-green-400 group-hover:bg-green-600 group-hover:text-white transition-all shadow-inner">
             <User className="w-10 h-10" />
         </div>
         <h3 className="text-2xl lg:text-3xl font-bold text-white mb-4">Acumula Puntos</h3>
@@ -1544,10 +1544,10 @@ return (
 
     {/* TARJETA 3: REPORTE (Púrpura Neón) */}
     <div 
-        className="flex flex-col items-center text-center p-10 rounded-4xl bg-slate-900/60 border-2 border-purple-500/50 shadow-[0_0_25px_rgba(168,85,247,0.2)] hover:shadow-[0_0_45px_rgba(168,85,247,0.4)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group h-full"
+        className="flex flex-col items-center text-center p-10 rounded-4xl bg-slate-900/60 border-2 border-purple-500/50 shadow-[0_0_25px_rgba(168,85,247,0.3)] hover:shadow-[0_0_45px_rgba(168,85,247,0.5)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group h-full"
         onClick={handleReporteCardClick}
     >
-        <div className="w-20 h-20 bg-purple-500/10 rounded-full flex items-center justify-center mb-8 text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-all border border-purple-500/30">
+        <div className="w-20 h-20 bg-purple-500/20 rounded-full flex items-center justify-center mb-8 text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-all shadow-inner">
             <Mail className="w-10 h-10" />
         </div>
         <h3 className="text-2xl lg:text-3xl font-bold text-white mb-4">Recibe un Reporte</h3>
