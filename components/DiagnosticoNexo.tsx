@@ -884,76 +884,76 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
                     </div>
                 </div>
 
-{/* LISTADO DE PREGUNTAS RESPONSIVO */}
-                {seccion.preguntas.map((pregunta, index) => {
-                    const isTextField = pregunta.tipo === 'text';
-                    const isAnswered = isTextField 
-                        ? (userData.expectativas && userData.expectativas.trim().length > 0) 
-                        : (respuestas[pregunta.id] !== undefined && respuestas[pregunta.id] !== null && respuestas[pregunta.id] > 0);
+{/* LISTADO DE PREGUNTAS RESPONSIVO ACTUALIZADO */}
+{seccion.preguntas.map((pregunta, index) => {
+    const isTextField = pregunta.tipo === 'text';
+    const isAnswered = isTextField 
+        ? (userData.expectativas && userData.expectativas.trim().length > 0) 
+        : (respuestas[pregunta.id] !== undefined && respuestas[pregunta.id] !== null && respuestas[pregunta.id] > 0);
 
-                    return (
-                        <div key={pregunta.id} className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50 mb-4 hover:border-slate-500 transition-colors shadow-sm"> 
-                            
-                            {/* CONTENEDOR FLEX PRINCIPAL: Columna en móvil, Fila en PC */}
-                            <div className={`flex flex-col md:flex-row ${isTextField ? '' : 'md:items-center md:justify-between'} gap-4 w-full`}>
-                                
-                                {/* Bloque de Texto y Número (Izquierda) */}
-                                <div className={`flex items-start ${isTextField ? 'w-full' : 'w-full md:max-w-[75%]'}`}>
-                                    <div className="shrink-0 flex items-center pt-1 mr-4">
-                                        <span className="text-xs font-black text-slate-500 uppercase tracking-tighter mr-2">P{index + 1}</span>
-                                        {isAnswered ? (
-                                            <div className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center shadow-[0_0_10px_rgba(34,197,94,0.3)]">
-                                                <Check className="w-2.5 h-2.5 text-white" />
-                                            </div>
-                                        ) : (
-                                            <div className="w-2 h-2 rounded-full bg-slate-600"></div>
-                                        )}
-                                    </div>
-                                    <p className="text-sm sm:text-base text-white font-bold leading-snug wrap-break-word">
-    {pregunta.afirmacion}
-</p>
-                                </div>
-
-                                {/* Bloque de Respuesta (Derecha): Centrado en móvil, Derecha en PC */}
-                                <div className={`w-full ${isTextField ? 'mt-3' : 'md:w-auto flex justify-center md:justify-end mt-2 md:mt-0'}`}>
-                                    {isTextField ? (
-                                        <textarea 
-                                            value={userData.expectativas || ''}
-                                            onChange={(e) => setUserData(prev => ({ ...prev, expectativas: e.target.value }))}
-                                            placeholder="Describa sus cuellos de botella y lo que espera lograr con la ruta nexo..."
-                                            className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm min-h-30 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all shadow-inner resize-none"
-                                            disabled={isLocked}
-                                        />
-                                    ) : (
-                                        <div className="flex items-center w-full md:w-auto">
-                                            {pregunta.tipo === 'number' || pregunta.tipo === 'percent' ? (
-                                                <div className="relative w-full md:w-52">
-                                                    <input 
-                                                        type="text"
-                                                        value={pregunta.tipo === 'percent' ? (respuestas[pregunta.id] || '') : formatInputCurrency(respuestas[pregunta.id] || '')}
-                                                        onChange={(e) => onRespuestaSeleccionada(pregunta.id, Number(e.target.value.replace(/\D/g, '')))}
-                                                        className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 h-11 text-right font-bold text-white outline-none focus:border-blue-500 text-sm sm:text-base shadow-inner"
-                                                        placeholder={pregunta.tipo === 'percent' ? "0" : "$ 0"}
-                                                        disabled={isLocked}
-                                                    />
-                                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[9px] font-bold text-slate-500 uppercase tracking-widest pointer-events-none">
-                                                        {pregunta.tipo === 'percent' ? '%' : 'COP'}
-                                                    </span>
-                                                </div>
-                                            ) : (
-                                                <PuntuacionSelector 
-                                                    valorActual={respuestas[pregunta.id] || 0} 
-                                                    onSelect={(val) => onRespuestaSeleccionada(pregunta.id, val)} 
-                                                    disabled={isLocked} 
-                                                />
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
+    return (
+        <div key={pregunta.id} className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50 mb-4 hover:border-slate-500 transition-colors shadow-sm"> 
+            
+            {/* CONTENEDOR FLEX: En PC (md:flex-row) las respuestas van al frente. En móvil se apilan. */}
+            <div className={`flex flex-col md:flex-row md:items-center md:justify-between gap-4 w-full`}>
+                
+                {/* Bloque de Texto de la Pregunta (Ocupa 75% en PC para dejar espacio a la respuesta) */}
+                <div className={`flex items-start ${isTextField ? 'w-full' : 'w-full md:max-w-[70%]'}`}>
+                    <div className="shrink-0 flex items-center pt-1 mr-4">
+                        <span className="text-xs font-black text-slate-500 uppercase tracking-tighter mr-2">P{index + 1}</span>
+                        {isAnswered ? (
+                            <div className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center shadow-[0_0_10px_rgba(34,197,94,0.3)]">
+                                <Check className="w-2.5 h-2.5 text-white" />
                             </div>
+                        ) : (
+                            <div className="w-2 h-2 rounded-full bg-slate-600"></div>
+                        )}
+                    </div>
+                    <p className="text-sm sm:text-base text-white font-bold leading-snug wrap-break-word">
+                        {pregunta.afirmacion}
+                    </p>
+                </div>
+
+                {/* Bloque de Respuesta: Alineado a la derecha y al frente en PC */}
+                <div className={`w-full ${isTextField ? 'mt-3' : 'md:w-auto flex justify-center md:justify-end mt-2 md:mt-0'}`}>
+                    {isTextField ? (
+                        <textarea 
+                            value={userData.expectativas || ''}
+                            onChange={(e) => setUserData(prev => ({ ...prev, expectativas: e.target.value }))}
+                            placeholder="Describa sus cuellos de botella y lo que espera lograr con la ruta nexo..."
+                            className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm min-h-30 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all shadow-inner resize-none"
+                            disabled={isLocked}
+                        />
+                    ) : (
+                        <div className="flex items-center w-full md:w-auto">
+                            {pregunta.tipo === 'number' || pregunta.tipo === 'percent' ? (
+                                <div className="relative w-full md:w-52">
+                                    <input 
+                                        type="text"
+                                        value={pregunta.tipo === 'percent' ? (respuestas[pregunta.id] || '') : formatInputCurrency(respuestas[pregunta.id] || '')}
+                                        onChange={(e) => onRespuestaSeleccionada(pregunta.id, Number(e.target.value.replace(/\D/g, '')))}
+                                        className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 h-11 text-right font-bold text-white outline-none focus:border-blue-500 text-sm sm:text-base shadow-inner"
+                                        placeholder={pregunta.tipo === 'percent' ? "0" : "$ 0"}
+                                        disabled={isLocked}
+                                    />
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[9px] font-bold text-slate-500 uppercase tracking-widest pointer-events-none">
+                                        {pregunta.tipo === 'percent' ? '%' : 'COP'}
+                                    </span>
+                                </div>
+                            ) : (
+                                <PuntuacionSelector 
+                                    valorActual={respuestas[pregunta.id] || 0} 
+                                    onSelect={(val) => onRespuestaSeleccionada(pregunta.id, val)} 
+                                    disabled={isLocked} 
+                                />
+                            )}
                         </div>
-                    );
-                })}
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+})}
                 
                 {/* BOTÓN FINAL DE SECCIÓN: Adaptado para móvil */}
                 <div className="flex flex-col sm:flex-row justify-center sm:justify-end pt-6 border-t border-slate-800/50 mt-6 gap-4">
@@ -1479,55 +1479,65 @@ return (
         )}
 
    {/* Renderizado condicional con Estética Original y Logo Producir-TE */}
-        {!showForm && !showDiagnostico && !showReporte && (
-        <header className="py-20 bg-slate-900/80 border-b border-slate-800 shadow-2xl">
-            <div className="max-w-6xl mx-auto px-4">
+{!showForm && !showDiagnostico && !showReporte && (
+    <header className="py-20 bg-slate-900/80 border-b border-slate-800 shadow-2xl">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+            
+            {/* Contenedor flexible para Título y Logo: Fila en PC, Columna en Móvil */}
+            <div className="flex flex-col md:flex-row items-center justify-between gap-10 mb-12">
+                <div className="text-center md:text-left flex-1">
+                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight">
+                        <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
+                        <span className="text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
+                            "Tu Ruta de Transformación"
+                        </span>
+                    </h1>
+                    <p className="text-xl md:text-2xl text-slate-300 mt-6 font-medium">
+                        Descubre el potencial oculto de tu operación textil
+                    </p>
+                </div>
                 
-           {/* 1. PORTADA: Restauración total image_bd0a24 (PC) e image_bd82b8 (Móvil) */}
-<div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 mb-8 px-4 md:px-20">
-    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400 text-center leading-tight tracking-tight">
-        Diagnóstico Nexo: <br className="hidden md:block" /> "Tu Ruta de Transformación"
-    </h1>
-    
-    <img 
-        src="/logo-producir-te.png" 
-        alt="Logo Producir-TE" 
-        className="w-36 md:w-56 h-auto object-contain mt-4 md:mt-0 drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]" 
-    />
-</div>
+                {/* Logo ubicado a la derecha en PC, centrado en móvil */}
+                <div className="shrink-0">
+                    <img 
+                        src="/logo-producir-te.png" 
+                        alt="Logo Producir-TE" 
+                        className="w-44 md:w-80 h-auto object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]" 
+                    />
+                </div>
+            </div>
 
-                <p className="text-xl text-slate-300 text-center mx-auto">
-                    Descubre el potencial oculto de tu operación textil
-                </p>
-                
-                <p className="text-center text-lg text-slate-400 mt-6 mb-10 max-w-4xl mx-auto">
-                    Conoce a fondo tu cadena de producción con nuestro diagnóstico gamificado. Identifica oportunidades de mejora y recibe recomendaciones personalizadas para optimizar la eficiencia y productividad de tu empresa textil.
-                </p>
+            <p className="text-center md:text-center text-lg text-slate-400 mb-16 max-w-4xl mx-auto">
+                Conoce a fondo tu cadena de producción con nuestro diagnóstico gamificado. Identifica oportunidades de mejora y recibe recomendaciones personalizadas para optimizar la eficiencia y productividad de tu empresa textil.
+            </p>
 
-{/* CONTENEDOR DE TARJETAS: Lado a lado en PC (image_bd0abf), Apiladas en Móvil */}
-<div className="flex flex-col md:flex-row items-stretch justify-center gap-6 px-4 md:px-0 max-w-6xl mx-auto mb-12">
-    {/* TARJETA 1 */}
-    <div className="flex-1 bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-blue flex flex-col items-center text-center cursor-pointer transition-all hover:scale-[1.03] hover:shadow-blue-500/50" onClick={handleComenzarAventura}>
-        <span className="p-4 bg-blue-400/20 rounded-full mb-4 text-blue-400"><Play className="w-8 h-8" /></span>
-        <h3 className="text-xl md:text-2xl font-semibold text-white">Comenzar la Aventura</h3>
-        <p className="text-sm md:text-base text-slate-400">Responde preguntas clave sobre tu operación.</p>
-    </div>
-    {/* TARJETA 2 */}
-    <div className="flex-1 bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-green flex flex-col items-center text-center cursor-pointer transition-all hover:scale-[1.03] hover:shadow-green-500/50" onClick={handleComenzarAventura}>
-        <span className="p-4 bg-green-400/20 rounded-full mb-4 text-green-400"><User className="w-8 h-8" /></span>
-        <h3 className="text-xl md:text-2xl font-semibold text-white">Acumula Puntos</h3>
-        <p className="text-sm md:text-base text-slate-400">Cada respuesta te acerca a tu nivel de transformación.</p>
-    </div>
-    {/* TARJETA 3 */}
-    <div className="flex-1 bg-slate-800/50 p-6 rounded-lg card-dark modulo-card-purple flex flex-col items-center text-center transition-all cursor-pointer hover:scale-[1.03] hover:shadow-purple-500/50" onClick={handleReporteCardClick}>
-        <span className="p-4 bg-purple-400/20 rounded-full mb-4 text-purple-400">
-            {isPdfGenerating ? <Loader2 className="w-8 h-8 animate-spin" /> : <Mail className="w-8 h-8" />}
-        </span>
-        <h3 className="text-xl md:text-2xl font-semibold text-white">Recibe un Reporte</h3>
-        <p className="text-sm md:text-base text-slate-400">Producir-TE te hará el envío de tu diagnóstico.</p>
-    </div>
-</div>
+            {/* CONTENEDOR DE TARJETAS: Lado a lado en PC, Apiladas en Móvil */}
+            <div className="flex flex-col md:flex-row items-stretch justify-center gap-8 mb-16">
+                <div className="flex-1 bg-slate-800/40 p-8 rounded-2xl border border-slate-700/50 hover:border-blue-500/50 transition-all hover:scale-[1.02] flex flex-col items-center text-center cursor-pointer group shadow-lg" onClick={handleComenzarAventura}>
+                    <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mb-6 text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-all">
+                        <Play className="w-8 h-8" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-2">Comenzar la Aventura</h3>
+                    <p className="text-slate-400">Responde preguntas clave sobre tu operación.</p>
+                </div>
 
+                <div className="flex-1 bg-slate-800/40 p-8 rounded-2xl border border-slate-700/50 hover:border-green-500/50 transition-all hover:scale-[1.02] flex flex-col items-center text-center cursor-pointer group shadow-lg" onClick={handleComenzarAventura}>
+                    <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-6 text-green-400 group-hover:bg-green-500 group-hover:text-white transition-all">
+                        <User className="w-8 h-8" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-2">Acumula Puntos</h3>
+                    <p className="text-slate-400">Cada respuesta te acerca a tu nivel de transformación.</p>
+                </div>
+
+                <div className="flex-1 bg-slate-800/40 p-8 rounded-2xl border border-slate-700/50 hover:border-purple-500/50 transition-all hover:scale-[1.02] flex flex-col items-center text-center cursor-pointer group shadow-lg" onClick={handleReporteCardClick}>
+                    <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mb-6 text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-all">
+                        <Mail className="w-8 h-8" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-2">Recibe un Reporte</h3>
+                    <p className="text-slate-400">Producir-TE te hará el envío de tu diagnóstico.</p>
+                </div>
+            </div>
+            
              {/* BOTÓN DINÁMICO: Centrado en móvil, Derecha en PC */}
 <div className="flex justify-center md:justify-end mt-12 px-4">
     <button 
