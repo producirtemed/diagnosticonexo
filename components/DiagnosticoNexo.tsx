@@ -1511,10 +1511,10 @@ return (
                 Conoce a fondo tu cadena de producción con nuestro diagnóstico gamificado. Identifica oportunidades de mejora y recibe recomendaciones personalizadas para optimizar la eficiencia y productividad de tu empresa textil.
             </p>
 
-{/* CONTENEDOR DE TARJETAS: 3 Columnas Exactas en PC, 1 en Móvil */}
+{/* CONTENEDOR DE TARJETAS: 3 Columnas Reales en PC (md), 1 en Móvil */}
 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-20 max-w-7xl mx-auto px-4 items-stretch">
     
-    {/* TARJETA 1: COMENZAR (Neón Azul) */}
+    {/* TARJETA 1: COMENZAR (Azul) */}
     <div 
         className="flex flex-col items-center text-center p-8 lg:p-10 rounded-3xl bg-slate-800/40 border-2 border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:shadow-[0_0_35px_rgba(59,130,246,0.4)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group h-full"
         onClick={handleComenzarAventura}
@@ -1523,12 +1523,12 @@ return (
             <Play className="w-10 h-10 fill-current" />
         </div>
         <h3 className="text-2xl lg:text-3xl font-bold text-white mb-4">Comenzar la Aventura</h3>
-        <p className="text-slate-400 text-base leading-relaxed grow"> {/* <-- Cambio de flex-grow a grow */}
+        <p className="text-slate-400 text-base leading-relaxed grow">
             Responde preguntas clave sobre tu operación.
         </p>
     </div>
 
-    {/* TARJETA 2: PUNTOS (Neón Verde) */}
+    {/* TARJETA 2: PUNTOS (Verde) */}
     <div 
         className="flex flex-col items-center text-center p-8 lg:p-10 rounded-3xl bg-slate-800/40 border-2 border-green-500/50 shadow-[0_0_20px_rgba(34,197,94,0.15)] hover:shadow-[0_0_35px_rgba(34,197,94,0.4)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group h-full"
         onClick={handleComenzarAventura}
@@ -1537,12 +1537,12 @@ return (
             <User className="w-10 h-10" />
         </div>
         <h3 className="text-2xl lg:text-3xl font-bold text-white mb-4">Acumula Puntos</h3>
-        <p className="text-slate-400 text-base leading-relaxed grow"> {/* <-- Cambio de flex-grow a grow */}
+        <p className="text-slate-400 text-base leading-relaxed grow">
             Cada respuesta te acerca a tu nivel de transformación.
         </p>
     </div>
 
-    {/* TARJETA 3: REPORTE (Neón Púrpura) */}
+    {/* TARJETA 3: REPORTE (Púrpura) */}
     <div 
         className="flex flex-col items-center text-center p-8 lg:p-10 rounded-3xl bg-slate-800/40 border-2 border-purple-500/50 shadow-[0_0_20px_rgba(168,85,247,0.15)] hover:shadow-[0_0_35px_rgba(168,85,247,0.4)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group h-full"
         onClick={handleReporteCardClick}
@@ -1551,7 +1551,7 @@ return (
             <Mail className="w-10 h-10" />
         </div>
         <h3 className="text-2xl lg:text-3xl font-bold text-white mb-4">Recibe un Reporte</h3>
-        <p className="text-slate-400 text-base leading-relaxed grow"> {/* <-- Cambio de flex-grow a grow */}
+        <p className="text-slate-400 text-base leading-relaxed grow">
             Producir-TE te hará el envío de tu diagnóstico.
         </p>
     </div>
