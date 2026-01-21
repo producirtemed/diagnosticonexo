@@ -1537,7 +1537,7 @@ return (
                     <p className="text-slate-400">Producir-TE te hará el envío de tu diagnóstico.</p>
                 </div>
             </div>
-            
+
              {/* BOTÓN DINÁMICO: Centrado en móvil, Derecha en PC */}
 <div className="flex justify-center md:justify-end mt-12 px-4">
     <button 
@@ -1580,17 +1580,27 @@ return (
         </button>
     </div>
 
-{/* 2. DATOS DE CONTACTO: Restauración total image_bd0a24 (PC) e image_bd82b8 (Móvil) */}
-<div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 mb-8 px-4 md:px-20">
-    <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400 text-center leading-tight tracking-tight">
-        Diagnóstico Nexo: <br className="hidden md:block" /> "Tu Ruta de Transformación"
-    </h2>
+{/* ENCABEZADO ACTUALIZADO: Título Masivo a la Izquierda y Logo a la Derecha en PC */}
+<div className="flex flex-col md:flex-row items-center justify-between gap-10 mb-12 px-4 md:px-0">
+    <div className="text-center md:text-left flex-1">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-extrabold leading-[1.1] tracking-tighter">
+            <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
+            <span className="text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
+                "Tu Ruta de Transformación"
+            </span>
+        </h1>
+        <p className="text-xl md:text-3xl text-white font-bold mt-6 text-center md:text-left">
+            Datos de Contacto
+        </p>
+    </div>
     
-    <img 
-        src="/logo-producir-te.png" 
-        alt="Logo Producir-TE" 
-        className="w-36 md:w-56 h-auto object-contain mt-4 md:mt-0 drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]" 
-    />
+    <div className="shrink-0">
+        <img 
+            src="/logo-producir-te.png" 
+            alt="Logo Producir-TE" 
+            className="w-44 md:w-96 h-auto object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]" 
+        />
+    </div>
 </div>
 
 {/* 3. Subtítulo Centrado */}
@@ -1654,17 +1664,27 @@ return (
         </button>
     </div>
 
-{/* RESTAURACIÓN TOTAL: Título Blanco en móvil (image_bd82b8) y Degradado Max-Size en PC (image_bd0a24) */}
-<div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 mb-8 px-4 md:px-20">
-    <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400 text-center leading-tight tracking-tight">
-        Diagnóstico Nexo: <br className="hidden md:block" /> "Tu Ruta de Transformación"
-    </h2>
+{/* ENCABEZADO ACTUALIZADO: Título Masivo a la Izquierda y Logo a la Derecha en PC */}
+<div className="flex flex-col md:flex-row items-center justify-between gap-10 mb-12 px-4 md:px-0">
+    <div className="text-center md:text-left flex-1">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-extrabold leading-[1.1] tracking-tighter">
+            <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
+            <span className="text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
+                "Tu Ruta de Transformación"
+            </span>
+        </h1>
+        <p className="text-xl md:text-3xl text-white font-bold mt-6 text-center md:text-left">
+            Cuestionario
+        </p>
+    </div>
     
-    <img 
-        src="/logo-producir-te.png" 
-        alt="Logo Producir-TE" 
-        className="w-36 md:w-56 h-auto object-contain mt-4 md:mt-0 drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]" 
-    />
+    <div className="shrink-0">
+        <img 
+            src="/logo-producir-te.png" 
+            alt="Logo Producir-TE" 
+            className="w-44 md:w-96 h-auto object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]" 
+        />
+    </div>
 </div>
 
 {/* 3. Subtítulo Forzado */}
@@ -1791,20 +1811,31 @@ return (
         <p className="mt-12 text-slate-500 text-sm font-medium tracking-wide text-center">Gracias por confiar en Producir-TE.</p>
     </div>
 ) : (
-    /* 4. ESPERA TÉCNICA: Restauración total para image_bd0a24 e image_bd82b8 */
+/* 4. ESPERA TÉCNICA: Diseño actualizado con Título Masivo + Logo a la derecha en PC */
     <div id="resultados-seccion" className="animate-pulse flex flex-col items-center py-10 md:py-20 min-h-screen">
-        <div className="mb-10 pb-6 border-b border-slate-700 relative flex flex-col items-center justify-center w-full px-4 text-center">
-            <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 mb-10">
-                <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400 text-center leading-tight tracking-tight">
-                    Diagnóstico Nexo: <br className="hidden md:block" /> "Tu Ruta de Transformación"
-                </h2>
-                <img 
-                    src="/logo-producir-te.png" 
-                    alt="Logo Producir-TE" 
-                    className="w-36 md:w-56 h-auto object-contain mt-4 md:mt-0 drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]" 
-                />
+        <div className="mb-10 pb-6 border-b border-slate-700 relative flex flex-col items-center justify-center w-full px-4 md:px-0">
+            
+            {/* ENCABEZADO COHERENTE: Mismo estilo que las secciones anteriores */}
+            <div className="flex flex-col md:flex-row items-center justify-between gap-10 mb-12 w-full max-w-7xl mx-auto">
+                <div className="text-center md:text-left flex-1">
+                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-extrabold leading-[1.1] tracking-tighter">
+                        <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
+                        <span className="text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
+                            "Tu Ruta de Transformación"
+                        </span>
+                    </h1>
+                </div>
+                
+                <div className="shrink-0">
+                    <img 
+                        src="/logo-producir-te.png" 
+                        alt="Logo Producir-TE" 
+                        className="w-44 md:w-96 h-auto object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]" 
+                    />
+                </div>
             </div>
             
+            {/* BLOQUE DE CARGA: Se mantiene centrado para enfoque visual */}
             <div className="flex flex-col items-center gap-6 mt-4">
                 <p className="text-xl md:text-3xl text-white font-bold italic text-center">Generando Documentación Técnica...</p>
                 <div className="w-full max-w-xs md:max-w-md h-3 bg-slate-900 rounded-full overflow-hidden shadow-[0_0_30px_rgba(34,211,238,0.6)] border border-cyan-500/30">
