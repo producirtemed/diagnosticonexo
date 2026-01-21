@@ -1511,7 +1511,7 @@ return (
                 Conoce a fondo tu cadena de producción con nuestro diagnóstico gamificado. Identifica oportunidades de mejora y recibe recomendaciones personalizadas para optimizar la eficiencia y productividad de tu empresa textil.
             </p>
 
-{/* CONTENEDOR DE TARJETAS: 3 Columnas Reales en PC (md), 1 en Móvil */}
+{/* CONTENEDOR DE TARJETAS: Se añade 'grid' para activar el sistema de rejilla */}
 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-20 max-w-7xl mx-auto px-4 items-stretch">
     
     {/* TARJETA 1: COMENZAR (Azul) */}
