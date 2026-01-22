@@ -884,7 +884,7 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
                     </div>
                 </div>
 
-{/* LISTADO DE PREGUNTAS: ALINEACIÓN FRONT-TO-FRONT EN PC */}
+{/* LISTADO DE PREGUNTAS: ALINEACIÓN FRONT-TO-FRONT PERFECTA EN PC */}
 {seccion.preguntas.map((pregunta, index) => {
     const isTextField = pregunta.tipo === 'text';
     const isAnswered = isTextField 
@@ -894,11 +894,11 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
     return (
         <div key={pregunta.id} className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50 mb-4 hover:border-slate-500 transition-colors shadow-sm"> 
             
-            {/* CONTENEDOR MAESTRO: md:flex-row y md:items-center para alineación horizontal exacta */}
+            {/* CONTENEDOR MAESTRO: md:items-center asegura que el texto y los círculos compartan el mismo eje central */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 w-full">
                 
                 {/* LADO IZQUIERDO: Texto de la Pregunta */}
-                <div className={`flex items-center ${isTextField ? 'w-full' : 'w-full md:w-[70%]'}`}>
+                <div className={`flex items-center ${isTextField ? 'w-full' : 'w-full md:w-[75%]'}`}>
                     <div className="shrink-0 flex items-center mr-4">
                         <span className="text-xs font-black text-slate-500 uppercase tracking-tighter mr-2">P{index + 1}</span>
                         {isAnswered ? (
@@ -909,14 +909,14 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
                             <div className="w-2 h-2 rounded-full bg-slate-600"></div>
                         )}
                     </div>
-                    {/* Clase wrap-break-word aplicada según sugerencia canónica */}
-                    <p className="text-sm sm:text-base text-white font-bold leading-none wrap-break-word">
+                    {/* leading-tight y wrap-break-word para evitar que el texto "empuje" hacia abajo */}
+                    <p className="text-sm sm:text-base text-white font-bold leading-tight wrap-break-word m-0 p-0">
                         {pregunta.afirmacion}
                     </p>
                 </div>
 
-                {/* LADO DERECHO: Selectores de Puntuación al frente */}
-                <div className={`w-full ${isTextField ? 'mt-3' : 'md:w-[30%] flex justify-center md:justify-end mt-2 md:mt-0'}`}>
+                {/* LADO DERECHO: Selectores de Puntuación (Alineados al centro vertical del texto) */}
+                <div className={`w-full ${isTextField ? 'mt-3' : 'md:w-[25%] flex justify-center md:justify-end mt-0'}`}>
                     {isTextField ? (
                         <textarea 
                             value={userData.expectativas || ''}
@@ -926,7 +926,7 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
                             disabled={isLocked}
                         />
                     ) : (
-                        <div className="flex items-center w-full md:justify-end">
+                        <div className="flex items-center justify-center md:justify-end w-full">
                             {pregunta.tipo === 'number' || pregunta.tipo === 'percent' ? (
                                 <div className="relative w-full md:w-48">
                                     <input 
