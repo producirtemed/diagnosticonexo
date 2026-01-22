@@ -1478,48 +1478,44 @@ return (
             </div>
         )}
 
-{/* SECCIÓN DE BIENVENIDA REESTRUCTURADA: PC PARALELO / MÓVIL APILADO */}
+{/* SECCIÓN DE BIENVENIDA: DISEÑO PREMIUM TOTALMENTE CENTRADO (SIN SIMPLIFICACIONES) */}
 {!showForm && !showDiagnostico && !showReporte && (
     <header className="py-12 md:py-20 bg-slate-900/80 border-b border-slate-800 shadow-2xl min-h-screen flex flex-col justify-center">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 w-full text-center">
             
-            {/* GRID MAESTRO DE ENCABEZADO: Título (9) y Logo (3) */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center mb-16">
-                
-                {/* LADO IZQUIERDO: Título y descripción (Ocupa 9 de 12 columnas) */}
-                <div className="order-2 md:order-1 md:col-span-9 text-center md:text-left">
-                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight">
-                        <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
-                        <span className="text-white md:bg-clip-text md:text-transparent md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
-                            "Tu Ruta de Transformación"
-                        </span>
-                    </h1>
-                    <p className="text-xl md:text-2xl text-slate-300 mt-6 font-medium max-w-3xl mx-auto md:mx-0">
-                        Descubre el potencial oculto de tu operación textil e impulsa tu eficiencia a niveles de clase mundial.
-                    </p>
-                </div>
-                
-                {/* LADO DERECHO: Logo (Ocupa 3 de 12 columnas) */}
-                <div className="order-1 md:order-2 md:col-span-3 flex justify-center md:justify-end shrink-0">
-                    <img 
-                        src="/logo-producir-te.png" 
-                        alt="Logo Producir-TE" 
-                        className="w-48 md:w-full max-w-[320px] h-auto object-contain drop-shadow-[0_0_30px_rgba(59,130,246,0.2)]" 
-                    />
-                </div>
+            {/* 1. TÍTULO Y DESCRIPCIÓN PRINCIPAL (CENTRADO) */}
+            <div className="mb-12">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight mb-8">
+                    <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
+                    <span className="text-white md:bg-clip-text md:text-transparent md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
+                        "Tu Ruta de Transformación"
+                    </span>
+                </h1>
+                <p className="text-xl md:text-2xl text-slate-300 font-medium max-w-3xl mx-auto leading-relaxed">
+                    Descubre el potencial oculto de tu operación textil e impulsa tu eficiencia a niveles de clase mundial.
+                </p>
             </div>
 
-            {/* SEPARADOR VISUAL Y DESCRIPCIÓN SECUNDARIA */}
+            {/* 2. LOGO CENTRADO (Mantiene efectos neón originales) */}
+            <div className="flex justify-center mb-16">
+                <img 
+                    src="/logo-producir-te.png" 
+                    alt="Logo Producir-TE" 
+                    className="w-48 md:w-64 lg:w-80 h-auto object-contain drop-shadow-[0_0_35px_rgba(59,130,246,0.3)]" 
+                />
+            </div>
+
+            {/* 3. SEPARADOR Y TEXTO SECUNDARIO */}
             <div className="text-center mb-16">
-                <p className="text-lg text-slate-400 max-w-4xl mx-auto border-t border-slate-800 pt-8">
+                <p className="text-lg text-slate-400 max-w-4xl mx-auto border-t border-slate-800 pt-8 leading-relaxed">
                     Conoce a fondo tu cadena de producción con nuestro diagnóstico gamificado. Identifica oportunidades de mejora y recibe recomendaciones personalizadas para optimizar la eficiencia y productividad de tu empresa textil.
                 </p>
             </div>
 
-            {/* CONTENEDOR DE TARJETAS: GRID 3 COLUMNAS FORZADO (IGUAL A IMAGEN DE REFERENCIA) */}
+            {/* 4. CONTENEDOR DE TARJETAS: GRID 3 COLUMNAS PARA PC (OBLIGATORIO) */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch mb-16">
                 
-                {/* TARJETA 1: COMENZAR */}
+                {/* TARJETA 1: COMENZAR LA AVENTURA */}
                 <div 
                     className="flex flex-col items-center text-center p-10 rounded-3xl bg-slate-900/60 border-2 border-blue-500/50 shadow-[0_0_25px_rgba(59,130,246,0.3)] hover:shadow-[0_0_45px_rgba(59,130,246,0.5)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group h-full"
                     onClick={handleComenzarAventura}
@@ -1528,12 +1524,12 @@ return (
                         <Play className="w-10 h-10 fill-current" />
                     </div>
                     <h3 className="text-2xl font-bold text-white mb-4">Comenzar la Aventura</h3>
-                    <p className="text-slate-400 text-lg leading-relaxed">
+                    <p className="text-slate-400 text-lg leading-relaxed grow">
                         Responde preguntas clave sobre tu operación.
                     </p>
                 </div>
 
-                {/* TARJETA 2: PUNTOS */}
+                {/* TARJETA 2: ACUMULA PUNTOS */}
                 <div 
                     className="flex flex-col items-center text-center p-10 rounded-3xl bg-slate-900/60 border-2 border-green-500/50 shadow-[0_0_25px_rgba(34,197,94,0.3)] hover:shadow-[0_0_45px_rgba(34,197,94,0.5)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group h-full"
                     onClick={handleComenzarAventura}
@@ -1542,12 +1538,12 @@ return (
                         <User className="w-10 h-10" />
                     </div>
                     <h3 className="text-2xl font-bold text-white mb-4">Acumula Puntos</h3>
-                    <p className="text-slate-400 text-lg leading-relaxed">
+                    <p className="text-slate-400 text-lg leading-relaxed grow">
                         Cada respuesta te acerca a tu nivel de transformación.
                     </p>
                 </div>
 
-                {/* TARJETA 3: REPORTE */}
+                {/* TARJETA 3: RECIBE UN REPORTE */}
                 <div 
                     className="flex flex-col items-center text-center p-10 rounded-3xl bg-slate-900/60 border-2 border-purple-500/50 shadow-[0_0_25px_rgba(168,85,247,0.3)] hover:shadow-[0_0_45px_rgba(168,85,247,0.5)] transition-all duration-300 hover:scale-[1.03] cursor-pointer group h-full"
                     onClick={handleReporteCardClick}
@@ -1556,13 +1552,13 @@ return (
                         <Mail className="w-10 h-10" />
                     </div>
                     <h3 className="text-2xl font-bold text-white mb-4">Recibe un Reporte</h3>
-                    <p className="text-slate-400 text-lg leading-relaxed">
+                    <p className="text-slate-400 text-lg leading-relaxed grow">
                         Producir-TE te hará el envío de tu diagnóstico.
                     </p>
                 </div>
             </div>
 
-            {/* BOTÓN DE ACCIÓN CENTRADO */}
+            {/* 5. BOTÓN DE ACCIÓN (LÓGICA ORIGINAL) */}
             <div className="flex justify-center">
                 <button 
                     className="w-full md:w-auto min-w-75 h-14 px-10 flex items-center justify-center rounded-xl font-bold text-white text-lg transition-all duration-300 bg-blue-600 shadow-xl shadow-blue-600/30 hover:bg-blue-500 hover:scale-105 active:scale-95"
@@ -1604,9 +1600,9 @@ return (
         </button>
     </div>
 
-{/* ENCABEZADO CONTACTO: GRID 12 COLUMNAS (PC PARALELO) */}
-<div className="mb-10 pb-6 border-b border-slate-700 relative">
-    {/* Botón Atrás (Original con lógica de hover y navegación) */}
+{/* ENCABEZADO CONTACTO: CENTRADO ABSOLUTO (SIN SIMPLIFICACIONES) */}
+<div className="mb-10 pb-6 border-b border-slate-700 relative text-center">
+    {/* Botón Atrás (Lógica Original Preservada) */}
     <div className="absolute left-0 top-0 md:top-1/2 md:-translate-y-1/2 z-20">
         <button
             onMouseEnter={() => setIsBackButtonHovered(true)}
@@ -1629,33 +1625,24 @@ return (
         </button>
     </div>
 
-    {/* ESTRUCTURA GRID PARALELA FORZADA (Lógica Senior) */}
-    <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center w-full max-w-7xl mx-auto pt-16 md:pt-0">
-        <div className="order-2 md:order-1 md:col-span-9 text-center md:text-left">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-extrabold leading-[1.1] tracking-tighter">
-                <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
-                <span className="text-white md:bg-clip-text md:text-transparent md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
-                    "Tu Ruta de Transformación"
-                </span>
-            </h1>
-            <p className="text-xl md:text-3xl text-white font-bold mt-6">
-                Datos de Contacto
-            </p>
-        </div>
-        
-        <div className="order-1 md:order-2 md:col-span-3 flex justify-center md:justify-end shrink-0">
-            <img 
-                src="/logo-producir-te.png" 
-                alt="Logo Producir-TE" 
-                className="w-40 md:w-full max-w-[320px] h-auto object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]" 
-            />
-        </div>
+    {/* Título Principal */}
+    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tighter text-white mb-8">
+        "Tu Ruta de Transformación"
+    </h1>
+
+    {/* Logo Centrado */}
+    <div className="flex justify-center mb-8">
+        <img 
+            src="/logo-producir-te.png" 
+            alt="Logo Producir-TE" 
+            className="w-48 md:w-64 h-auto object-contain drop-shadow-[0_0_30px_rgba(59,130,246,0.2)]" 
+        />
     </div>
 
-{/* 3. Subtítulo Centrado */}
-<p className="text-xl md:text-3xl text-white font-bold text-center">
-    Datos de Contacto
-</p>
+    {/* Subtítulo Sección */}
+    <p className="text-xl md:text-3xl text-[#4da6ff] font-bold">
+        Datos de Contacto
+    </p>
 </div>
 
 <Stepper 
@@ -1676,79 +1663,67 @@ return (
         </section>
     )}
 
-    {showDiagnostico && !showReporte && (
-        <section id="preguntas-seccion" className="py-16 animate-fadeIn">
-        <div className="max-w-6xl mx-auto px-4">
+{showDiagnostico && !showReporte && (
+    <section id="preguntas-seccion" className="py-16 animate-fadeIn">
+        <div className="max-w-6xl mx-auto px-4"> {/* <--- LÍNEA 1668 CORREGIDA */}
             
-<div className="mb-8 pb-6 border-b border-slate-700 relative">
-    
-    {/* 1. BOTÓN ATRÁS: Posicionamiento absoluto para independencia del Grid */}
-    <div className="absolute left-0 top-0 md:top-1/2 md:-translate-y-1/2 z-20">
-        <button
-            onMouseEnter={() => setIsBackButtonHovered(true)}
-            onMouseLeave={() => setIsBackButtonHovered(false)}
-            onClick={() => { 
-                setShowDiagnostico(false); 
-                setShowForm(true); 
-                window.scrollTo({ top: 0, behavior: 'smooth' }); 
-            }}
-            className="flex items-center justify-center transition-all duration-300"
-            style={{
-                width: '3.5rem', 
-                height: '3.5rem',
-                borderRadius: '1rem', 
-                cursor: 'pointer',
-                backgroundColor: isBackButtonHovered ? '#1e293b' : 'rgba(30, 41, 59, 0.4)', 
-                border: isBackButtonHovered ? '1px solid #3b82f6' : '1px solid #334155', 
-                color: isBackButtonHovered ? '#ffffff' : '#94a3b8', 
-                boxShadow: isBackButtonHovered ? '0 0 20px rgba(59, 130, 246, 0.6)' : 'none', 
-                transform: isBackButtonHovered ? 'scale(1.05)' : 'scale(1)'
-            }}
-            aria-label="Regresar"
-        >
-            <ChevronLeft className="w-8 h-8" />
-        </button>
-    </div>
+            {/* ENCABEZADO CENTRADO: Título > Logo > Subtítulo */}
+            <div className="mb-8 pb-6 border-b border-slate-700 relative text-center">
+                
+                {/* Botón Atrás (Lógica Original Preservada) */}
+                <div className="absolute left-0 top-0 md:top-1/2 md:-translate-y-1/2 z-20">
+                    <button
+                        onMouseEnter={() => setIsBackButtonHovered(true)}
+                        onMouseLeave={() => setIsBackButtonHovered(false)}
+                        onClick={() => { 
+                            setShowDiagnostico(false); 
+                            setShowForm(true); 
+                            window.scrollTo({ top: 0, behavior: 'smooth' }); 
+                        }}
+                        className="flex items-center justify-center transition-all duration-300"
+                        style={{
+                            width: '3.5rem', 
+                            height: '3.5rem',
+                            borderRadius: '1rem', 
+                            cursor: 'pointer',
+                            backgroundColor: isBackButtonHovered ? '#1e293b' : 'rgba(30, 41, 59, 0.4)', 
+                            border: isBackButtonHovered ? '1px solid #3b82f6' : '1px solid #334155', 
+                            color: isBackButtonHovered ? '#ffffff' : '#94a3b8', 
+                            boxShadow: isBackButtonHovered ? '0 0 20px rgba(59, 130, 246, 0.6)' : 'none', 
+                            transform: isBackButtonHovered ? 'scale(1.05)' : 'scale(1)'
+                        }}
+                    >
+                        <ChevronLeft className="w-8 h-8" />
+                    </button>
+                </div>
 
-    {/* 2. ESTRUCTURA GRID 12 COLUMNAS */}
-    <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center w-full max-w-7xl mx-auto pt-16 md:pt-0">
-        
-        {/* LADO IZQUIERDO: Título y Subtítulo (Ocupa 9 de 12 columnas en PC) */}
-        <div className="order-2 md:order-1 md:col-span-8 lg:col-span-9 text-center md:text-left">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-extrabold leading-[1.1] tracking-tighter">
-                <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
-                <span className="text-white md:text-transparent md:bg-clip-text md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
+                {/* Título Principal */}
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tighter text-white mb-8">
                     "Tu Ruta de Transformación"
-                </span>
-            </h1>
-            <p className="text-xl md:text-3xl text-white font-bold mt-6">
-                Cuestionario
-            </p>
-        </div>
-        
-        {/* LADO DERECHO: Logo (Ocupa 3 de 12 columnas en PC) */}
-        <div className="order-1 md:order-2 md:col-span-4 lg:col-span-3 flex justify-center md:justify-end shrink-0">
-            <img 
-                src="/logo-producir-te.png" 
-                alt="Logo Producir-TE" 
-                className="w-40 md:w-full max-w-[320px] h-auto object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]" 
+                </h1>
+
+                {/* Logo Centrado */}
+                <div className="flex justify-center mb-8">
+                    <img 
+                        src="/logo-producir-te.png" 
+                        alt="Logo Producir-TE" 
+                        className="w-48 md:w-64 h-auto object-contain drop-shadow-[0_0_30px_rgba(59,130,246,0.2)]" 
+                    />
+                </div>
+
+                {/* Subtítulo Sección */}
+                <p className="text-xl md:text-3xl text-[#4da6ff] font-bold">
+                    Cuestionario
+                </p>
+            </div>
+
+            {/* Stepper (Mantenimiento de props) */}
+            <Stepper 
+                currentStep={currentStepperStep} 
+                totalSteps={4} 
+                handleNavigate={handleNavigate} 
+                isReportComplete={!!iaData || reporteGeneradoExitosamente} 
             />
-        </div>
-    </div>
-
-{/* 3. Subtítulo Forzado */}
-<p className="text-xl md:text-3xl text-white font-bold text-center">
-    Cuestionario
-</p>
-</div>
-
-           <Stepper 
-    currentStep={currentStepperStep} 
-    totalSteps={4} 
-    handleNavigate={handleNavigate} 
-    // Esto le avisa al Stepper si debe habilitar el último círculo
-    isReportComplete={!!iaData || reporteGeneradoExitosamente} 
-/>
             
             <div className="game-score-card" style={{ maxWidth: '800px', width: '100%' }}>
                 <div className="game-score-title">Puntuación Total Acumulada</div>
