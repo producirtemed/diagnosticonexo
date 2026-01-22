@@ -1777,58 +1777,64 @@ return (
         <div className="max-w-7xl mx-auto px-4 w-full">
             
             {reporteGeneradoExitosamente ? (
-                /* 1. DISEÑO PREMIUM DE ÉXITO */
-                <div className="flex flex-col items-center justify-center py-10 animate-fadeIn">
-                    <div className="relative mb-12">
-                        <div className="w-40 h-40 bg-green-500/10 rounded-full animate-ping absolute -inset-4" />
-                        <div className="w-32 h-32 bg-linear-to-br from-green-400 via-emerald-500 to-green-600 rounded-3xl shadow-[0_0_50px_rgba(34,197,94,0.4)] flex items-center justify-center transform rotate-6 border border-white/20">
-                            <CheckCircle className="w-16 h-16 text-white transform -rotate-6" />
-                        </div>
-                    </div>
+                /* DISEÑO PREMIUM: ÉXITO Y BOTÓN DE ACCIÓN WHATSAPP */
+<div className="flex flex-col items-center justify-center py-10 animate-fadeIn text-center">
+    <div className="relative mb-12">
+        <div className="w-40 h-40 bg-green-500/10 rounded-full animate-ping absolute -inset-4" />
+        <div className="w-32 h-32 bg-linear-to-br from-green-400 via-emerald-500 to-green-600 rounded-3xl shadow-[0_0_50px_rgba(34,197,94,0.4)] flex items-center justify-center transform rotate-6 border border-white/20">
+            <CheckCircle className="w-16 h-16 text-white transform -rotate-6" />
+        </div>
+    </div>
 
-                    <div className="max-w-3xl text-center bg-slate-900/80 border border-slate-700 p-12 rounded-[2.5rem] backdrop-blur-xl shadow-2xl relative overflow-hidden">
-                        <div className="relative z-10">
-                            <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-8">
-                                ¡Diagnóstico Enviado!
-                            </h2>
-                            <p className="text-slate-300 text-xl leading-relaxed mb-10">
-                                El reporte ha sido generado con éxito. Producir-TE socializará los resultados de tu diagnóstico posteriormente.
-                            </p>
-                            <button onClick={() => window.location.reload()} className="px-10 py-4 bg-slate-800 text-white rounded-2xl font-bold border border-slate-600 hover:bg-slate-750 transition-all">
-                                Nuevo Diagnóstico
-                            </button>
-                        </div>
-                    </div>
-                </div>
+    <div className="max-w-3xl bg-slate-900/80 border border-slate-700 p-8 md:p-12 rounded-[2.5rem] backdrop-blur-xl shadow-2xl relative overflow-hidden">
+        <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6">
+            ¡Diagnóstico Enviado!
+        </h2>
+        <p className="text-slate-300 text-xl leading-relaxed mb-10">
+            El reporte ha sido generado con éxito. Producir-TE socializará los resultados de tu diagnóstico posteriormente.
+        </p>
+        
+        {/* Botón Azul Eléctrico con Enlace a WhatsApp */}
+        <a 
+            href="https://wa.me/573153774241?text=Hola!%20Acabo%20de%20terminar%20mi%20diagnóstico%20en%20Producir-TE.%20Quiero%20acceder%20a%20mi%20ruta%20de%20optimización%20y%20obtener%20mi%20bonus%20especial."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center px-8 py-5 bg-[#0000FF] hover:bg-[#0000CC] text-white rounded-2xl font-bold text-lg transition-all duration-300 hover:scale-105 shadow-[0_0_25px_rgba(0,0,255,0.5)] active:scale-95"
+        >
+            Quiero acceder a mi ruta de optimización y obtener bonus especial
+        </a>
+        
+        <button 
+            onClick={() => window.location.reload()} 
+            className="block w-full mt-6 text-slate-500 hover:text-white text-sm font-medium transition-colors"
+        >
+            Realizar un nuevo diagnóstico
+        </button>
+    </div>
+</div>
             ) : (
-                /* 2. ESPERA TÉCNICA: GRID PARALELO FORZADO */
-  <div className="animate-pulse flex flex-col items-center py-10 md:py-20">
+ /* ESPERA TÉCNICA: LOGO CENTRADO Y JERARQUÍA REPARADA */
+<div className="animate-pulse flex flex-col items-center py-10 md:py-20 text-center">
     <div className="mb-10 pb-6 border-b border-slate-700 relative w-full px-4 md:px-0">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-center w-full max-w-7xl mx-auto">
-            
-            <div className="order-2 md:order-1 md:col-span-9 text-center md:text-left">
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-extrabold leading-[1.1] tracking-tighter">
-                    <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
-                    <span className="text-white md:bg-clip-text md:text-transparent md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
-                        "Tu Ruta de Transformación"
-                    </span>
-                </h1>
-            </div>
-            
-            <div className="order-1 md:order-2 md:col-span-3 flex justify-center md:justify-end shrink-0">
-                <img 
-                    src="/logo-producir-te.png" 
-                    alt="Logo Producir-TE" 
-                    className="w-44 md:w-full max-w-[320px] h-auto object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]" 
-                />
-            </div>
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tighter text-white mb-8">
+            "Tu Ruta de Transformación"
+        </h1>
+
+        {/* Logo Centrado con Sombra Neón */}
+        <div className="flex justify-center mb-10">
+            <img 
+                src="/logo-producir-te.png" 
+                alt="Logo Producir-TE" 
+                className="w-56 md:w-80 h-auto object-contain drop-shadow-[0_0_30px_rgba(59,130,246,0.2)]" 
+            />
         </div>
 
-        {/* BLOQUE DE CARGA ORIGINAL (CENTREADO PARA FOCO) */}
         <div className="flex flex-col items-center gap-6 mt-12">
-            <p className="text-xl md:text-3xl text-white font-bold italic text-center">Generando Documentación Técnica...</p>
+            <p className="text-xl md:text-3xl text-[#4da6ff] font-bold italic">
+                Generando Documentación Técnica...
+            </p>
             <div className="w-full max-w-xs md:max-w-md h-3 bg-slate-900 rounded-full overflow-hidden shadow-[0_0_30px_rgba(34,211,238,0.6)] border border-cyan-500/30">
-                <div className="h-full bg-linear-to-r from-cyan-500 via-white to-cyan-500 w-full animate-loading-bar" />
+                <div className="h-full bg-linear-to-r from-cyan-500 via-white to-cyan-500 w-full animate-loading-bar shadow-[0_0_15px_#fff]" />
             </div>
             <span className="text-slate-500 text-[10px] uppercase tracking-widest animate-pulse">
                 Por favor, no cierre esta ventana
