@@ -1911,6 +1911,7 @@ return (
     Diseñado por VIALKER para Producir-TE: "Transformación productiva del sector textil". Todos los derechos reservados 2026.©
 </footer>
 
+{/* MODAL DE CONFIRMACIÓN: REPARADO */}
 {showConfirmModal && (
     <div style={{
         position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 999999, 
@@ -1964,6 +1965,6 @@ return (
         </div>
     </div>
 )}
-</div>
-);
-};
+</div> // Este cierra el contenedor principal
+); // Este cierra el return
+}; // Este cierra DiagnosticoNexo
