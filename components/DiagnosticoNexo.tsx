@@ -1626,7 +1626,8 @@ return (
     </div>
 
     {/* Título Principal */}
-    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tighter text-white mb-8">
+                    <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
+             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tighter text-white mb-8">
         "Tu Ruta de Transformación"
     </h1>
 
@@ -1698,9 +1699,10 @@ return (
                 </div>
 
                 {/* Título Principal */}
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tighter text-white mb-8">
-                    "Tu Ruta de Transformación"
-                </h1>
+                <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
+             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tighter text-white mb-8">
+        "Tu Ruta de Transformación"
+    </h1>
 
                 {/* Logo Centrado */}
                 <div className="flex justify-center mb-8">
