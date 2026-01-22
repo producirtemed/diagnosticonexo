@@ -1670,120 +1670,129 @@ return (
     )}
 
 {showDiagnostico && !showReporte && (
-        <section id="preguntas-seccion" className="py-16 animate-fadeIn">
-            <div className="max-w-6xl mx-auto px-4"> 
-                
-                {/* ENCABEZADO CENTRADO */}
-                <div className="mb-8 pb-6 border-b border-slate-700 relative text-center">
-                    <div className="absolute left-0 top-0 md:top-1/2 md:-translate-y-1/2 z-20">
-                        <button
-                            onMouseEnter={() => setIsBackButtonHovered(true)}
-                            onMouseLeave={() => setIsBackButtonHovered(false)}
-                            onClick={() => { 
-                                setShowDiagnostico(false); 
-                                setShowForm(true); 
-                                window.scrollTo({ top: 0, behavior: 'smooth' }); 
-                            }}
-                            className="flex items-center justify-center transition-all duration-300"
-                            style={{
-                                width: '3.5rem', height: '3.5rem', borderRadius: '1rem', cursor: 'pointer',
-                                backgroundColor: isBackButtonHovered ? '#1e293b' : 'rgba(30, 41, 59, 0.4)', 
-                                border: isBackButtonHovered ? '1px solid #3b82f6' : '1px solid #334155', 
-                                color: isBackButtonHovered ? '#ffffff' : '#94a3b8', 
-                                boxShadow: isBackButtonHovered ? '0 0 20px rgba(59, 130, 246, 0.6)' : 'none', 
-                                transform: isBackButtonHovered ? 'scale(1.05)' : 'scale(1)'
-                            }}
-                        >
-                            <ChevronLeft className="w-8 h-8" />
-                        </button>
-                    </div>
-
-                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight mb-8">
-                        <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
-                        <span className="text-white md:bg-clip-text md:text-transparent md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
-                            "Tu Ruta de Transformación"
-                        </span>
-                    </h1>
-
-                    <div className="flex justify-center mb-8">
-                        <img src="/logo-producir-te.png" alt="Logo Producir-TE" className="w-48 md:w-64 h-auto object-contain drop-shadow-[0_0_30px_rgba(59,130,246,0.2)]" />
-                    </div>
-                    <p className="text-xl md:text-3xl text-[#4da6ff] font-bold">Cuestionario</p>
-                </div>
-
-                <Stepper currentStep={currentStepperStep} totalSteps={4} handleNavigate={handleNavigate} isReportComplete={!!iaData || reporteGeneradoExitosamente} />
-                
-                {/* TARJETA PUNTUACIÓN MAGENTA VIBRANTE */}
-                <div className="flex flex-col items-center w-full mb-12">
-                    <div 
-                        className="mb-6 transition-all duration-500 hover:scale-[1.02] relative overflow-hidden max-w-200 w-full"
-                        style={{ 
-                            background: 'linear-gradient(135deg, #701a75 0%, #d946ef 50%, #701a75 100%)',
-                            borderRadius: '1.5rem', padding: '2rem', textAlign: 'center',
-                            boxShadow: '0 20px 50px -15px rgba(217, 70, 239, 0.7), inset 0 0 25px rgba(255, 255, 255, 0.2)',
-                            border: '2px solid rgba(255, 255, 255, 0.2)',
+    <section id="preguntas-seccion" className="py-16 animate-fadeIn">
+        <div className="max-w-6xl mx-auto px-4"> 
+            
+            {/* ENCABEZADO CENTRADO */}
+            <div className="mb-8 pb-6 border-b border-slate-700 relative text-center">
+                <div className="absolute left-0 top-0 md:top-1/2 md:-translate-y-1/2 z-20">
+                    <button
+                        onMouseEnter={() => setIsBackButtonHovered(true)}
+                        onMouseLeave={() => setIsBackButtonHovered(false)}
+                        onClick={() => { 
+                            setShowDiagnostico(false); 
+                            setShowForm(true); 
+                            window.scrollTo({ top: 0, behavior: 'smooth' }); 
+                        }}
+                        className="flex items-center justify-center transition-all duration-300"
+                        style={{
+                            width: '3.5rem', height: '3.5rem', borderRadius: '1rem', cursor: 'pointer',
+                            backgroundColor: isBackButtonHovered ? '#1e293b' : 'rgba(30, 41, 59, 0.4)', 
+                            border: isBackButtonHovered ? '1px solid #3b82f6' : '1px solid #334155', 
+                            color: isBackButtonHovered ? '#ffffff' : '#94a3b8', 
+                            boxShadow: isBackButtonHovered ? '0 0 10px rgba(59, 130, 246, 0.4)' : 'none', 
+                            transform: isBackButtonHovered ? 'scale(1.05)' : 'scale(1)'
                         }}
                     >
-                        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_-20%,rgba(255,255,255,0.4),transparent)] pointer-events-none" />
-                        <div style={{ fontSize: '0.75rem', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.25em', color: 'rgba(255, 255, 255, 0.9)', marginBottom: '0.5rem' }}>
-                            Puntuación Total Acumulada
-                        </div>
-                        <div style={{ fontSize: '3.5rem', fontWeight: '900', color: '#ffffff', lineHeight: '1', textShadow: '0 0 25px rgba(255, 0, 255, 0.6)' }}>
-                            {calcularPuntajeLocal} <span style={{ fontSize: '1.5rem', opacity: '0.7', fontWeight: '400' }}>/ {MAX_PUNTOS}</span>
-                        </div>
-                    </div>
+                        <ChevronLeft className="w-8 h-8" />
+                    </button>
+                </div>
 
-                    <div className="w-full max-w-200 p-6 rounded-2xl bg-slate-900/80 border-2 border-slate-800 shadow-2xl backdrop-blur-sm">
-                        <div className="relative pt-1">
-                            <div className="flex mb-3 items-center justify-between">
-                                <span className="text-xs font-black uppercase tracking-widest text-fuchsia-400 bg-fuchsia-400/10 px-2 py-1 rounded">
-                                    Progreso General: {calcularNivelActual()}
-                                </span>
-                                <span className="text-sm font-bold text-slate-200">
-                                    {totalRespuestasDadas} / {preguntas.length}
-                                </span>
-                            </div>
-                            <div className="w-full bg-slate-800 rounded-full h-4 p-1 flex items-center shadow-inner">
-                                <div 
-                                    className="h-2 rounded-full transition-all duration-1000 ease-out relative" 
-                                    style={{ 
-                                        width: `${Math.round((totalRespuestasDadas / preguntas.length) * 100)}%`,
-                                        background: 'linear-gradient(90deg, #d946ef, #f472b6)',
-                                        boxShadow: '0 0 15px rgba(217, 70, 239, 0.8)'
-                                    }}
-                                >
-                                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full blur-sm opacity-60" />
-                                </div>
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight mb-8">
+                    <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
+                    <span className="text-white md:bg-clip-text md:text-transparent md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
+                        "Tu Ruta de Transformación"
+                    </span>
+                </h1>
+
+                <div className="flex justify-center mb-8">
+                    <img src="/logo-producir-te.png" alt="Logo Producir-TE" className="w-48 md:w-64 h-auto object-contain drop-shadow-[0_0_15px_rgba(59,130,246,0.2)]" />
+                </div>
+                <p className="text-xl md:text-3xl text-[#4da6ff] font-bold">Cuestionario</p>
+            </div>
+
+            <Stepper currentStep={currentStepperStep} totalSteps={4} handleNavigate={handleNavigate} isReportComplete={!!iaData || reporteGeneradoExitosamente} />
+            
+            {/* TARJETA PUNTUACIÓN VIBRANTE (ESTÉTICA IMAGEN: MAGENTA - NARANJA) */}
+            <div className="flex flex-col items-center w-full mb-12">
+                <div 
+                    className="mb-6 transition-all duration-500 hover:scale-[1.01] relative overflow-hidden max-w-200 w-full"
+                    style={{ 
+                        /* Colores exactos de la imagen: Magenta a Naranja */
+                        background: 'linear-gradient(135deg, #a855f7 0%, #ec4899 45%, #f97316 100%)',
+                        borderRadius: '1.2rem', 
+                        padding: '2.5rem 2rem', 
+                        textAlign: 'center',
+                        /* Sombra nítida, menos borrosa */
+                        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.2)',
+                        border: '1px solid rgba(255, 255, 255, 0.3)',
+                    }}
+                >
+                    {/* Intensificador de brillo para móvil (luz blanca superior sutil) */}
+                    <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_-10%,rgba(255,255,255,0.35),transparent)] pointer-events-none" />
+                    
+                    <div style={{ fontSize: '0.85rem', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'rgba(255, 255, 255, 0.95)', marginBottom: '0.5rem', textShadow: '0 1px 2px rgba(0,0,0,0.2)' }}>
+                        Puntuación Total Acumulada
+                    </div>
+                    
+                    <div style={{ fontSize: '4.5rem', fontWeight: '900', color: '#ffffff', lineHeight: '1', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}>
+                        {calcularPuntajeLocal} <span style={{ fontSize: '1.8rem', opacity: '0.85', fontWeight: '600' }}>/ {MAX_PUNTOS}</span>
+                    </div>
+                </div>
+
+                {/* BARRA DE PROGRESO GENERAL */}
+                <div className="w-full max-w-200 p-6 rounded-2xl bg-slate-900/60 border border-slate-700/50 shadow-xl backdrop-blur-sm">
+                    <div className="relative pt-1">
+                        <div className="flex mb-3 items-center justify-between">
+                            <span className="text-xs font-bold uppercase tracking-wider text-blue-400 bg-blue-400/10 px-2.5 py-1 rounded-md border border-blue-400/20">
+                                Progreso General: {calcularNivelActual()}
+                            </span>
+                            <span className="text-sm font-bold text-slate-300">
+                                {totalRespuestasDadas} <span className="text-slate-500 font-medium">/ {preguntas.length}</span>
+                            </span>
+                        </div>
+                        <div className="w-full bg-slate-800/80 rounded-full h-3 flex items-center shadow-inner overflow-hidden border border-slate-700/30">
+                            <div 
+                                className="h-full transition-all duration-1000 ease-out relative" 
+                                style={{ 
+                                    width: `${Math.round((totalRespuestasDadas / preguntas.length) * 100)}%`,
+                                    background: 'linear-gradient(90deg, #3b82f6, #06b6d4)',
+                                    boxShadow: 'none' /* Eliminado el glow para evitar efecto borroso */
+                                }}
+                            >
+                                {/* Brillo sutil en la punta de la barra */}
+                                <div className="absolute right-0 top-0 h-full w-2 bg-white/30 blur-[2px]" />
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div className="space-y-4">
-                    {secciones.map((seccion, index) => (
-                        <CollapsibleSection
-                            key={seccion.id}
-                            seccion={seccion}
-                            respuestas={respuestas}
-                            onRespuestaSeleccionada={handleRespuestaSeleccionada}
-                            isActive={seccion.id === activeSectionId}
-                            onToggle={handleToggleSection} 
-                            onNextSection={handleNextSection}
-                            isLastSection={index === secciones.length - 1}
-                            totalPreguntas={preguntas.length}
-                            getPuntosPorRespuesta={getPuntosPorRespuesta}
-                            isProcessingReport={isProcessingReport}
-                            handleVerReporte={handleVerReporte}
-                            shouldScroll={scrollTrigger && seccion.id === activeSectionId}
-                            isLocked={reporteGeneradoExitosamente || showReporte}
-                            userData={userData}
-                            setUserData={setUserData}
-                        />
-                    ))}
-                </div>
-            </div> {/* CIERRE DE max-w-6xl (Línea 1674 corregida) */}
-        </section>
-    )}
+            <div className="space-y-4">
+                {secciones.map((seccion, index) => (
+                    <CollapsibleSection
+                        key={seccion.id}
+                        seccion={seccion}
+                        respuestas={respuestas}
+                        onRespuestaSeleccionada={handleRespuestaSeleccionada}
+                        isActive={seccion.id === activeSectionId}
+                        onToggle={handleToggleSection} 
+                        onNextSection={handleNextSection}
+                        isLastSection={index === secciones.length - 1}
+                        totalPreguntas={preguntas.length}
+                        getPuntosPorRespuesta={getPuntosPorRespuesta}
+                        isProcessingReport={isProcessingReport}
+                        handleVerReporte={handleVerReporte}
+                        shouldScroll={scrollTrigger && seccion.id === activeSectionId}
+                        isLocked={reporteGeneradoExitosamente || showReporte}
+                        userData={userData}
+                        setUserData={setUserData}
+                    />
+                ))}
+            </div>
+        </div> 
+    </section>
+)}
     {/* --- SECCIÓN DE RESULTADOS: REDISEÑO FINAL --- */}
 {showReporte && (
     <section id="resultados-seccion" className="py-16 animate-fadeIn min-h-screen flex flex-col justify-center">
