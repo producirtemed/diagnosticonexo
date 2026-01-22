@@ -1280,6 +1280,54 @@ const handleConfirmarFinalizacion = async () => {
     setIsProcessingReport(true); 
 
     try {
+        // 1. INICIALIZAR CLIENTE SUPABASE
+        const { createClient } = await import('@supabase/supabase-js');
+        const supabase = createClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        );
+
+        // 2. GUARDAR DATOS DE CONTACTO
+        const { error: contactError } = await supabase
+            .from('contactos_diagnostico')
+            .insert([{
+                nombre: userData.nombre,
+                apellido: userData.apellido,
+                cargo: userData.cargo,
+                empresa: userData.empresa,
+                nit: userData.nit,
+                email: userData.email,
+                whatsapp: userData.whatsapp,
+                dial_code: userData.dialCode,
+                country_code: userData.countryCode,
+                sector: userData.sector,
+                tamano_organizacion: userData.tamanoOrganizacion,
+                expectativas: userData.expectativas
+            }]);
+
+        if (contactError) {
+            console.error("Error al guardar contacto:", contactError);
+            throw new Error("No se pudo registrar la información de contacto.");
+        }
+
+        // 3. GUARDAR RESPUESTAS DEL CUESTIONARIO
+        const respuestasData = Object.entries(respuestas).map(([id, val]) => ({
+            user_email: userData.email,
+            pregunta_id: id,
+            valor_respuesta: val,
+            seccion: preguntas.find(p => p.id === id)?.seccion || 'VII. Costos y Finanzas'
+        }));
+
+        const { error: answersError } = await supabase
+            .from('respuestas_diagnostico')
+            .insert(respuestasData);
+
+        if (answersError) {
+            console.error("Error al guardar respuestas:", answersError);
+            throw new Error("No se pudieron registrar las respuestas técnicas.");
+        }
+
+        // 4. EJECUTAR ANÁLISIS DE IA (Lógica Original)
         const analisisIA = await ejecutarMotorNexo(respuestas, userData);
 
         if (analisisIA && !analisisIA.error) {
@@ -1295,7 +1343,6 @@ const handleConfirmarFinalizacion = async () => {
                     seccionResultados.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
                 
-                // Iniciamos la generación y envío
                 setTimeout(() => {
                     handleGeneratePDFReport(analisisIA); 
                 }, 800); 
@@ -1305,9 +1352,9 @@ const handleConfirmarFinalizacion = async () => {
         } else {
             alert("El Motor Nexo no pudo procesar los datos. Reintente.");
         }
-    } catch (error) {
-        console.error("Error crítico:", error);
-        alert("Ocurrió un error al procesar el diagnóstico.");
+    } catch (error: any) {
+        console.error("Error crítico en el proceso final:", error);
+        alert(error.message || "Ocurrió un error al procesar el diagnóstico.");
     } finally {
         setIsProcessingReport(false);
     }
