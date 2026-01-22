@@ -1628,11 +1628,13 @@ return (
         </button>
     </div>
 
-    {/* Título Principal */}
-                    <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
-             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tighter text-white mb-8">
+    {/* Título Principal - Estética Unificada */}
+<h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight mb-8">
+    <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
+    <span className="text-white md:bg-clip-text md:text-transparent md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
         "Tu Ruta de Transformación"
-    </h1>
+    </span>
+</h1>
 
     {/* Logo Centrado */}
     <div className="flex justify-center mb-8">
@@ -1701,11 +1703,13 @@ return (
                     </button>
                 </div>
 
-                {/* Título Principal */}
-                <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
-             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tighter text-white mb-8">
+                {/* Título Principal - Estética Unificada */}
+<h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight mb-8">
+    <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
+    <span className="text-white md:bg-clip-text md:text-transparent md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
         "Tu Ruta de Transformación"
-    </h1>
+    </span>
+</h1>
 
                 {/* Logo Centrado */}
                 <div className="flex justify-center mb-8">
@@ -1730,26 +1734,68 @@ return (
                 isReportComplete={!!iaData || reporteGeneradoExitosamente} 
             />
             
-            <div className="game-score-card" style={{ maxWidth: '800px', width: '100%' }}>
-                <div className="game-score-title">Puntuación Total Acumulada</div>
-                <div className="game-score-value">{calcularPuntajeLocal} / {MAX_PUNTOS}</div>
-            </div>
-            <div className="bg-slate-900/50 border border-slate-700 p-6 rounded-lg shadow-xl mb-12">
-                <div className="relative pt-1">
-                    <div className="flex mb-2 items-center justify-between">
-                        <div className="text-base font-semibold text-blue-400">Progreso General: {calcularNivelActual()}</div>
-                        <div className="text-sm font-semibold text-slate-300">
-                            {totalRespuestasDadas} / {preguntas.length} preguntas respondidas
-                        </div>
-                    </div>
-                    <div className="w-full bg-slate-700 rounded-full h-3">
-                        <div 
-                            className="h-3 rounded-full bg-blue-500 transition-all duration-500" 
-                            style={{ width: `${Math.round((totalRespuestasDadas / preguntas.length) * 100)}%`}}
-                        ></div>
-                    </div>
+        <div className="flex flex-col items-center w-full mb-12">
+    
+    {/* 1. TARJETA DE PUNTUACIÓN (DISEÑO PREMIUM VIBRANTE) */}
+    <div 
+        className="mb-6 transition-all duration-500 hover:scale-[1.02] relative overflow-hidden"
+        style={{ 
+            maxWidth: '800px', 
+            width: '100%',
+            background: 'linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #1d4ed8 100%)',
+            borderRadius: '1.5rem',
+            padding: '2rem',
+            textAlign: 'center',
+            boxShadow: '0 20px 40px -15px rgba(59, 130, 246, 0.6), inset 0 0 25px rgba(255, 255, 255, 0.2)',
+            border: '2px solid rgba(255, 255, 255, 0.2)',
+        }}
+    >
+        {/* Reflejo de luz superior */}
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_-20%,rgba(255,255,255,0.4),transparent)] pointer-events-none" />
+        
+        <div style={{ fontSize: '0.75rem', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.25em', color: 'rgba(255, 255, 255, 0.9)', marginBottom: '0.5rem', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
+            Puntuación Total Acumulada
+        </div>
+        
+        <div style={{ fontSize: '3.5rem', fontWeight: '900', color: '#ffffff', lineHeight: '1', textShadow: '0 0 25px rgba(255, 255, 255, 0.5), 0 4px 10px rgba(0,0,0,0.4)' }}>
+            {calcularPuntajeLocal} <span style={{ fontSize: '1.5rem', opacity: '0.7', fontWeight: '400' }}>/ {MAX_PUNTOS}</span>
+        </div>
+    </div>
+
+    {/* 2. BARRA DE PROGRESO (DISEÑO MEJORADO) */}
+    <div 
+        className="w-full max-w-200 p-6 rounded-2xl bg-slate-900/80 border-2 border-slate-800 shadow-2xl backdrop-blur-sm" style={{ boxShadow: 'inset 0 0 20px rgba(0,0,0,0.5)' }}>
+        <div className="relative pt-1">
+            <div className="flex mb-3 items-center justify-between">
+                <div>
+                    <span className="text-xs font-black uppercase tracking-widest text-blue-400 bg-blue-400/10 px-2 py-1 rounded">
+                        Progreso General: {calcularNivelActual()}
+                    </span>
+                </div>
+                <div className="text-right">
+                    <span className="text-sm font-bold text-slate-200">
+                        {totalRespuestasDadas} <span className="text-slate-500">/ {preguntas.length}</span>
+                    </span>
                 </div>
             </div>
+            
+            {/* Contenedor de la barra con "glow" */}
+            <div className="w-full bg-slate-800 rounded-full h-4 p-1 flex items-center shadow-inner">
+                <div 
+                    className="h-2 rounded-full transition-all duration-1000 ease-out relative" 
+                    style={{ 
+                        width: `${Math.round((totalRespuestasDadas / preguntas.length) * 100)}%`,
+                        background: 'linear-gradient(90deg, #3b82f6, #60a5fa)',
+                        boxShadow: '0 0 15px rgba(59, 130, 246, 0.8)'
+                    }}
+                >
+                    {/* Brillo en la punta de la barra */}
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full blur-sm opacity-50" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <div className="space-y-4">
                 {secciones.map((seccion, index) => (
                     <CollapsibleSection
@@ -1821,8 +1867,11 @@ return (
  /* ESPERA TÉCNICA: LOGO CENTRADO Y JERARQUÍA REPARADA */
 <div className="animate-pulse flex flex-col items-center py-10 md:py-20 text-center">
     <div className="mb-10 pb-6 border-b border-slate-700 relative w-full px-4 md:px-0">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tighter text-white mb-8">
-            "Tu Ruta de Transformación"
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight mb-8">
+            <span className="text-[#4da6ff]">Diagnóstico Nexo:</span> <br /> 
+            <span className="text-white md:bg-clip-text md:text-transparent md:bg-linear-to-r md:from-blue-400 md:to-cyan-400">
+                "Tu Ruta de Transformación"
+            </span>
         </h1>
 
         {/* Logo Centrado con Sombra Neón */}
