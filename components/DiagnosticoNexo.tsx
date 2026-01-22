@@ -884,7 +884,7 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
                     </div>
                 </div>
 
-{/* LISTADO DE PREGUNTAS: ALINEACIÓN FRONT-TO-FRONT PERFECTA EN PC */}
+{/* LISTADO DE PREGUNTAS: DISEÑO COMPACTO Y ALINEACIÓN FRONT-TO-FRONT */}
 {seccion.preguntas.map((pregunta, index) => {
     const isTextField = pregunta.tipo === 'text';
     const isAnswered = isTextField 
@@ -892,56 +892,58 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
         : (respuestas[pregunta.id] !== undefined && respuestas[pregunta.id] !== null && respuestas[pregunta.id] > 0);
 
     return (
-        <div key={pregunta.id} className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50 mb-4 hover:border-slate-500 transition-colors shadow-sm"> 
+        /* Reducción de p-4 a p-3 y mb-4 a mb-2 para compactar el recuadro */
+        <div key={pregunta.id} className="p-3 rounded-xl bg-slate-800/40 border border-slate-700/50 mb-2 hover:border-slate-500 transition-colors shadow-sm"> 
             
-            {/* CONTENEDOR MAESTRO: md:items-center asegura que el texto y los círculos compartan el mismo eje central */}
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 w-full">
+            {/* Contenedor Flex con items-center para alineación perfecta */}
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 w-full">
                 
-                {/* LADO IZQUIERDO: Texto de la Pregunta */}
-                <div className={`flex items-center ${isTextField ? 'w-full' : 'w-full md:w-[75%]'}`}>
-                    <div className="shrink-0 flex items-center mr-4">
-                        <span className="text-xs font-black text-slate-500 uppercase tracking-tighter mr-2">P{index + 1}</span>
+                {/* LADO IZQUIERDO: Texto de la Pregunta (Creciendo para ocupar el espacio necesario) */}
+                <div className="flex items-center flex-1 min-w-0">
+                    <div className="shrink-0 flex items-center mr-3">
+                        <span className="text-[10px] font-black text-slate-500 uppercase tracking-tighter mr-2">P{index + 1}</span>
                         {isAnswered ? (
                             <div className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center shadow-[0_0_10px_rgba(34,197,94,0.3)]">
                                 <Check className="w-2.5 h-2.5 text-white" />
                             </div>
                         ) : (
-                            <div className="w-2 h-2 rounded-full bg-slate-600"></div>
+                            <div className="w-1.5 h-1.5 rounded-full bg-slate-600"></div>
                         )}
                     </div>
-                    {/* leading-tight y wrap-break-word para evitar que el texto "empuje" hacia abajo */}
-                    <p className="text-sm sm:text-base text-white font-bold leading-tight wrap-break-word m-0 p-0">
+                    {/* leading-tight para reducir altura de línea */}
+                    <p className="text-sm sm:text-base text-white font-bold leading-tight wrap-break-word m-0">
                         {pregunta.afirmacion}
                     </p>
                 </div>
 
-                {/* LADO DERECHO: Selectores de Puntuación (Alineados al centro vertical del texto) */}
-                <div className={`w-full ${isTextField ? 'mt-3' : 'md:w-[25%] flex justify-center md:justify-end mt-0'}`}>
+                {/* LADO DERECHO: Respuestas (Justo al frente) */}
+                <div className={`shrink-0 ${isTextField ? 'w-full mt-2' : 'flex justify-end mt-0'}`}>
                     {isTextField ? (
                         <textarea 
                             value={userData.expectativas || ''}
                             onChange={(e) => setUserData(prev => ({ ...prev, expectativas: e.target.value }))}
                             placeholder="Describa sus cuellos de botella..."
-                            className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm min-h-32 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all shadow-inner resize-none"
+                            className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-white text-sm min-h-24 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all shadow-inner resize-none"
                             disabled={isLocked}
                         />
                     ) : (
-                        <div className="flex items-center justify-center md:justify-end w-full">
+                        <div className="flex items-center">
                             {pregunta.tipo === 'number' || pregunta.tipo === 'percent' ? (
-                                <div className="relative w-full md:w-48">
+                                <div className="relative w-40">
                                     <input 
                                         type="text"
                                         value={pregunta.tipo === 'percent' ? (respuestas[pregunta.id] || '') : formatInputCurrency(respuestas[pregunta.id] || '')}
                                         onChange={(e) => onRespuestaSeleccionada(pregunta.id, Number(e.target.value.replace(/\D/g, '')))}
-                                        className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 h-11 text-right font-bold text-white outline-none focus:border-blue-500 text-sm shadow-inner"
+                                        className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 h-9 text-right font-bold text-white outline-none focus:border-blue-500 text-sm shadow-inner"
                                         placeholder={pregunta.tipo === 'percent' ? "0" : "$ 0"}
                                         disabled={isLocked}
                                     />
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[9px] font-bold text-slate-500 uppercase tracking-widest pointer-events-none">
+                                    <span className="absolute left-2 top-1/2 -translate-y-1/2 text-[8px] font-bold text-slate-500 uppercase tracking-widest pointer-events-none">
                                         {pregunta.tipo === 'percent' ? '%' : 'COP'}
                                     </span>
                                 </div>
                             ) : (
+                                /* El PuntuacionSelector ahora queda pegado al texto gracias a shrink-0 y flex-1 */
                                 <PuntuacionSelector 
                                     valorActual={respuestas[pregunta.id] || 0} 
                                     onSelect={(val) => onRespuestaSeleccionada(pregunta.id, val)} 
