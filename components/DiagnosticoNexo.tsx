@@ -884,7 +884,7 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
                     </div>
                 </div>
 
-{/* LISTADO DE PREGUNTAS: DISEÑO PARALELO EN PC Y CLASES CANÓNICAS */}
+{/* LISTADO DE PREGUNTAS: ALINEACIÓN FRONT-TO-FRONT EN PC */}
 {seccion.preguntas.map((pregunta, index) => {
     const isTextField = pregunta.tipo === 'text';
     const isAnswered = isTextField 
@@ -894,12 +894,12 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
     return (
         <div key={pregunta.id} className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50 mb-4 hover:border-slate-500 transition-colors shadow-sm"> 
             
-            {/* CONTENEDOR FLEX: md:flex-row para diseño paralelo en PC */}
+            {/* CONTENEDOR MAESTRO: md:flex-row y md:items-center para alineación horizontal exacta */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 w-full">
                 
                 {/* LADO IZQUIERDO: Texto de la Pregunta */}
-                <div className={`flex items-start ${isTextField ? 'w-full' : 'w-full md:w-[70%]'}`}>
-                    <div className="shrink-0 flex items-center pt-1 mr-4">
+                <div className={`flex items-center ${isTextField ? 'w-full' : 'w-full md:w-[70%]'}`}>
+                    <div className="shrink-0 flex items-center mr-4">
                         <span className="text-xs font-black text-slate-500 uppercase tracking-tighter mr-2">P{index + 1}</span>
                         {isAnswered ? (
                             <div className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center shadow-[0_0_10px_rgba(34,197,94,0.3)]">
@@ -909,13 +909,13 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
                             <div className="w-2 h-2 rounded-full bg-slate-600"></div>
                         )}
                     </div>
-                    {/* LÍNEA 912 CORREGIDA ABAJO: se cambió break-words por wrap-break-word */}
-                    <p className="text-sm sm:text-base text-white font-bold leading-snug wrap-break-word">
+                    {/* Clase wrap-break-word aplicada según sugerencia canónica */}
+                    <p className="text-sm sm:text-base text-white font-bold leading-none wrap-break-word">
                         {pregunta.afirmacion}
                     </p>
                 </div>
 
-                {/* LADO DERECHO: Respuestas al frente en PC */}
+                {/* LADO DERECHO: Selectores de Puntuación al frente */}
                 <div className={`w-full ${isTextField ? 'mt-3' : 'md:w-[30%] flex justify-center md:justify-end mt-2 md:mt-0'}`}>
                     {isTextField ? (
                         <textarea 
